@@ -1,8 +1,9 @@
 import React from "react";
+import ResponsiveAppBar from "./ResponsiveAppBar";
 const Home =()=>{
       return( 
     <>
-    <h1>Home</h1>
+    <ResponsiveAppBar/>
     </>
     );
    
