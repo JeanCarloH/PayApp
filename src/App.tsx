@@ -5,6 +5,7 @@ import logo from './logo.svg';
 import './App.css';
 import { AuthProvider } from './context/authContext';
 import Login from './components/Login';
+import Home from './components/Home';
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
    <HashRouter>
     <Routes>
     <Route path="/"element={<Login/>} />
+    <Route path="/Home"element={<Home/>} />
     </Routes>
    </HashRouter>
    </AuthProvider>

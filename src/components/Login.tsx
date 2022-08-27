@@ -45,7 +45,7 @@ const Login: React.FC=() =>{
     setError("");
     try {
       await login(user.email, user.password);
-      navigate("/");
+      navigate("/Home");
     } catch (error: any) {
       setError(error.message);
     }
@@ -59,7 +59,7 @@ const Login: React.FC=() =>{
     return(
         <>
          <Grid item xs={12} md={12} sx={{textAlign:'center'}}>
-         <h2>Inicie Sesión</h2>
+         <h2>Inicie Sesión en PayApp</h2>
 
           </Grid>
      
