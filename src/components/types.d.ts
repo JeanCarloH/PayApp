@@ -10,3 +10,18 @@ export interface TodosContextState{
 export interface props{
     children:React.ReactNode;
 }
+export interface UserRegistered{
+    nombre:string;
+    apellido:string;
+    celular:number;
+    alias:string;
+    direccion:string;
+    monto:number;   
+    tipo:string;    
+    abono:number;
+    propietario:string;
+}
+export interface Action{
+    CREAR_PRODUCTO: string;
+    
+}

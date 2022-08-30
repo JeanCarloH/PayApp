@@ -36,11 +36,11 @@ import {
 const pages = [
   {
     nombre: "Registrar usuario",
-    url: "/RegistrarUsuario",
+    url: "/Admin/UserRegister",
   },
   {
     nombre: "Buscar Usuario",
-    url: "/BuscarUsuario",
+    url: "/Admin/UserSearch",
   },
   {
     nombre: "Agregar Nota",
