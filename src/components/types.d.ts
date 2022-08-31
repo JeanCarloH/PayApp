@@ -21,7 +21,12 @@ export interface UserRegistered{
     abono:number;
     propietario:string;
 }
-export interface Action{
-    CREAR_PRODUCTO: string;
-    
+export type ActionType=
+|{ type:'CONSULTAR_PRODUCTO', payload}
+|{ type:'SIN_DATOS'}
+|{ type:'CREAR_PRODUCTO' , payload}
+
+export interface Props2{
+    state:any
+    dispatch:Dispatch<ActionType>;
 }

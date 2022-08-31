@@ -9,11 +9,12 @@ import Home from './components/Home';
 import Admin from './components/Admin';
 import UserRegister from './components/UserRegister';
 import UserSearch from './components/UserSearch';
-import { productReducer, productInitialState } from "./reducers/userReducer";
+import { userReducer, userInitialState } from "./reducers/userReducer";
 import { useReducer, useState } from "react";
 
+
 function App() {
-  const [state, dispatch] = useReducer(productReducer, productInitialState);
+ const [state, dispatch] = useReducer(userReducer, userInitialState);
   return (
    <>
    <AuthProvider>

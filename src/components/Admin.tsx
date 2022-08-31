@@ -4,14 +4,24 @@ import { useEffect, useReducer, useState } from "react";
 import { doc, onSnapshot, collection, query, where,addDoc,updateDoc,setDoc,deleteDoc,getDocs} from "firebase/firestore";
 import { db2 } from '../firebase';
 import { TYPES } from "../actions/userActions"
+import { ActionType } from "../components/types";
 import {
-    productInitialState,
-    productReducer,
+    userInitialState,
+    userReducer,
   } from "../reducers/userReducer";
-const Admin = () => {
+  import { Props2 } from '../components/types';
+const Admin: React.FC<Props2> = ({state,dispatch}) => {
 
-    const [state, dispatch] = useReducer(productReducer, productInitialState);
-  
+  useEffect(() => {
+    
+
+       getProducts();
+        
+        
+     
+  }, [])
+    //const [state, dispatch] = useReducer(userReducer, userInitialState);
+    const { db }:any = state;
     const add = async (object:any) => {
         const hola = collection(db2, "Users");
         await addDoc(hola, object);
@@ -22,6 +32,7 @@ const Admin = () => {
         const querySnapshot = await getDocs(collection(db2, "Users"));
         if (querySnapshot.docs) {
             dispatch({ type: TYPES.CONSULTAR_PRODUCTO, payload:querySnapshot.docs });
+            
             //setError(null);
           } else {
             dispatch({ type: TYPES.SIN_DATOS });
@@ -59,7 +70,7 @@ const Admin = () => {
 
   return (
     <>
-    <Outlet context={{ add, getProducts}} />
+    <Outlet context={{db, add, getProducts}} />
     </>
   )
 }
