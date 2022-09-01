@@ -20,6 +20,8 @@ import { useOutletContext, useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { useAuth } from "../context/authContext";
 import UserRegisteredAppBar from "./UserRegisteredAppBar";
+import { Props3 } from './types';
+import { useEffect } from 'react';
   const initialForm = {
     nombre: "",
     apellido: "",
@@ -32,9 +34,25 @@ import UserRegisteredAppBar from "./UserRegisteredAppBar";
     propietario:"",
   };
 
-const UserRegister = () => {
-    const { add}:any = useOutletContext();
+const UserRegister: React.FC<Props3> = ({edit}) => {
+ 
+    const {db, addData, updateData}:any = useOutletContext();
     const { user }: any = useAuth();
+    const { id }:any = useParams();
+    let ruta="";
+   
+    if(edit==false){
+      ruta="/Home";
+    }else{
+      ruta="/Admin/UserSearch";
+    }
+
+    useEffect(() => {
+      if (edit) {
+        const product = db.find((item:any) => item.id == id);
+        setForm(product);
+      }
+    }, []);
     const temaNuevo = createTheme({
         palette: {
           primary: {
@@ -48,6 +66,7 @@ const UserRegister = () => {
 
 
     const [form, setForm] = useState<UserRegistered>(initialForm);
+  
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>  ) => {
         e.preventDefault();
@@ -76,7 +95,6 @@ const UserRegister = () => {
             !form.apellido ||
             !form.celular ||
             !form.alias ||
-            !form.direccion ||
             !form.monto ||
             !form.tipo ||
             !form.abono
@@ -84,11 +102,13 @@ const UserRegister = () => {
             alert("Datos incompletos.");
             return;
           } else {
-            //if(edit){
-               // updateData(id, form);
-            //} 
-            if (form){
-                add(form)
+            if(edit){
+                updateData(id, form);
+                console.log("entre")
+            } 
+            else{
+                addData(form)
+                console.log("entre a registrar")
             }
           }
             handleReset();
@@ -199,7 +219,7 @@ const UserRegister = () => {
         </Grid>
         <ThemeProvider theme={temaNuevo}>
           <Grid item xs={12} md={6}>
-            <Link to="/Home">
+            <Link to={ruta}>
               <Button variant="contained" color="secondary">
                 regresar
               </Button>
@@ -207,7 +227,7 @@ const UserRegister = () => {
           </Grid>
 
           <Grid item xs={12} md={6}>
-            <Link to="/Home">
+            <Link to={ruta}>
               <Button
                 onClick={handleSubmit}
                 variant="contained"

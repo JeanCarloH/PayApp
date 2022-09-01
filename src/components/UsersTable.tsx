@@ -16,6 +16,12 @@ import { createTheme,ThemeProvider } from '@mui/material/styles';
 
 import { doc, onSnapshot, collection, query, where,addDoc,updateDoc,setDoc,deleteDoc,getDocs} from "firebase/firestore";
 import { ProductionQuantityLimits } from "@mui/icons-material";
+import AddIcon from '@mui/icons-material/Add';
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
+import Checkbox from '@mui/material/Checkbox';
+import { useState } from "react";
+import PaidIcon from '@mui/icons-material/Paid';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -51,7 +57,12 @@ const temaNuevo = createTheme({
 
 
 export default function UsersTable() {
-  const { db,getProducts }:any = useOutletContext();
+  const { db,deleteData, addPay,prueva}:any = useOutletContext();
+  const [checked, setChecked] = useState(true);
+
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setChecked(event.target.checked);
+  };
   
   return (
     <>
@@ -68,8 +79,7 @@ export default function UsersTable() {
               <StyledTableCell align="center">Monto</StyledTableCell>
               <StyledTableCell align="center">Tipo de pago</StyledTableCell>
               <StyledTableCell align="center">Abono</StyledTableCell>
-           
-              <StyledTableCell align="center" >Acciones</StyledTableCell>
+             <StyledTableCell align="center" >Acciones</StyledTableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -96,33 +106,44 @@ export default function UsersTable() {
                     {product.monto}
                   </StyledTableCell>
                   <StyledTableCell align="right">
-                    {product.tipoPago}
+                    {product.tipo==1 &&
+                    'Diario'
+                    }
+                    {product.tipo==2 &&
+                    'semanal'
+                    }
+                     {product.tipo==3 &&
+                    'Quincenal'
+                    }
+                     {product.tipo==4 &&
+                    'Mensual'
+                    }
                   </StyledTableCell>
                   <StyledTableCell align="right">
                     {product.abono}
                   </StyledTableCell>
+
                  
-                 
-                 
-                 
+                  
                   <StyledTableCell align="right">
+                    <PaidIcon
+                  
+                     sx={{m:1}} 
+                    />
+                    <AddIcon 
+                     onClick={()=> addPay(product.id)}
+                    sx={{m:1}} 
+                    />
                   <ThemeProvider theme={temaNuevo}>
-                    <Link to={`/admin/editar/${product.id}`}>
-                    <Button
-                      variant="contained"
-                      color="primary"
-                      sx={{width:"100px"}}
-                      
-                    >
-                      Editar
-                    </Button>
+                    <Link to={`/Admin/Edit/${product.id}`}>
+                   <EditIcon 
+                    sx={{m:1}}
+                    />
                     </Link>
-                    <Button variant="contained"
-                    color="secondary"
-                   // onClick={() => deleteData(product.id)}
-                    >
-                    Eliminar
-                       </Button>
+                   <DeleteIcon
+                    sx={{m:1}}
+                    onClick={() => deleteData(product.id)}
+                    />
                        </ThemeProvider>
                   </StyledTableCell>
                 </StyledTableRow>

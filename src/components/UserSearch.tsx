@@ -9,6 +9,7 @@ import { useState } from 'react';
 import { Box } from '@mui/system';
 import UsersTable from './UsersTable';
 import Loader from './Loader';
+import AddIcon from '@mui/icons-material/Add';
 
 const UserSearch = () => {
     const [busqueda, setBusqueda] = React.useState<string|null>("");
@@ -88,7 +89,7 @@ const UserSearch = () => {
 
   return (
     <>
-        <Loader/>
+      
         <UserSearchAppBar/>
        <Search sx={{display: { xs: "none", md: "flex"  }}}>
        <SearchIconWrapper>

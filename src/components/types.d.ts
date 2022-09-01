@@ -30,3 +30,6 @@ export interface Props2{
     state:any
     dispatch:Dispatch<ActionType>;
 }
+export interface Props3{
+    edit:any
+}

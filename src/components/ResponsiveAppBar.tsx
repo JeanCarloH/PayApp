@@ -47,7 +47,7 @@ const pages = [
     url: "/AgregarNota",
   },
   {
-    nombre: "Usuarios Listos",
+    nombre: "Usuarios Restantes",
     url: "/UsuariosListos",
   },
   {
@@ -202,8 +202,8 @@ const ResponsiveAppBar = () => {
 
           
           {user&&
-          user.email=="invitadodejean@gmail.com"&&
-           <h4> Hola, molina</h4>}
+          user.email=="sofia@gmail.com"&&
+           <h4> Hola Sofia</h4>}
            <Box sx={{ display: { xs: "flex", md: "none" }, mr: -4 }} >
            {user&&
           user.email=="jeancarlocj14@gmail.com"&&
