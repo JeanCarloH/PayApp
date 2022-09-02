@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { styled, alpha } from '@mui/material/styles';
 import InputBase from '@mui/material/InputBase';
 import IconButton from '@mui/material/IconButton';
@@ -9,9 +9,20 @@ import { useState } from 'react';
 import { Box } from '@mui/system';
 import UsersTable from './UsersTable';
 import Loader from './Loader';
-import AddIcon from '@mui/icons-material/Add';
+import Admin from './Admin';
+import {
+  userInitialState,
+  userReducer,
+} from "../reducers/userReducer";
+import { useReducer } from "react";
+import { Outlet } from "react-router-dom";
+import { useOutletContext } from "react-router-dom";
+import { useAuth } from "../context/authContext";
 
 const UserSearch = () => {
+  const {user}:any = useAuth();
+  const [state, dispatch] = useReducer(userReducer, userInitialState);
+  const {getData,getDataName}:any = useOutletContext();
     const [busqueda, setBusqueda] = React.useState<string|null>("");
     const handlechange=(e: React.ChangeEvent<HTMLInputElement>)=>{
         setBusqueda(e.target.value)
@@ -20,6 +31,9 @@ const UserSearch = () => {
       const handleChange3 =()=>{
         setBusqueda(null);
       }
+      useEffect(()=>{
+        getData(busqueda);
+      } ,[busqueda])
     const Search = styled('div')(({ theme }) => ({
         position: 'relative',
         borderRadius: theme.shape.borderRadius,
@@ -84,7 +98,6 @@ const UserSearch = () => {
     
       }));
      
-   
    
 
   return (
@@ -167,7 +180,12 @@ const UserSearch = () => {
 
         }
          </Search>
-         <UsersTable/>
+         {user&&
+          <UsersTable busqueda={busqueda}/>
+         }
+        
+
+      
     </>
   )
 }

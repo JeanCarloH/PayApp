@@ -22,6 +22,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import Checkbox from '@mui/material/Checkbox';
 import { useState } from "react";
 import PaidIcon from '@mui/icons-material/Paid';
+import { Props4 } from "./types";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -56,14 +57,15 @@ const temaNuevo = createTheme({
 )
 
 
-export default function UsersTable() {
-  const { db,deleteData, addPay,prueva}:any = useOutletContext();
+const UsersTable: React.FC<Props4> = ({busqueda})=> {
+  const { db,deleteData, addPay, getDataPayments}:any = useOutletContext();
   const [checked, setChecked] = useState(true);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setChecked(event.target.checked);
   };
-  
+
+
   return (
     <>
    
@@ -83,10 +85,9 @@ export default function UsersTable() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {  db.length > 0 &&
-            
-             db.map((product:any) => ( 
-                <StyledTableRow key={product.id}>
+            {db.length > 0 && 
+              db.map((product:any)=>(
+              <StyledTableRow key={product.id}>
                   <StyledTableCell align="right">
                     {product.nombre}
                   </StyledTableCell>
@@ -126,10 +127,12 @@ export default function UsersTable() {
                  
                   
                   <StyledTableCell align="right">
+                  <Link to="/Admin/Payment">
                     <PaidIcon
-                  
+                    onClick={()=> getDataPayments(product.id)}
                      sx={{m:1}} 
                     />
+                    </Link>
                     <AddIcon 
                      onClick={()=> addPay(product.id)}
                     sx={{m:1}} 
@@ -147,10 +150,12 @@ export default function UsersTable() {
                        </ThemeProvider>
                   </StyledTableCell>
                 </StyledTableRow>
-              ))}
+              
+             )) }
           </TableBody>
         </Table>
       </TableContainer>
     </>
   );
 }
+export default  UsersTable;

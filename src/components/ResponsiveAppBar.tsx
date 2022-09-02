@@ -44,7 +44,7 @@ const pages = [
   },
   {
     nombre: "Agregar Nota",
-    url: "/AgregarNota",
+    url: "/Admin/UserNote",
   },
   {
     nombre: "Usuarios Restantes",

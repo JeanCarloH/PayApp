@@ -26,8 +26,7 @@ export function AuthProvider({children}:props){
     useEffect(()=>{
         onAuthStateChanged(auth, currentUser =>{
             setUser(currentUser);
-            
-            console.log(user,"hola, pude entrar al useEffect")
+ 
         })
     },[])
 

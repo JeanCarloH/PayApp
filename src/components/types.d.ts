@@ -33,3 +33,15 @@ export interface Props2{
 export interface Props3{
     edit:any
 }
+export interface Props4{
+    busqueda:any
+}
+export interface NoteAdded{
+ titulo:string;
+ recordatorio:string;
+ propietario:string;
+}
+
+export interface Props5{
+    edit:any
+}
