@@ -13,6 +13,8 @@ import { useReducer, useState } from "react";
 import UserNote from "./components/UserNote";
 import AddUserNote from "./components/AddUserNote";
 import UserPayment from "./components/UserPayment";
+import UserReady from "./components/UserReady";
+import UserStatistics from "./components/UserStatistics";
 function App() {
   const [state, dispatch] = useReducer(userReducer, userInitialState);
   return (
@@ -22,6 +24,8 @@ function App() {
           <Routes>
             <Route path="/" element={<Login />} />
             <Route path="/Home" element={<Home />} />
+            <Route path="/UserReady" element={<UserReady/>} />
+            <Route path="/UserStatistics" element={<UserStatistics/>} />
             
            
             <Route

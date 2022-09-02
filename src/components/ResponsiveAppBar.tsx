@@ -48,11 +48,11 @@ const pages = [
   },
   {
     nombre: "Usuarios Restantes",
-    url: "/UsuariosListos",
+    url: "/UserReady",
   },
   {
     nombre: "Dinero Cobrado",
-    url: "/DineroCobrado",
+    url: "/UserStatistics",
   },
 ];
 

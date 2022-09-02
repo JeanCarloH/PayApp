@@ -45,3 +45,6 @@ export interface NoteAdded{
 export interface Props5{
     edit:any
 }
+export interface UserEstatistics{
+    tipo:any;
+}
