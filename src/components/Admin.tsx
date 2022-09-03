@@ -14,9 +14,28 @@ import {
 import { idText } from 'typescript';
 import { useOutletContext } from 'react-router-dom';
 import UsersTable from './UsersTable';
+import Button from '@mui/material/Button';
+import TextField from '@mui/material/TextField';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
+
 const Admin: React.FC<Props2> = ({state,dispatch}) => {
   
-  
+  const [open, setOpen] = React.useState(false);
+  const [cantidad, setCantidad] = React.useState(0);
+
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
   var today = new Date();
  
   // obtener la fecha de hoy en formato `MM/DD/YYYY`
@@ -48,7 +67,7 @@ const Admin: React.FC<Props2> = ({state,dispatch}) => {
         const message="¿Quieres Abonar este valor?";
         const docRef = doc(db2, "Users",id);
         const docSnap = await getDoc(docRef);
-       let resultado="";
+       let resultado=0;
         if (docSnap.exists()) {
            resultado=docSnap.data().abono;
     
@@ -56,7 +75,10 @@ const Admin: React.FC<Props2> = ({state,dispatch}) => {
         
           console.log("No such document!");
         }
-      const  result = window.prompt(message, resultado);
+        setOpen(true);
+        setCantidad(resultado);
+     // const  result = window.prompt(message, resultado);
+
       };
       //obtener datos dependiendo de la busqueda
     const getData = async (busqueda:any) => {
@@ -177,7 +199,25 @@ const Admin: React.FC<Props2> = ({state,dispatch}) => {
       
   return (
     <>
-    
+      <Dialog open={open} onClose={handleClose}>
+        <DialogTitle>¿Deseas Abonar esta cantidad?</DialogTitle>
+        <DialogContent>
+          <TextField
+            autoFocus
+            margin="dense"
+            id="name"
+            label="Abono"
+            type='number'
+            fullWidth
+            variant="standard"
+            value={cantidad}
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose}>Cancelar</Button>
+          <Button onClick={handleClose}>Aceptar</Button>
+        </DialogActions>
+      </Dialog>
   
     <Outlet context={{db,dbnote,addData, getData,updateData,deleteData,addPay,addDataNote,updateDataNote,deleteDataNote,getDataNote, getDataPayments}} />
     </>

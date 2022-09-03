@@ -1,6 +1,7 @@
 import React from 'react'
 import UserStatisticsAppBar from './UserStatisticsAppBar'
 import { SelectChangeEvent } from "@mui/material";
+import SearchIcon from '@mui/icons-material/Search';
 import {
     Button,
     FormControl,
@@ -13,8 +14,10 @@ import {
   } from "@mui/material";
   import { useState } from 'react';
   import {UserEstatistics} from './types'
+import UserStatisticsTable from './UserStatisticsTable';
   const initialForm = {
     tipo:"",
+    tipoMes:"",
   };
 const UserStatistics = () => {
     
@@ -28,8 +31,9 @@ const UserStatistics = () => {
   return (
     <>  
     <UserStatisticsAppBar/>
-    <Grid item xs={12} md={3}>
-          <FormControl sx={{ m: 1, minWidth: 210 }}>
+    <Grid container textAlign="center" sx={{ display: "inline-flex" }}>
+    <Grid item xs={12} md={4}>
+          <FormControl sx={{ m: 1, minWidth: 210,marginTop:2 }}>
             <InputLabel id="demo-simple-select-autowidth-label">
               estadistica a consultar
             </InputLabel>
@@ -48,6 +52,51 @@ const UserStatistics = () => {
             </Select>
           </FormControl>
         </Grid>
+        {form.tipo==4 &&
+        
+        <Grid item xs={12} md={4}>
+        <FormControl sx={{ m: 1, minWidth: 210, marginTop:2}}>
+          <InputLabel id="demo-simple-select-autowidth-label">
+            Mes a consultar 
+          </InputLabel>
+          <Select
+            labelId="demo-simple-select-autowidth-label"
+            id="demo-simple-select-autowidth"
+            value={form.tipoMes}
+            name="tipoMes"
+            onChange={handleChange}
+            label="Categoria"
+          >
+            <MenuItem value="1">Enero</MenuItem>
+            <MenuItem value="2">Febrero</MenuItem>
+            <MenuItem value="3">Marzo</MenuItem>
+            <MenuItem value="4">Abril</MenuItem>
+            <MenuItem value="5">Mayo</MenuItem>
+            <MenuItem value="6">Junio</MenuItem>
+            <MenuItem value="7">Julio</MenuItem>
+            <MenuItem value="8">Agosto</MenuItem>
+            <MenuItem value="9">Septiembre</MenuItem>
+            <MenuItem value="10">Octubre</MenuItem>
+            <MenuItem value="11">Noviembre</MenuItem>
+            <MenuItem value="12">Diciembre</MenuItem>
+
+          </Select>
+        </FormControl>
+      </Grid>
+ }
+       <Grid item xs={12} md={4} sx={{marginTop:3}}>
+      <Button
+       // onClick={handleSubmit}
+        variant="contained"
+        endIcon={<SearchIcon />}
+        color="success"
+      >
+        Consultar 
+      </Button>
+   
+    </Grid>
+    </Grid>
+    <UserStatisticsTable tipo={form.tipo} tipoMes={form.tipoMes}/>
     </>
   )
 }

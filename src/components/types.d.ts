@@ -47,4 +47,13 @@ export interface Props5{
 }
 export interface UserEstatistics{
     tipo:any;
+    tipoMes:any;
 }
+export interface Props6{
+tipo:any;
+tipoMes:any;
+}
+export interface Props7{
+    tipo:any;
+    tipoMes:any;
+    }
