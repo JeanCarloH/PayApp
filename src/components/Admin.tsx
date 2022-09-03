@@ -25,7 +25,9 @@ import DialogTitle from '@mui/material/DialogTitle';
 const Admin: React.FC<Props2> = ({state,dispatch}) => {
   
   const [open, setOpen] = React.useState(false);
+  const [openDelete, setOpenDelete] = React.useState(false);
   const [cantidad, setCantidad] = React.useState(0);
+  const [recibidorId, setRecibidorId] = React.useState(0);
 
 
   const handleClickOpen = () => {
@@ -36,6 +38,18 @@ const Admin: React.FC<Props2> = ({state,dispatch}) => {
     setOpen(false);
   };
 
+  const handleClickOpenDelete = (id:any) => {
+    setRecibidorId(id);
+    setOpenDelete(true);
+  
+  };
+  const metodo =()=>{
+    deleteData(recibidorId);
+  }
+
+  const handleCloseDelete = () => {
+    setOpenDelete(false);
+  };
   var today = new Date();
  
   // obtener la fecha de hoy en formato `MM/DD/YYYY`
@@ -181,11 +195,15 @@ const Admin: React.FC<Props2> = ({state,dispatch}) => {
             })
          };
          //eliminar usuario 
-      const deleteData = async(id:any) => {
-        const eliminar= await deleteDoc(doc(db2, 'Users', id));
-         let isDelete = window.confirm(
-           `¿Estás seguro de eliminar el registro con el id '${id}'?`
-         );
+      const deleteData = async(recibidorId:any) => {
+       console.log(recibidorId);
+        const eliminar= await deleteDoc(doc(db2, 'Users', recibidorId));
+        setOpenDelete(false)
+        
+        
+        //  let isDelete = window.confirm(
+        //    `¿Estás seguro de eliminar el registro con el id '${id}'?`
+        //  );
      };
      //eliminar nota del usuario
      const deleteDataNote = async(id:any) => {
@@ -218,8 +236,16 @@ const Admin: React.FC<Props2> = ({state,dispatch}) => {
           <Button onClick={handleClose}>Aceptar</Button>
         </DialogActions>
       </Dialog>
+
+      <Dialog open={openDelete} onClose={handleCloseDelete}>
+        <DialogTitle>¿Deseas eliminar este cliente?</DialogTitle>
+        <DialogActions>
+          <Button onClick={handleCloseDelete}>Cancelar</Button>
+          <Button onClick={metodo}>Aceptar</Button>
+        </DialogActions>
+      </Dialog>
   
-    <Outlet context={{db,dbnote,addData, getData,updateData,deleteData,addPay,addDataNote,updateDataNote,deleteDataNote,getDataNote, getDataPayments}} />
+    <Outlet context={{db,dbnote,addData, getData,updateData,deleteData,addPay,addDataNote,updateDataNote,deleteDataNote,getDataNote, getDataPayments,handleClickOpenDelete}} />
     </>
   )
 }

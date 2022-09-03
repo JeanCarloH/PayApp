@@ -58,7 +58,7 @@ const temaNuevo = createTheme({
 
 
 const UsersTable: React.FC<Props4> = ({busqueda})=> {
-  const { db,deleteData, addPay, getDataPayments}:any = useOutletContext();
+  const { db,deleteData, addPay, getDataPayments,handleClickOpenDelete}:any = useOutletContext();
   const [checked, setChecked] = useState(true);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -145,7 +145,7 @@ const UsersTable: React.FC<Props4> = ({busqueda})=> {
                     </Link>
                    <DeleteIcon
                     sx={{m:1}}
-                    onClick={() => deleteData(product.id)}
+                    onClick={() =>handleClickOpenDelete(product.id)}
                     />
                        </ThemeProvider>
                   </StyledTableCell>
