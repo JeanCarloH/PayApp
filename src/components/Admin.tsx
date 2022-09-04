@@ -21,13 +21,29 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
+import { UserRegistered2 } from './types';
+import { FenceSharp } from '@mui/icons-material';
+
+var today = new Date();
+ 
+// obtener la fecha de hoy en formato `MM/DD/YYYY`
+var now = today.toLocaleDateString('en-us');
+//console.log(now);
+
+const initialForm = {
+  monto:0, 
+  abono:0,
+  fecha:now,
+};
 
 const Admin: React.FC<Props2> = ({state,dispatch}) => {
   
   const [open, setOpen] = React.useState(false);
   const [openDelete, setOpenDelete] = React.useState(false);
   const [cantidad, setCantidad] = React.useState(0);
-  const [recibidorId, setRecibidorId] = React.useState(0);
+  const [recibidorId, setRecibidorId] = React.useState("");
+  const [recibidorObjeto, setRecibidorObjeto] = React.useState("");
+  
 
 
   const handleClickOpen = () => {
@@ -43,45 +59,86 @@ const Admin: React.FC<Props2> = ({state,dispatch}) => {
     setOpenDelete(true);
   
   };
-  const metodo =()=>{
+  const eliminar =()=>{
     deleteData(recibidorId);
+  }
+
+  const agregar =async()=>{
+    console.log(recibidorId,"soy el id malo")
+    const docRef = doc(db2, "Users",recibidorId);
+    const docSnap = await getDoc(docRef);
+    
+   let resultado;
+   let resultado2;
+    if (docSnap.exists()) {
+   
+       resultado=docSnap.data().abono;
+        resultado2=docSnap.data().monto;
+        await addDoc(collection(db2,"Payments"),{
+         abono:resultado,
+         monto:resultado2-resultado,
+         fecha:now,
+         clienteid:recibidorId
+        })
+       
+        
+
+    } else {
+    
+      console.log("No such document!");
+    }
+
+    setOpen(false)
+    
+    setCantidad(resultado);
   }
 
   const handleCloseDelete = () => {
     setOpenDelete(false);
   };
-  var today = new Date();
- 
-  // obtener la fecha de hoy en formato `MM/DD/YYYY`
-  var now = today.toLocaleDateString('en-us');
-  //console.log(now);
+
  
   const{user,logout,login}:any=useAuth() //aca traemos el estado de usecontext
+  const [form, setForm] = useState<UserRegistered2>(initialForm);
   
   // useEffect(() => {
  
   // }, [])
     const { db}:any = state;
     const {dbnote}:any =state;
+    const {dbpayments}:any =state;
+    
     
   //agregar usuario
-    const addData = async (object:any) => {
-        const hola = collection(db2, "Users");
-        await addDoc(hola, object);
-        console.log("nueva tarea guardada");
+    const addData = async (object:any,object2:any) => {
+        const hola = await addDoc(collection(db2, "Users"), object);
+        //setRecibidorObjeto(object2);
+        // const id=hola.id
+        // console.log(id,"soy el id");
+      
+        //console.log("nueva tarea guardada");
       };
+      const addPayment = async (id:any,object:any) => {
+        const hola2:any =  await setDoc(doc(db2, "Payments",id),object);
+      }
+
       //agregar nota
       const addDataNote = async (object:any) => {
         const hola = collection(db2, "Notes");
         await addDoc(hola, object);
         console.log("nueva tarea guardada");
       };
-      //agregar abono
-      const addPay = async (id:any) => {
+      //agregar abono (consultar realmente. mejorar despues)
+      const addPay = async (id:string) => {
+        console.log(id,"soy el id bueno")
+        setRecibidorId(id);
+        
         const message="¿Quieres Abonar este valor?";
         const docRef = doc(db2, "Users",id);
         const docSnap = await getDoc(docRef);
+        
        let resultado=0;
+       let resultado2=0;
         if (docSnap.exists()) {
            resultado=docSnap.data().abono;
     
@@ -89,11 +146,19 @@ const Admin: React.FC<Props2> = ({state,dispatch}) => {
         
           console.log("No such document!");
         }
+
+        
         setOpen(true);
         setCantidad(resultado);
-     // const  result = window.prompt(message, resultado);
+    
 
       };
+
+
+
+
+
+
       //obtener datos dependiendo de la busqueda
     const getData = async (busqueda:any) => {
       if(user){
@@ -130,26 +195,31 @@ const Admin: React.FC<Props2> = ({state,dispatch}) => {
         }
         
       }
-      const s="";
-      const getId = async () => {
-        getData(s);
-
-      }
+ 
       //obtener los pagos de cada usuario
       const getDataPayments = async (id:any) => {
-       // const consulta=collection(db2, "Users").doc(id).collection(db2,'payments').doc('abono')
-        const docRef = doc(db2, "Users",id,"payments","qU3Oi1cChA20DyAkdaMH");
-        const docSnap = await getDoc(docRef);
-       let resultado="";
-        if (docSnap.exists()) {
-           console.log(resultado=docSnap.data().abono,"soy yooo")
-    
-        } else {
+        setRecibidorId(id);
+        if(user){
+         
+          const docRef = doc(db2, "Payments", id);
+          const docSnap = await getDoc(docRef);
+      
+          // if (docSnap.exists()) {
+          //     dispatch({ type: TYPES.CONSULTAR_PAGOS, payload:docSnap.data() });
+              
+          //     //setError(null);
+          //   } else {
+          //     dispatch({ type: TYPES.SIN_DATOS });
+          //     //setError();
+          //   }
+     
         
-          console.log("No such document!");
+        return docSnap
+          
         }
-        
+
       }
+      
       const getDataNote = async () => {
         if(user){
          
@@ -196,7 +266,7 @@ const Admin: React.FC<Props2> = ({state,dispatch}) => {
          };
          //eliminar usuario 
       const deleteData = async(recibidorId:any) => {
-       console.log(recibidorId);
+       //console.log(recibidorId);
         const eliminar= await deleteDoc(doc(db2, 'Users', recibidorId));
         setOpenDelete(false)
         
@@ -233,7 +303,7 @@ const Admin: React.FC<Props2> = ({state,dispatch}) => {
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Cancelar</Button>
-          <Button onClick={handleClose}>Aceptar</Button>
+          <Button onClick={agregar}>Aceptar</Button>
         </DialogActions>
       </Dialog>
 
@@ -241,11 +311,11 @@ const Admin: React.FC<Props2> = ({state,dispatch}) => {
         <DialogTitle>¿Deseas eliminar este cliente?</DialogTitle>
         <DialogActions>
           <Button onClick={handleCloseDelete}>Cancelar</Button>
-          <Button onClick={metodo}>Aceptar</Button>
+          <Button onClick={eliminar}>Aceptar</Button>
         </DialogActions>
       </Dialog>
   
-    <Outlet context={{db,dbnote,addData, getData,updateData,deleteData,addPay,addDataNote,updateDataNote,deleteDataNote,getDataNote, getDataPayments,handleClickOpenDelete}} />
+    <Outlet context={{db,dbnote,dbpayments,recibidorId,addPayment,addData, getData,updateData,deleteData,addPay,addDataNote,updateDataNote,deleteDataNote,getDataNote,handleClickOpenDelete,getDataPayments}} />
     </>
   )
 }

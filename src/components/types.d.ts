@@ -57,3 +57,9 @@ export interface Props7{
     tipo:any;
     tipoMes:any;
     }
+    export interface UserRegistered2{
+
+        monto:number;     
+        abono:number;
+        fecha:string;
+    }

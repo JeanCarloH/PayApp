@@ -48,7 +48,7 @@ const pages = [
   },
   {
     nombre: "Usuarios Restantes",
-    url: "/UserReady",
+    url: "/Admin/UserReady",
   },
   {
     nombre: "Dinero Cobrado",

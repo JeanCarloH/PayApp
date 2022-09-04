@@ -3,6 +3,7 @@ import { TYPES } from "../actions/userActions";
 export const userInitialState = {
   db: [],
   dbnote:[],
+  dbpayments:[],
 };
 
 export function userReducer(state , action) {
@@ -17,6 +18,12 @@ export function userReducer(state , action) {
         return {
           ...state,
           dbnote: action.payload.map((producto) =>  ({ id: producto.id, ...producto.data() })),
+        };
+      }
+      case TYPES.CONSULTAR_PAGOS: {
+        return {
+          ...state,
+          dbpayments: [action.payload],
         };
       }
       case TYPES.CREAR_PRODUCTO: {

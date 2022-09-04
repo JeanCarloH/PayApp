@@ -22,6 +22,13 @@ import { useAuth } from "../context/authContext";
 import UserRegisteredAppBar from "./UserRegisteredAppBar";
 import { Props3 } from './types';
 import { useEffect } from 'react';
+
+    // // crea un nuevo objeto `Date`
+    // var today = new Date();
+ 
+
+    // var now = today.toLocaleDateString('en-US');
+    
   const initialForm = {
     nombre: "",
     apellido: "",
@@ -34,9 +41,11 @@ import { useEffect } from 'react';
     propietario:"",
   };
 
+
 const UserRegister: React.FC<Props3> = ({edit}) => {
+
  
-    const {db, addData, updateData}:any = useOutletContext();
+    const {db, addData, updateData,addPayment}:any = useOutletContext();
     const { user }: any = useAuth();
     const { id }:any = useParams();
     let ruta="";
@@ -67,6 +76,7 @@ const UserRegister: React.FC<Props3> = ({edit}) => {
 
     const [form, setForm] = useState<UserRegistered>(initialForm);
   
+  
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>  ) => {
         e.preventDefault();
@@ -76,8 +86,16 @@ const UserRegister: React.FC<Props3> = ({edit}) => {
           ['propietario']: user.email,
 
         });
+        // setForm2({
+        //   ...form2,
+        //   ['monto']: form.monto,
+        //   ['abono']: form.abono,
+         
+
+        // });
 
       };
+
 
       const handleChange2 = (e: SelectChangeEvent<unknown>) => {
         setForm({
@@ -90,6 +108,7 @@ const UserRegister: React.FC<Props3> = ({edit}) => {
       };
 
     const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
+     
         if (
             !form.nombre ||
             !form.apellido ||
@@ -107,7 +126,8 @@ const UserRegister: React.FC<Props3> = ({edit}) => {
                 console.log("entre")
             } 
             else{
-                addData(form)
+                addData(form);
+                //addPayment(form2)
                 console.log("entre a registrar")
             }
           }

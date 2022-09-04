@@ -25,7 +25,7 @@ function App() {
           <Routes>
             <Route path="/" element={<Login />} />
             <Route path="/Home" element={<Home />} />
-            <Route path="/UserReady" element={<UserReady/>} />
+            
             <Route path="/UserStatistics" element={<UserStatistics/>} />
 
            
@@ -37,6 +37,7 @@ function App() {
               <Route path="/Admin/UserSearch" element={<UserSearch />} />
               <Route path="/Admin/UserNote" element={<UserNote />} />
               <Route path="/Admin/Payment" element={<UserPayment/>} />
+              <Route path="/Admin/UserReady" element={<UserReady/>} />
               <Route path="/Admin/AddUserNote" element={<AddUserNote edit={false} />} />
               <Route
                 path="/Admin/EditUsernote/:id"

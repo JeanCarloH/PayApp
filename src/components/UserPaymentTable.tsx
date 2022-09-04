@@ -13,16 +13,17 @@ import { Box } from "@mui/system";
 import { IconButton, Tooltip,Button } from "@mui/material";
 
 import { createTheme,ThemeProvider } from '@mui/material/styles';
-import { db2 } from '../firebase';
+
 import { doc, onSnapshot, collection, query, where,addDoc,updateDoc,setDoc,deleteDoc,getDocs,getDoc} from "firebase/firestore";
-import { ProductionQuantityLimits } from "@mui/icons-material";
+import { DataObjectSharp, ProductionQuantityLimits } from "@mui/icons-material";
 import AddIcon from '@mui/icons-material/Add';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import Checkbox from '@mui/material/Checkbox';
-import { useState } from "react";
 import PaidIcon from '@mui/icons-material/Paid';
-import { Props7 } from "./types";
+import { db2 } from '../firebase';
+import { useEffect,useState } from "react";
+
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -57,29 +58,32 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
   )
   
   
-  const UserReadyTable = ()=> {
-
-    var today = new Date();
- 
-    // obtener la fecha de hoy en formato `MM/DD/YYYY`
-    var now = today.toLocaleDateString('en-US');
+  const UserPaymentTable = ()=> {
     const { recibidorId}:any = useOutletContext();
-    const [nombre , setNombre] = useState();
-
-    console.log(recibidorId,"id")
-    console.log(now)
+    let db: any[]=[];
+   
+    
  //dbpayments.splice(0,14)
  const xd = async () => {
   
-
-    const docRef = query(collection(db2, "Payments"),where("fecha","!=",now));
-    const docSnap = await getDocs(docRef);
-    // setNombre(docSnap.docs)
-
-    
-   
-  }
+  const consulta=query(collection(db2, "Payments"),where("clienteid","==",recibidorId))
+  const querySnapshot = await getDocs(consulta);
+  
+  // console.log(querySnapshot.docs.map((producto) =>  ({ id: producto.id, ...producto.data() })))
  
+   return {
+    ...db,
+    db: [querySnapshot.docs]
+   }
+  }
+console.log(db,"soy la db")
+  useEffect(() => {
+  
+    xd();
+  });
+
+  
+  
     return (
       <>
      
@@ -87,19 +91,35 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
           <Table sx={{ width:"100%" }} aria-label="customized table">
             <TableHead>
               <TableRow>
-                
-                 <StyledTableCell align="left">Usuarios Faltantes hoy</StyledTableCell>
-                
-               
-
+                 <StyledTableCell align="left">Fecha</StyledTableCell>
+                 <StyledTableCell align="left">abono</StyledTableCell>
+                 <StyledTableCell align="left">Monto</StyledTableCell>
                </TableRow>
             </TableHead>
          
-                
-            
+            <TableBody>
+             {db.length>0 &&
+             
+            db.map((row:any) => ( 
+             
+              
+              <StyledTableRow key={row.id}>
+                  <StyledTableCell align="left">
+                  {row.fecha}
+                  </StyledTableCell>
+                  <StyledTableCell align="left">
+                  {row.abono}
+                  </StyledTableCell>
+                  <StyledTableCell align="left">
+                  {row.monto}
+                  </StyledTableCell>
+                  </StyledTableRow>
+      )) }
+              
+            </TableBody>
           </Table>
         </TableContainer>
       </>
     );
   }
-  export default  UserReadyTable;
+  export default  UserPaymentTable;
