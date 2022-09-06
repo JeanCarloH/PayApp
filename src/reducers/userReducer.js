@@ -4,6 +4,8 @@ export const userInitialState = {
   db: [],
   dbnote:[],
   dbpayments:[],
+  dbusersready:[],
+  dbstatistics:[],
 };
 
 export function userReducer(state , action) {
@@ -23,7 +25,19 @@ export function userReducer(state , action) {
       case TYPES.CONSULTAR_PAGOS: {
         return {
           ...state,
-          dbpayments: [action.payload],
+          dbpayments: action.payload.map((producto) =>  ({ id: producto.id, ...producto.data() })),
+        };
+      }
+      case TYPES.CONSULTAR_USUARIOSLISTOS: {
+        return {
+          ...state,
+          dbusersready: action.payload.map((producto) =>  ({ id: producto.id, ...producto.data() })),
+        };
+      }
+      case TYPES.CONSULTAR_ESTADISTICAS: {
+        return {
+          ...state,
+          dbstatistics: action.payload.map((producto) =>  ({ id: producto.id, ...producto.data() })),
         };
       }
       case TYPES.CREAR_PRODUCTO: {

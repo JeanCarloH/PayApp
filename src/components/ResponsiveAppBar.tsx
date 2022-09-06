@@ -52,7 +52,7 @@ const pages = [
   },
   {
     nombre: "Dinero Cobrado",
-    url: "/UserStatistics",
+    url: "/Admin/UserStatistics",
   },
 ];
 

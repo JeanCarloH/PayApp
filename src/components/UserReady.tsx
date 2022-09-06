@@ -1,14 +1,16 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import UserReadyAppBar from './UserReadyAppBar'
 import UserReadyTable from './UserReadyTable'
 import { useOutletContext } from 'react-router-dom'
 const UserReady = () => {
-  const { addPayment,dbpayments}:any = useOutletContext();
+  const { addPayment,dbpayments,dbusersready,getDataUserReady }:any = useOutletContext();
  
   return (
     <>
     <UserReadyAppBar/>
+    
     <UserReadyTable />
+   
     </>
   )
 }

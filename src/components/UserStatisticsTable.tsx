@@ -58,84 +58,39 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
   
   
   const UserStatisticsTable: React.FC<Props6> = ({tipo, tipoMes})=> {
-    //const { db,deleteData, addPay, getDataPayments}:any = useOutletContext();
-    
-  
+    const { dbstatistics}:any = useOutletContext();
 
-
+  console.log(dbstatistics,"soy la dbstatistics")
+  const totaldia= dbstatistics.reduce((total:any,item:any)=>item.abono+total,0)
   
-  
-    return (
+    return ( 
       <>
      
         <TableContainer sx={{ m: 3 }} component={Paper}>
           <Table sx={{ width:"100%" }} aria-label="customized table">
             <TableHead>
               <TableRow>
-                {tipo==1 &&
-                 <StyledTableCell align="left">Total pagos del dia</StyledTableCell>
+                {tipo==1&&
+                <StyledTableCell>Cobro del dia </StyledTableCell>
                 }
-                {
-                 tipo==2 &&
-                 <StyledTableCell align="left">Total pagos de la semana</StyledTableCell>
-                }
-                {
-                 tipo==3 &&
-                 <StyledTableCell align="left">Total pagos de la quincena</StyledTableCell>
-                }
-                {
-                  tipo==4 && tipoMes==1 &&
-                 <StyledTableCell align="left">Total pagos del mes de enero</StyledTableCell>
-                }
-                {
-                  tipo==4 && tipoMes==2 &&
-                 <StyledTableCell align="left">Total pagos del mes de febrero</StyledTableCell>
-                }
-                {
-                  tipo==4 && tipoMes==3 &&
-                 <StyledTableCell align="left">Total pagos del mes de marzo</StyledTableCell>
-                }
-                {
-                  tipo==4 && tipoMes==4 &&
-                 <StyledTableCell align="left">Total pagos del mes abril</StyledTableCell>
-                }
-                {
-                  tipo==4 && tipoMes==5 &&
-                 <StyledTableCell align="left">Total pagos del mes de mayo</StyledTableCell>
-                }
-                {
-                  tipo==4 && tipoMes==6 &&
-                 <StyledTableCell align="left">Total pagos del mes de junio</StyledTableCell>
-                }
-                {
-                  tipo==4 && tipoMes==7 &&
-                 <StyledTableCell align="left">Total pagos del mes de julio</StyledTableCell>
-                }
-                {
-                  tipo==4 && tipoMes==8 &&
-                 <StyledTableCell align="left">Total pagos del mes de agosto</StyledTableCell>
-                }
-                {
-                  tipo==4 && tipoMes==9 &&
-                 <StyledTableCell align="left">Total pagos del mes de septiembre</StyledTableCell>
-                }
-                {
-                  tipo==4 && tipoMes==10 &&
-                 <StyledTableCell align="left">Total pagos del mes de octubre</StyledTableCell>
-                }
-                {
-                  tipo==4 && tipoMes==11 &&
-                 <StyledTableCell align="left">Total pagos del mes de noviembre</StyledTableCell>
-                }
-                {
-                  tipo==4 && tipoMes==12 &&
-                 <StyledTableCell align="left">Total pagos del mes de diciembre</StyledTableCell>
-                }
-
+                
                </TableRow>
             </TableHead>
          
-                
+            <TableBody>
+            
+             
+              <StyledTableRow >
+                  <StyledTableCell align="left">
+                    {tipo==1&&
+                                totaldia
+                    }
+                 
+                  </StyledTableCell>
+                  </StyledTableRow>
+     
+              
+            </TableBody>
             
           </Table>
         </TableContainer>

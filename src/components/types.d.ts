@@ -60,6 +60,5 @@ export interface Props7{
     export interface UserRegistered2{
 
         monto:number;     
-        abono:number;
-        fecha:string;
+
     }

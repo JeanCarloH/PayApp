@@ -45,45 +45,13 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
     },
   }));
   
-  const temaNuevo = createTheme({
-    palette: {
-      primary: {
-        main: '#1b5e20',
-      },
-      secondary: {
-        main: '#b71c1c',
-      },
-    },
-  }
-  )
-  
-  
-  const UserPaymentTable = ()=> {
-    const { recibidorId}:any = useOutletContext();
-    let db: any[]=[];
-   
-    
- //dbpayments.splice(0,14)
- const xd = async () => {
-  
-  const consulta=query(collection(db2, "Payments"),where("clienteid","==",recibidorId))
-  const querySnapshot = await getDocs(consulta);
-  
-  // console.log(querySnapshot.docs.map((producto) =>  ({ id: producto.id, ...producto.data() })))
- 
-   return {
-    ...db,
-    db: [querySnapshot.docs]
-   }
-  }
-console.log(db,"soy la db")
-  useEffect(() => {
-  
-    xd();
-  });
 
   
   
+  const UserPaymentTable = ()=> {
+    const {dbpayments, recibidorId}:any = useOutletContext();
+   
+
     return (
       <>
      
@@ -98,9 +66,9 @@ console.log(db,"soy la db")
             </TableHead>
          
             <TableBody>
-             {db.length>0 &&
+             {dbpayments.length>0 &&
              
-            db.map((row:any) => ( 
+            dbpayments.map((row:any) => ( 
              
               
               <StyledTableRow key={row.id}>

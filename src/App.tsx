@@ -38,6 +38,7 @@ function App() {
               <Route path="/Admin/UserNote" element={<UserNote />} />
               <Route path="/Admin/Payment" element={<UserPayment/>} />
               <Route path="/Admin/UserReady" element={<UserReady/>} />
+              <Route path="/Admin/UserStatistics" element={<UserStatistics/>} />
               <Route path="/Admin/AddUserNote" element={<AddUserNote edit={false} />} />
               <Route
                 path="/Admin/EditUsernote/:id"

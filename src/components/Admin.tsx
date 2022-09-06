@@ -1,7 +1,7 @@
-import React from 'react'
+import React , { ChangeEvent } from 'react'
 import { Outlet } from "react-router-dom";
 import { useEffect, useReducer, useState } from "react";
-import { doc, onSnapshot, collection, query, where,addDoc,updateDoc,setDoc,deleteDoc,getDocs,getDoc,documentId} from "firebase/firestore";
+import { doc, onSnapshot, collection, query, where,addDoc,updateDoc,setDoc,deleteDoc,getDocs,getDoc,documentId,orderBy} from "firebase/firestore";
 import { db2 } from '../firebase';
 import { TYPES } from "../actions/userActions"
 import { ActionType } from "../components/types";
@@ -22,29 +22,40 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import { UserRegistered2 } from './types';
-import { FenceSharp } from '@mui/icons-material';
-
+import { ConstructionOutlined, FenceSharp } from '@mui/icons-material';
+import { Grid } from '@mui/material';
+import { useRef } from 'react';
 var today = new Date();
  
-// obtener la fecha de hoy en formato `MM/DD/YYYY`
-var now = today.toLocaleDateString('en-us');
-//console.log(now);
 
-const initialForm = {
-  monto:0, 
-  abono:0,
-  fecha:now,
-};
+var now = today.toLocaleDateString('en-GB');
+
+
+
+const yesterday = new Date(today)
+yesterday.setDate(yesterday.getDate() - 1)
+const ayer=yesterday.toLocaleDateString('en-GB')
+
+
+// const initialForm = {
+//   abono:0,
+// };
+
+
 
 const Admin: React.FC<Props2> = ({state,dispatch}) => {
   
   const [open, setOpen] = React.useState(false);
   const [openDelete, setOpenDelete] = React.useState(false);
-  const [cantidad, setCantidad] = React.useState(0);
+  //const [cantidad, setCantidad] = React.useState(0);
   const [recibidorId, setRecibidorId] = React.useState("");
   const [recibidorObjeto, setRecibidorObjeto] = React.useState("");
+  const inputref:any= useRef();
   
-
+  useEffect(() => {
+    getDataUserReady();
+    getUserStatistics();
+  }, []);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -61,10 +72,14 @@ const Admin: React.FC<Props2> = ({state,dispatch}) => {
   };
   const eliminar =()=>{
     deleteData(recibidorId);
+    deleteDataPayment(recibidorId);
   }
 
+
   const agregar =async()=>{
-    console.log(recibidorId,"soy el id malo")
+    
+   console.log(inputref.current.value,"soy la cantidad")
+    
     const docRef = doc(db2, "Users",recibidorId);
     const docSnap = await getDoc(docRef);
     
@@ -75,10 +90,11 @@ const Admin: React.FC<Props2> = ({state,dispatch}) => {
        resultado=docSnap.data().abono;
         resultado2=docSnap.data().monto;
         await addDoc(collection(db2,"Payments"),{
-         abono:resultado,
-         monto:resultado2-resultado,
+         abono:parseInt(inputref.current.value),
+         monto:resultado2-parseInt(inputref.current.value),
          fecha:now,
-         clienteid:recibidorId
+         clienteid:recibidorId,
+         nombre:docSnap.data().nombre
         })
        
         
@@ -90,16 +106,18 @@ const Admin: React.FC<Props2> = ({state,dispatch}) => {
 
     setOpen(false)
     
-    setCantidad(resultado);
+    // setCantidad(resultado);
+    await updateDoc(doc(db2, "Users",recibidorId),{ monto:resultado2-parseInt(inputref.current.value), })
   }
 
   const handleCloseDelete = () => {
     setOpenDelete(false);
   };
 
+
  
   const{user,logout,login}:any=useAuth() //aca traemos el estado de usecontext
-  const [form, setForm] = useState<UserRegistered2>(initialForm);
+  //const [form, setForm] = useState<UserRegistered2>(initialForm);
   
   // useEffect(() => {
  
@@ -107,16 +125,40 @@ const Admin: React.FC<Props2> = ({state,dispatch}) => {
     const { db}:any = state;
     const {dbnote}:any =state;
     const {dbpayments}:any =state;
+    const {dbusersready}:any =state;
+    const {dbstatistics}:any =state;
+
+    const getDataUserReady = async () => {
+    
+   
+      const consulta2=query(collection(db2, "Users"))
+      const consulta=query(collection(db2, "Payments"),where("fecha","==",now));
+      const querySnapshot = await getDocs(consulta);
+      const querySnapshot2 = await getDocs(consulta2);
+  
+    
+     const usuarioslistos= querySnapshot2.docs.filter(cliente => 
+        querySnapshot.docs.find(pago => pago.data().clienteid==cliente.id)===undefined
+      );
+      
+        if (querySnapshot.docs) {
+          dispatch({ type: TYPES.CONSULTAR_USUARIOSLISTOS, payload:usuarioslistos });
+          
+       
+        } else {
+          dispatch({ type: TYPES.SIN_DATOS });
+        
+        }
+      
+    return querySnapshot.docs
+       
+      }
     
     
   //agregar usuario
     const addData = async (object:any,object2:any) => {
         const hola = await addDoc(collection(db2, "Users"), object);
-        //setRecibidorObjeto(object2);
-        // const id=hola.id
-        // console.log(id,"soy el id");
-      
-        //console.log("nueva tarea guardada");
+ 
       };
       const addPayment = async (id:any,object:any) => {
         const hola2:any =  await setDoc(doc(db2, "Payments",id),object);
@@ -126,11 +168,11 @@ const Admin: React.FC<Props2> = ({state,dispatch}) => {
       const addDataNote = async (object:any) => {
         const hola = collection(db2, "Notes");
         await addDoc(hola, object);
-        console.log("nueva tarea guardada");
+     
       };
       //agregar abono (consultar realmente. mejorar despues)
       const addPay = async (id:string) => {
-        console.log(id,"soy el id bueno")
+     
         setRecibidorId(id);
         
         const message="¿Quieres Abonar este valor?";
@@ -149,7 +191,7 @@ const Admin: React.FC<Props2> = ({state,dispatch}) => {
 
         
         setOpen(true);
-        setCantidad(resultado);
+       // setCantidad(resultado);
     
 
       };
@@ -198,23 +240,24 @@ const Admin: React.FC<Props2> = ({state,dispatch}) => {
  
       //obtener los pagos de cada usuario
       const getDataPayments = async (id:any) => {
+        
         setRecibidorId(id);
         if(user){
-         
-          const docRef = doc(db2, "Payments", id);
-          const docSnap = await getDoc(docRef);
+          const ref=collection(db2, "Payments")
+          const consulta=query(ref,where("clienteid","==",id),orderBy("fecha"))
+          const querySnapshot = await getDocs(consulta);
       
-          // if (docSnap.exists()) {
-          //     dispatch({ type: TYPES.CONSULTAR_PAGOS, payload:docSnap.data() });
+           console.log(querySnapshot.docs,"hola")
+            if (querySnapshot.docs) {
+              dispatch({ type: TYPES.CONSULTAR_PAGOS, payload:querySnapshot.docs });
               
-          //     //setError(null);
-          //   } else {
-          //     dispatch({ type: TYPES.SIN_DATOS });
-          //     //setError();
-          //   }
-     
-        
-        return docSnap
+           
+            } else {
+              dispatch({ type: TYPES.SIN_DATOS });
+            
+            }
+          
+        return querySnapshot.docs
           
         }
 
@@ -240,6 +283,28 @@ const Admin: React.FC<Props2> = ({state,dispatch}) => {
           }
 
         }
+
+        const getUserStatistics= async () => {
+          console.log(now)
+          if(user){
+              console.log("si estoy entrando a las estadisticas")
+              const consulta=query(collection(db2, "Payments"),where("fecha","==",now));
+              const querySnapshot = await getDocs(consulta);
+                console.log(querySnapshot.docs,"soy desde el metodo de estadisticasxd")
+              if (querySnapshot.docs) {
+                  dispatch({ type: TYPES.CONSULTAR_ESTADISTICAS, payload:querySnapshot.docs });
+                  
+                  //setError(null);
+                } else {
+                  dispatch({ type: TYPES.SIN_DATOS });
+                  //setError();
+                }
+              
+            return querySnapshot.docs
+              
+            }
+  
+          }
       //actualizar datos de usuario
        const updateData = async(id:any,data:any) => {
         await updateDoc(doc(db2,'Users',id),{
@@ -266,15 +331,17 @@ const Admin: React.FC<Props2> = ({state,dispatch}) => {
          };
          //eliminar usuario 
       const deleteData = async(recibidorId:any) => {
-       //console.log(recibidorId);
+      
         const eliminar= await deleteDoc(doc(db2, 'Users', recibidorId));
+        
         setOpenDelete(false)
         
-        
-        //  let isDelete = window.confirm(
-        //    `¿Estás seguro de eliminar el registro con el id '${id}'?`
-        //  );
+   
      };
+
+     const deleteDataPayment = async(recibidorId:any) => {
+      //const eliminar= await deleteDoc(doc(db2, 'Payments'),where("clienteid","==",recibidorId));
+     }
      //eliminar nota del usuario
      const deleteDataNote = async(id:any) => {
       const eliminar= await deleteDoc(doc(db2, 'Notes', id));
@@ -283,26 +350,28 @@ const Admin: React.FC<Props2> = ({state,dispatch}) => {
        );
    };
   
-
-      
+  
+   
   return (
     <>
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle>¿Deseas Abonar esta cantidad?</DialogTitle>
         <DialogContent>
-          <TextField
-            autoFocus
-            margin="dense"
+          <Grid>
+          <input
+            autoFocus={true}
+            name='cantidad'
             id="name"
-            label="Abono"
             type='number'
-            fullWidth
-            variant="standard"
-            value={cantidad}
+            ref={inputref}
+           
           />
+          </Grid>
+
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Cancelar</Button>
+          
           <Button onClick={agregar}>Aceptar</Button>
         </DialogActions>
       </Dialog>
@@ -315,7 +384,7 @@ const Admin: React.FC<Props2> = ({state,dispatch}) => {
         </DialogActions>
       </Dialog>
   
-    <Outlet context={{db,dbnote,dbpayments,recibidorId,addPayment,addData, getData,updateData,deleteData,addPay,addDataNote,updateDataNote,deleteDataNote,getDataNote,handleClickOpenDelete,getDataPayments}} />
+    <Outlet context={{db,dbnote,dbpayments,dbusersready,dbstatistics,recibidorId,getUserStatistics,getDataUserReady,addPayment,addData, getData,updateData,deleteData,addPay,addDataNote,updateDataNote,deleteDataNote,getDataNote,handleClickOpenDelete,getDataPayments}} />
     </>
   )
 }

@@ -63,22 +63,10 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
  
     // obtener la fecha de hoy en formato `MM/DD/YYYY`
     var now = today.toLocaleDateString('en-US');
-    const { recibidorId}:any = useOutletContext();
-    const [nombre , setNombre] = useState();
+    const { dbusersready,getDataUserReady}:any = useOutletContext();
 
-    console.log(recibidorId,"id")
-    console.log(now)
- //dbpayments.splice(0,14)
- const xd = async () => {
-  
 
-    const docRef = query(collection(db2, "Payments"),where("fecha","!=",now));
-    const docSnap = await getDocs(docRef);
-    // setNombre(docSnap.docs)
-
-    
-   
-  }
+        console.log(dbusersready)
  
     return (
       <>
@@ -89,13 +77,23 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
               <TableRow>
                 
                  <StyledTableCell align="left">Usuarios Faltantes hoy</StyledTableCell>
-                
-               
-
-               </TableRow>
-            </TableHead>
-         
-                
+                 </TableRow>
+                 </TableHead>
+                 <TableBody>
+             {dbusersready.length>0 &&
+             
+            dbusersready.map((row:any) => ( 
+             
+              
+              <StyledTableRow key={row.id}>
+                  <StyledTableCell align="left">
+                  {row.nombre}
+                  </StyledTableCell>
+                  </StyledTableRow>
+      )) }
+              
+            </TableBody>
+  
             
           </Table>
         </TableContainer>

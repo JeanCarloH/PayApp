@@ -15,13 +15,19 @@ import {
   import { useState } from 'react';
   import {UserEstatistics} from './types'
 import UserStatisticsTable from './UserStatisticsTable';
+import { useOutletContext } from "react-router-dom";
+import { useEffect } from 'react';
   const initialForm = {
     tipo:"",
     tipoMes:"",
   };
 const UserStatistics = () => {
-    
+    const {dbuserstatistics,getUserStatistics}:any = useOutletContext();
     const [form, setForm] = useState<UserEstatistics>(initialForm);
+    useEffect(() => {
+
+      getUserStatistics();
+    }, []);
     const handleChange = (e: SelectChangeEvent<unknown>) => {
         setForm({
             ...form,
@@ -84,17 +90,7 @@ const UserStatistics = () => {
         </FormControl>
       </Grid>
  }
-       <Grid item xs={12} md={4} sx={{marginTop:3}}>
-      <Button
-       // onClick={handleSubmit}
-        variant="contained"
-        endIcon={<SearchIcon />}
-        color="success"
-      >
-        Consultar 
-      </Button>
-   
-    </Grid>
+     
     </Grid>
     <UserStatisticsTable tipo={form.tipo} tipoMes={form.tipoMes}/>
     </>
