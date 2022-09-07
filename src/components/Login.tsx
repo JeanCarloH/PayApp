@@ -49,7 +49,7 @@ const Login: React.FC = () => {
     setError("");
     try {
       await login(user.email, user.password);
-      navigate("/Home");
+      navigate("/Admin/Home");
     } catch (error: any) {
       setError(error.message);
     }

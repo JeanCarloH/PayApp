@@ -24,9 +24,9 @@ function App() {
         <HashRouter>
           <Routes>
             <Route path="/" element={<Login />} />
-            <Route path="/Home" element={<Home />} />
             
-            <Route path="/UserStatistics" element={<UserStatistics/>} />
+            
+           
 
            
             <Route
@@ -40,6 +40,7 @@ function App() {
               <Route path="/Admin/UserReady" element={<UserReady/>} />
               <Route path="/Admin/UserStatistics" element={<UserStatistics/>} />
               <Route path="/Admin/AddUserNote" element={<AddUserNote edit={false} />} />
+              <Route path="/Admin/Home" element={<Home />} />
               <Route
                 path="/Admin/EditUsernote/:id"
                 element={<AddUserNote edit={true} />}

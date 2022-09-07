@@ -14,6 +14,7 @@ import {
     styled,
   } from "@mui/material";
   import { useState } from 'react';
+
   import {UserEstatistics} from './types'
 import UserStatisticsTable from './UserStatisticsTable';
 import { useOutletContext } from "react-router-dom";
@@ -60,12 +61,13 @@ const UserStatistics = () => {
     <Box
       sx={{
         display: 'flex',
-        alignItems: 'center',
+        alignItems: 'right',
         '& > :not(style)': { m: 1 },
+        justifyContent:'center',
       }}
     >
       <input
-      
+     
         id="demo-helper-text-misaligned"
        
         ref={value}
@@ -78,15 +80,17 @@ const UserStatistics = () => {
       />
       
     </Box>
+    <Box sx={{display:'flex', justifyContent:'center'}}>
     <Button
                 onClick={() =>getUserStatistics(value.current.value,value2.current.value)}
-               // onClick={() => xd()}
                 variant="contained"
-                endIcon={<SaveIcon />}
-                color="primary"
+                endIcon={< SearchIcon />}
+                color="success"
+               
               >
                 consultar
               </Button>
+              </Box>
     <UserStatisticsTable tipo={form.tipo} tipoMes={form.tipoMes}/>
     </>
   )

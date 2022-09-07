@@ -26,7 +26,7 @@ function appBarLabel(label:string,label2:string) {
       </Typography>
 
         <Tooltip title="Regresar Inicio">
-          <Link to="/Home">
+          <Link to="/Admin/Home">
             <IconButton sx={{flexGrow: 0, m: 1, color: grey[100]}}>
               <AssignmentReturnIcon/>
             </IconButton>

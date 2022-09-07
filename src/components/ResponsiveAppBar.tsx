@@ -106,7 +106,7 @@ const ResponsiveAppBar = () => {
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <AttachMoneyIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} />
-          <Link to="/Home">
+          <Link to="/Admin/Home">
           <Typography
             variant="h6"
             noWrap

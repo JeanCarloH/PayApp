@@ -51,7 +51,7 @@ const UserRegister: React.FC<Props3> = ({edit}) => {
     let ruta="";
    
     if(edit==false){
-      ruta="/Home";
+      ruta="/Admin/home";
     }else{
       ruta="/Admin/UserSearch";
     }
