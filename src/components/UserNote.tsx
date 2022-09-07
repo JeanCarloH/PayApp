@@ -14,7 +14,7 @@ import {
     styled,
   } from "@mui/material";
 import UserNoteAppBar from './UserNoteAppBar';
-import Note from './Note'
+import NoteTable from './NoteTable'
 import { Link } from "react-router-dom";
 import { useOutletContext } from 'react-router-dom';
 
@@ -35,7 +35,7 @@ export default function UserNote() {
     </Button>
     </Link>
    </Grid>
-   <Note/>
+   <NoteTable/>
 
    
         </>

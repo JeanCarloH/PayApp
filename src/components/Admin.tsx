@@ -22,7 +22,7 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import { UserRegistered2 } from './types';
-import { ConstructionOutlined, FenceSharp } from '@mui/icons-material';
+import { Analytics, ConstructionOutlined, FenceSharp } from '@mui/icons-material';
 import { Grid } from '@mui/material';
 import { useRef } from 'react';
 var today = new Date();
@@ -54,7 +54,7 @@ const Admin: React.FC<Props2> = ({state,dispatch}) => {
   
   useEffect(() => {
     getDataUserReady();
-    getUserStatistics();
+  
   }, []);
 
   const handleClickOpen = () => {
@@ -77,7 +77,7 @@ const Admin: React.FC<Props2> = ({state,dispatch}) => {
 
 
   const agregar =async()=>{
-    
+    const fecha2 = Date.now();
    console.log(inputref.current.value,"soy la cantidad")
     
     const docRef = doc(db2, "Users",recibidorId);
@@ -93,6 +93,7 @@ const Admin: React.FC<Props2> = ({state,dispatch}) => {
          abono:parseInt(inputref.current.value),
          monto:resultado2-parseInt(inputref.current.value),
          fecha:now,
+         fecha2:fecha2, //fecha en epoch
          clienteid:recibidorId,
          nombre:docSnap.data().nombre
         })
@@ -284,27 +285,81 @@ const Admin: React.FC<Props2> = ({state,dispatch}) => {
 
         }
 
-        const getUserStatistics= async () => {
-          console.log(now)
-          if(user){
-              console.log("si estoy entrando a las estadisticas")
-              const consulta=query(collection(db2, "Payments"),where("fecha","==",now));
+        // const getUserStatistics= async (value:any,value2:any) => {
+        // console.log(value,value2,"somos las dos fechas")
+        //   if(user){
+        //      if(value && value2){
+        //       const consulta=query(collection(db2, "Payments"),where("fecha",">=",value));
+        //       const querySnapshot = await getDocs(consulta);
+        //       const consulta2=query(collection(db2, "Payments"),where("fecha","<=",value2));
+        //       const querySnapshot2 = await getDocs(consulta2);
+        //       console.log(querySnapshot.docs,"rango mayor")
+        //       console.log(querySnapshot2.docs,"rango menor")
+        //        const pagoslistos= querySnapshot2.docs.filter(pago1 => 
+        //          querySnapshot.docs.find(pago2=> pago1.id==pago2.id)===undefined
+        //        );
+        //       console.log(pagoslistos,"soy pagos listos")
+        //       if (querySnapshot.docs) {
+                
+        //           dispatch({ type: TYPES.CONSULTAR_ESTADISTICAS, payload:pagoslistos });
+                  
+        //           //setError(null);
+        //         } else {
+        //           dispatch({ type: TYPES.SIN_DATOS });
+        //           //setError();
+        //         }
+        //         return querySnapshot.docs
+        //      }
+             
+        //       if(value){
+        //         const consulta=query(collection(db2, "Payments"),where("fecha",">=",value));
+        //         const querySnapshot = await getDocs(consulta);
+        //         console.log(value)
+        //         console.log( querySnapshot.docs)
+        //         console.log(querySnapshot.docs.map((doc:any)=>(doc.data().fecha)))
+                
+        //         if (querySnapshot.docs) {
+                
+        //           dispatch({ type: TYPES.CONSULTAR_ESTADISTICAS, payload:querySnapshot.docs });
+                  
+        //           //setError(null);
+        //         } else {
+        //           dispatch({ type: TYPES.SIN_DATOS });
+        //           //setError();
+        //         }6/09/2022
+        //         return querySnapshot.docs
+        //      }
+        //       }
+           
+              
+        //     }
+        
+         const getUserStatistics= async (value:string,value2:string) => {
+          "año-mes-dia"
+          let fecha1 = new Date(value).getTime();
+          let fecha2 = new Date(value2).getTime();
+         let fecha11= fecha1.toString();
+        let fecha22=fecha2.toString();
+        var someDate = new Date("2022-09-06").getTime();
+       
+     console.log(someDate,"la que es")
+              const consulta=query(collection(db2, "Payments"),where('fecha2','>=',fecha11),where('fecha2','<=',fecha22));
               const querySnapshot = await getDocs(consulta);
-                console.log(querySnapshot.docs,"soy desde el metodo de estadisticasxd")
+            
+              console.log(querySnapshot.docs.map((doc:any)=>(doc.data())),"soy la fecha")
               if (querySnapshot.docs) {
-                  dispatch({ type: TYPES.CONSULTAR_ESTADISTICAS, payload:querySnapshot.docs });
+                
+                  dispatch({ type: TYPES.CONSULTAR_ESTADISTICAS, payload:querySnapshot.docs});
                   
                   //setError(null);
                 } else {
                   dispatch({ type: TYPES.SIN_DATOS });
                   //setError();
                 }
-              
-            return querySnapshot.docs
-              
-            }
-  
-          }
+                return querySnapshot.docs
+             
+              }
+          
       //actualizar datos de usuario
        const updateData = async(id:any,data:any) => {
         await updateDoc(doc(db2,'Users',id),{
@@ -333,23 +388,17 @@ const Admin: React.FC<Props2> = ({state,dispatch}) => {
       const deleteData = async(recibidorId:any) => {
       
         const eliminar= await deleteDoc(doc(db2, 'Users', recibidorId));
-        
+        dispatch({ type: TYPES.ELIMINAR_USUARIO, payload: recibidorId });
         setOpenDelete(false)
         
    
      };
-
+     
      const deleteDataPayment = async(recibidorId:any) => {
       //const eliminar= await deleteDoc(doc(db2, 'Payments'),where("clienteid","==",recibidorId));
      }
      //eliminar nota del usuario
-     const deleteDataNote = async(id:any) => {
-      const eliminar= await deleteDoc(doc(db2, 'Notes', id));
-       let isDelete = window.confirm(
-         `¿Estás seguro de eliminar el registro con el id '${id}'?`
-       );
-   };
-  
+
   
    
   return (
@@ -384,7 +433,7 @@ const Admin: React.FC<Props2> = ({state,dispatch}) => {
         </DialogActions>
       </Dialog>
   
-    <Outlet context={{db,dbnote,dbpayments,dbusersready,dbstatistics,recibidorId,getUserStatistics,getDataUserReady,addPayment,addData, getData,updateData,deleteData,addPay,addDataNote,updateDataNote,deleteDataNote,getDataNote,handleClickOpenDelete,getDataPayments}} />
+    <Outlet context={{db,dbnote,dbpayments,dbusersready,dbstatistics,recibidorId,getUserStatistics,getDataUserReady,addPayment,addData, getData,updateData,deleteData,addPay,addDataNote,updateDataNote,getDataNote,handleClickOpenDelete,getDataPayments,dispatch}} />
     </>
   )
 }

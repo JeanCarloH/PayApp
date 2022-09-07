@@ -22,6 +22,7 @@ export function userReducer(state , action) {
           dbnote: action.payload.map((producto) =>  ({ id: producto.id, ...producto.data() })),
         };
       }
+
       case TYPES.CONSULTAR_PAGOS: {
         return {
           ...state,
@@ -38,6 +39,24 @@ export function userReducer(state , action) {
         return {
           ...state,
           dbstatistics: action.payload.map((producto) =>  ({ id: producto.id, ...producto.data() })),
+        };
+      }
+      case TYPES.ELIMINAR_NOTA: {
+        return {
+          ...state,
+          dbnote: state.dbnote.filter((nota) => (nota.id !== action.payload)),
+        };
+      }
+      case TYPES.ELIMINAR_USUARIO: {
+        return {
+          ...state,
+          db: state.db.filter((user) => (user.id !== action.payload)),
+        };
+      }
+      case TYPES.ELIMINAR_PAGO: {
+        return {
+          ...state,
+          dbpayments: state.dbpayments.filter((payments) => (payments.id !== action.payload)),
         };
       }
       case TYPES.CREAR_PRODUCTO: {

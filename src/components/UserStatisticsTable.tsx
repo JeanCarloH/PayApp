@@ -60,8 +60,8 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
   const UserStatisticsTable: React.FC<Props6> = ({tipo, tipoMes})=> {
     const { dbstatistics}:any = useOutletContext();
 
-  console.log(dbstatistics,"soy la dbstatistics")
-  const totaldia= dbstatistics.reduce((total:any,item:any)=>item.abono+total,0)
+  
+  const totalcobro= dbstatistics.reduce((total:any,item:any)=>item.abono+total,0)
   
     return ( 
       <>
@@ -70,9 +70,9 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
           <Table sx={{ width:"100%" }} aria-label="customized table">
             <TableHead>
               <TableRow>
-                {tipo==1&&
-                <StyledTableCell>Cobro del dia </StyledTableCell>
-                }
+               
+                <StyledTableCell>Total cobro  </StyledTableCell>
+                
                 
                </TableRow>
             </TableHead>
@@ -82,9 +82,12 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
              
               <StyledTableRow >
                   <StyledTableCell align="left">
-                    {tipo==1&&
-                                totaldia
-                    }
+                   
+                   {dbstatistics.length>0&&
+
+                   totalcobro}
+
+                   
                  
                   </StyledTableCell>
                   </StyledTableRow>

@@ -55,9 +55,13 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
   
   //para eliminar un pago (recien agregado.. pendiente de probar)
   const UserPaymentTable = ()=> {
+    const {dispatch}:any = useOutletContext();
+    const [id, setId] = React.useState("");
     const {dbpayments, recibidorId}:any = useOutletContext();
     const [open, setOpen] = React.useState(false);
-    const handleClickOpen = () => {
+ 
+    const handleClickOpen = (id:any) => {
+      setId(id);
       setOpen(true);
     };
   
@@ -65,12 +69,12 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
       setOpen(false);
     };
   
-    const deletepayment = async () => {
-
-      const docRef = doc(db2, "Payments",recibidorId);
+    const deletePayment = async () => {
+        console.log(id,"si entre y soy el id")
+      const docRef = doc(db2, "Payments",id);
       const docSnap = await getDoc(docRef);
       const docRef2 = doc(db2, "Users",recibidorId);
-      const docSnap2 = await getDoc(docRef);
+      const docSnap2 = await getDoc(docRef2);
       let resultado2;
       if (docSnap2.exists()) {
         resultado2=docSnap2.data().monto;
@@ -79,17 +83,17 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
      let resultado;
      
       if (docSnap.exists()) {
-     
+     console.log("entre al 1 mas importantes")
          resultado=docSnap.data().abono;
         
-         await deleteDoc(doc(db2, "payments", recibidorId));
-          
+         await deleteDoc(doc(db2, "Payments", id));
+        dispatch({type:"ELIMINAR_PAGO",payload:id});
   
       } else {
       
         console.log("No such document!");
       }
-      
+      setOpen(false)
       await updateDoc(doc(db2, "Users",recibidorId),{ monto:resultado2+resultado, })
     }
    
@@ -112,7 +116,7 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
              {dbpayments.length>0 &&
              
             dbpayments.map((row:any) => ( 
-             
+            
               
               <StyledTableRow key={row.id}>
                   <StyledTableCell align="left">
@@ -128,7 +132,7 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
                   <StyledTableCell align="center">
                   <DeleteIcon
                   sx={{m:1}}
-                  //onClick={() =>handleClickOpenDelete(product.id)}
+                  onClick={() =>handleClickOpen(row.id)}
                   />
                    </StyledTableCell>
 
@@ -142,10 +146,10 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
         </TableContainer>
 
         <Dialog open={open} onClose={handleClose}>
-        <DialogTitle>¿Deseas eliminar este cliente?</DialogTitle>
+        <DialogTitle>¿Deseas eliminar este abono?</DialogTitle>
         <DialogActions>
-          <Button >Cancelar</Button>
-          <Button >Aceptar</Button>
+          <Button onClick={handleClose}>Cancelar</Button>
+          <Button onClick={deletePayment}>Aceptar</Button>
         </DialogActions>
       </Dialog>
       </>
