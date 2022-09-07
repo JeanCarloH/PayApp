@@ -19,16 +19,11 @@ import {
 import UserStatisticsTable from './UserStatisticsTable';
 import { useOutletContext } from "react-router-dom";
 import { useEffect } from 'react';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+
 import Stack from '@mui/material/Stack';
 import TextField from '@mui/material/TextField';
-import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-// or for Luxon
-import { AdapterLuxon } from '@mui/x-date-pickers/AdapterLuxon';
-// or for Moment.js
-import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
-import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
+
+
   const initialForm = {
     tipo:"",
     tipoMes:"",

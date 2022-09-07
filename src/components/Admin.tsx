@@ -54,6 +54,7 @@ const Admin: React.FC<Props2> = ({state,dispatch}) => {
   const [recibidorId, setRecibidorId] = React.useState("");
   const [recibidorObjeto, setRecibidorObjeto] = React.useState("");
   const inputref:any= useRef();
+  const clave:any= useRef();
   
   useEffect(() => {
     getDataUserReady();
@@ -383,7 +384,7 @@ const Admin: React.FC<Props2> = ({state,dispatch}) => {
        const updateData = async(id:any,data:any) => {
         await updateDoc(doc(db2,'Users',id),{
           tipo:data.tipo,
-          monto:data.monto,
+          //no debo dejar editar el monto
           direccion:data.direccion,
           nombre:data.nombre,
           apellido:data.apellido,
@@ -405,9 +406,11 @@ const Admin: React.FC<Props2> = ({state,dispatch}) => {
          };
          //eliminar usuario 
       const deleteData = async(recibidorId:any) => {
-      
+      if(clave.current.value==1234){
         const eliminar= await deleteDoc(doc(db2, 'Users', recibidorId));
         dispatch({ type: TYPES.ELIMINAR_USUARIO, payload: recibidorId });
+        setOpenDelete(false)
+      }
         setOpenDelete(false)
         
    
@@ -447,6 +450,14 @@ const Admin: React.FC<Props2> = ({state,dispatch}) => {
       <Dialog open={openDelete} onClose={handleCloseDelete}>
         <DialogTitle>¿Deseas eliminar este cliente?</DialogTitle>
         <DialogActions>
+        <input
+            autoFocus={true}
+            name='cantidad'
+            id="name"
+            type='number'
+            ref={clave}
+           
+          />
           <Button onClick={handleCloseDelete}>Cancelar</Button>
           <Button onClick={eliminar}>Aceptar</Button>
         </DialogActions>

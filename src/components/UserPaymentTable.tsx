@@ -29,6 +29,7 @@ import Checkbox from '@mui/material/Checkbox';
 import PaidIcon from '@mui/icons-material/Paid';
 import { db2 } from '../firebase';
 import { useEffect,useState } from "react";
+import { useRef } from 'react';
 
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -55,6 +56,8 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
   
   //para eliminar un pago (recien agregado.. pendiente de probar)
   const UserPaymentTable = ()=> {
+    const clave:any= useRef();
+  
     const {dispatch}:any = useOutletContext();
     const [id, setId] = React.useState("");
     const {dbpayments, recibidorId}:any = useOutletContext();
@@ -70,31 +73,34 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
     };
   
     const deletePayment = async () => {
+      if(clave.current.value==1234){
         console.log(id,"si entre y soy el id")
-      const docRef = doc(db2, "Payments",id);
-      const docSnap = await getDoc(docRef);
-      const docRef2 = doc(db2, "Users",recibidorId);
-      const docSnap2 = await getDoc(docRef2);
-      let resultado2;
-      if (docSnap2.exists()) {
-        resultado2=docSnap2.data().monto;
-      }
-      
-     let resultado;
-     
-      if (docSnap.exists()) {
-     console.log("entre al 1 mas importantes")
-         resultado=docSnap.data().abono;
+        const docRef = doc(db2, "Payments",id);
+        const docSnap = await getDoc(docRef);
+        const docRef2 = doc(db2, "Users",recibidorId);
+        const docSnap2 = await getDoc(docRef2);
+        let resultado2;
+        if (docSnap2.exists()) {
+          resultado2=docSnap2.data().monto;
+        }
         
-         await deleteDoc(doc(db2, "Payments", id));
-        dispatch({type:"ELIMINAR_PAGO",payload:id});
-  
-      } else {
-      
-        console.log("No such document!");
+       let resultado;
+       
+        if (docSnap.exists()) {
+       console.log("entre al 1 mas importantes")
+           resultado=docSnap.data().abono;
+          
+           await deleteDoc(doc(db2, "Payments", id));
+          dispatch({type:"ELIMINAR_PAGO",payload:id});
+    
+        } else {
+        
+          console.log("No such document!");
+        }
+        setOpen(false)
+        await updateDoc(doc(db2, "Users",recibidorId),{ monto:resultado2+resultado, })
       }
-      setOpen(false)
-      await updateDoc(doc(db2, "Users",recibidorId),{ monto:resultado2+resultado, })
+       setOpen(false)
     }
    
 
@@ -148,6 +154,14 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
         <Dialog open={open} onClose={handleClose}>
         <DialogTitle>¿Deseas eliminar este abono?</DialogTitle>
         <DialogActions>
+        <input
+            autoFocus={true}
+            name='cantidad'
+            id="name"
+            type='number'
+            ref={clave}
+           
+          />
           <Button onClick={handleClose}>Cancelar</Button>
           <Button onClick={deletePayment}>Aceptar</Button>
         </DialogActions>

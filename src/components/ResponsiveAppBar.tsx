@@ -181,6 +181,7 @@ const ResponsiveAppBar = () => {
               letterSpacing: ".3rem",
               color: "white",
               textDecoration: "none",
+
             }}
           >
             PayApp
@@ -204,7 +205,7 @@ const ResponsiveAppBar = () => {
           {user&&
           user.email=="sofia@gmail.com"&&
            <h4> Hola Sofia</h4>}
-           <Box sx={{ display: { xs: "flex", md: "none" }, mr: -4 }} >
+           <Box sx={{ display: { xs: "flex", md: "none" }, mr: 0.1}} >
            {user&&
           user.email=="jeancarlocj14@gmail.com"&&
            <h4> Hola Jean Carlo</h4>}
@@ -220,18 +221,17 @@ const ResponsiveAppBar = () => {
 
 
           <Box sx={{display: { xs: "flex", md: "flex" }, mr: -0.5 }}>
+            <Grid sx={{ display: { xs: "none", md: "flex" }, mr: -0.5 }}>
             {user&&
-              <Tooltip title="Administrador">
-              <Link to="/admin">
+              
                 <IconButton sx={{ p: 0, color: grey[50], m: 1 }}>
                   <SupervisorAccountIcon />
                 </IconButton>
-              </Link>
-            </Tooltip>
+              
             }
-          
+         </Grid>
             
-            
+            <Box sx={{ display: { xs: "flex", md: "flex" }, mr: -0.5 }}>
             {user?
               <Tooltip title="Cerrar Sesión">
                 <Link to="/">
@@ -252,7 +252,7 @@ const ResponsiveAppBar = () => {
               </Tooltip>
             
             }
-           
+           </Box>
           </Box>
         </Toolbar>
       </Container>
