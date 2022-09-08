@@ -83,6 +83,7 @@ const Admin: React.FC<Props2> = ({state,dispatch}) => {
 
   const agregar =async()=>{
     const fecha2 = Date.now();
+    const fecha22= fecha2.toString();
    console.log(inputref.current.value,"soy la cantidad")
     
     const docRef = doc(db2, "Users",recibidorId);
@@ -98,7 +99,7 @@ const Admin: React.FC<Props2> = ({state,dispatch}) => {
          abono:parseInt(inputref.current.value),
          monto:resultado2-parseInt(inputref.current.value),
          fecha:now,
-         fecha2:fecha2, //fecha en epoch
+         fecha2:fecha22, //fecha en epoch
          clienteid:recibidorId,
          nombre:docSnap.data().nombre
         })
@@ -359,11 +360,12 @@ const Admin: React.FC<Props2> = ({state,dispatch}) => {
           "año-mes-dia"
           let fecha1 = new Date(value).getTime();
           let fecha2 = new Date(value2).getTime();
+          console.log(fecha1,fecha2,"somos las dos fechas")
          let fecha11= fecha1.toString();
         let fecha22=fecha2.toString();
         var someDate = new Date("2022-09-06").getTime();
        
-     console.log(someDate,"la que es")
+    // console.log(someDate,"la que es")
               const consulta=query(collection(db2, "Payments"),where('fecha2','>=',fecha11),where('fecha2','<=',fecha22));
               const querySnapshot = await getDocs(consulta);
             

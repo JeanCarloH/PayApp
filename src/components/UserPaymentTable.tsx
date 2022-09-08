@@ -107,7 +107,7 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
     return (
       <>
      
-        <TableContainer sx={{ m: 3 }} component={Paper}>
+        <TableContainer sx={{ m: -0.1 }} component={Paper}>
           <Table sx={{ width:"100%" }} aria-label="customized table">
             <TableHead>
               <TableRow>

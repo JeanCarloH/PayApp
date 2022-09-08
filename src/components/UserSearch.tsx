@@ -29,7 +29,7 @@ const UserSearch = () => {
       
       }
       const handleChange3 =()=>{
-        setBusqueda(null);
+        setBusqueda("");
       }
       useEffect(()=>{
         getData(busqueda);

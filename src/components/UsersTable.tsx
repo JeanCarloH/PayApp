@@ -69,7 +69,7 @@ const UsersTable: React.FC<Props4> = ({busqueda})=> {
   return (
     <>
    
-      <TableContainer sx={{ m: 0.5 }} component={Paper}>
+      <TableContainer sx={{ m: -0.1 }} component={Paper}>
         <Table sx={{ width:"100%" }} aria-label="customized table">
           <TableHead>
             <TableRow>

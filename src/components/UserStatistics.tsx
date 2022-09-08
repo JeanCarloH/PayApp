@@ -75,7 +75,7 @@ const UserStatistics = () => {
       />
       
     </Box>
-    <Box sx={{display:'flex', justifyContent:'center'}}>
+    <Box sx={{display:'flex', justifyContent:'center', marginBottom:2}}>
     <Button
                 onClick={() =>getUserStatistics(value.current.value,value2.current.value)}
                 variant="contained"
