@@ -75,7 +75,8 @@ const Admin: React.FC<Props2> = ({state,dispatch}) => {
   
   };
   const eliminar =()=>{
-    deleteData(recibidorId);
+   // deleteData(recibidorId);
+   deleteData2(recibidorId);
     deleteDataPayment(recibidorId);
   }
 
@@ -149,7 +150,7 @@ const Admin: React.FC<Props2> = ({state,dispatch}) => {
     const getDataUserReady = async () => {
     
    
-      const consulta2=query(collection(db2, "Users")) //me trae6 
+      const consulta2=query(collection(db2, "Users"),where("propietario","==",user.email)) //me trae6 
       const consulta=query(collection(db2, "Payments"),where("fecha","==",now)); //me trae 5
 
       const querySnapshot = await getDocs(consulta);
@@ -413,6 +414,22 @@ const Admin: React.FC<Props2> = ({state,dispatch}) => {
       }
         setOpenDelete(false)
         
+   
+     };
+     const deleteData2 = async(recibidorId:any) => {
+      console.log("entree dd")
+      if(clave.current.value==1234){
+        let consulta= query(collection(db2,'Payments'),where('clienteid','==',recibidorId));
+        let querySnapshot = await getDocs(consulta);
+        querySnapshot.forEach((doc) => {
+          deleteDoc(doc.ref);
+    
+        })
+        const eliminar= await deleteDoc(doc(db2, 'Users', recibidorId));
+        dispatch({ type: TYPES.ELIMINAR_USUARIO, payload: recibidorId }); 
+        setOpenDelete(false)
+      }
+        setOpenDelete(false)
    
      };
      
