@@ -78,11 +78,9 @@ const Admin: React.FC<Props2> = ({state,dispatch}) => {
   const eliminar =()=>{
    // deleteData(recibidorId);
    deleteData2(recibidorId);
-    deleteDataPayment(recibidorId);
+    
   }
-  // const cambiar= ()=>{
-  //   setCantidad(inputref)
-  // }
+ 
 
   const agregar =async()=>{
     if(inputref.current.value>0){
@@ -162,7 +160,7 @@ const Admin: React.FC<Props2> = ({state,dispatch}) => {
     const getDataUserReady = async () => {
     
    
-      const consulta2=query(collection(db2, "Users"),where("propietario","==",user.email)) //me trae6 
+      const consulta2=query(collection(db2, "Users"),where("propietario","==",user.email),where("tipo","==","1")) //me trae6 
       const consulta=query(collection(db2, "Payments"),where("fecha","==",now)); //me trae 5
 
       const querySnapshot = await getDocs(consulta);
@@ -420,32 +418,7 @@ const Admin: React.FC<Props2> = ({state,dispatch}) => {
    
      };
      
-     const deleteDataPayment = async(recibidorId:any) => {
-     // const eliminar= await deleteDoc(doc(db2, 'Payments'),where("clienteid","==",recibidorId));
-     }
-     //eliminar nota del usuario
-    //  const totalabonos = async() => {
-    //   const ref=collection(db2, "Payments")
-    //   const consulta=query(ref,where("clienteid","==",recibidorId));
-    //   const querySnapshot = await getDocs(consulta);
-  
-    //    console.log(querySnapshot.docs,"hola")
-    //     if (querySnapshot.docs) {
-    //       dispatch({ type: TYPES.CONSULTAR_PAGOS, payload:querySnapshot.docs });
-          
-       
-    //     } else {
-    //       dispatch({ type: TYPES.SIN_DATOS });
-        
-    //     }
-    //     return querySnapshot.docs
-    //   }
-      const handleChange = (e: React.ChangeEvent<HTMLInputElement>  ) => {
-       // e.preventDefault();
-        setCantidad(parseInt(e.target.value));
-    
-      };
-   
+
   return (
     <>
       <Dialog open={open} onClose={handleClose}>
@@ -457,10 +430,10 @@ const Admin: React.FC<Props2> = ({state,dispatch}) => {
             name='cantidad'
             id="name"
             type='number'
-            onChange={handleChange}
-            //ref={inputref}
-            value={cantidad}
-            
+          
+            ref={inputref}
+           
+            defaultValue={cantidad}
       
           />
           </Grid>
