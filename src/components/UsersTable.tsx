@@ -58,13 +58,14 @@ const temaNuevo = createTheme({
 
 
 const UsersTable: React.FC<Props4> = ({busqueda})=> {
-  const { db,deleteData, addPay, getDataPayments,handleClickOpenDelete}:any = useOutletContext();
+  const { db,deleteData, addPay, getDataPayments,handleClickOpenDelete,}:any = useOutletContext();
   const [checked, setChecked] = useState(true);
   const [busquedaPagos, setBusquedaPagos] = React.useState<string|null>("");
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setChecked(event.target.checked);
   };
+
 
 
   return (
@@ -77,11 +78,11 @@ const UsersTable: React.FC<Props4> = ({busqueda})=> {
               <StyledTableCell align="right">Nombre</StyledTableCell>
               <StyledTableCell align="right">Apellido</StyledTableCell>
               <StyledTableCell align="right">Celular</StyledTableCell>
-              <StyledTableCell align="right">Alias</StyledTableCell>
               <StyledTableCell align="right">Direccion</StyledTableCell>
               <StyledTableCell align="center">Monto</StyledTableCell>
               <StyledTableCell align="center">Tipo de pago</StyledTableCell>
               <StyledTableCell align="center">Abono</StyledTableCell>
+              <StyledTableCell align="center">Total abonos</StyledTableCell>
              <StyledTableCell align="center" >Acciones</StyledTableCell>
             </TableRow>
           </TableHead>
@@ -97,9 +98,6 @@ const UsersTable: React.FC<Props4> = ({busqueda})=> {
                   </StyledTableCell>
                   <StyledTableCell align="right">
                     {product.celular}
-                  </StyledTableCell>
-                  <StyledTableCell align="right">
-                    {product.alias}
                   </StyledTableCell>
                   <StyledTableCell align="right">
                     {product.direccion}
@@ -123,6 +121,9 @@ const UsersTable: React.FC<Props4> = ({busqueda})=> {
                   </StyledTableCell>
                   <StyledTableCell align="right">
                     {product.abono}
+                  </StyledTableCell>
+                  <StyledTableCell align="right">
+                    {product.totalabonos}
                   </StyledTableCell>
 
                  

@@ -50,10 +50,11 @@ const Admin: React.FC<Props2> = ({state,dispatch}) => {
   
   const [open, setOpen] = React.useState(false);
   const [openDelete, setOpenDelete] = React.useState(false);
-  //const [cantidad, setCantidad] = React.useState(0);
+  const [cantidad, setCantidad] = React.useState(0);
+  const [cantidadBoolean, setCantidadBoolean] = React.useState(false);
   const [recibidorId, setRecibidorId] = React.useState("");
   const [recibidorObjeto, setRecibidorObjeto] = React.useState("");
-  const inputref:any= useRef();
+  let inputref:any= useRef();
   const clave:any= useRef();
   
   useEffect(() => {
@@ -79,9 +80,12 @@ const Admin: React.FC<Props2> = ({state,dispatch}) => {
    deleteData2(recibidorId);
     deleteDataPayment(recibidorId);
   }
-
+  // const cambiar= ()=>{
+  //   setCantidad(inputref)
+  // }
 
   const agregar =async()=>{
+    if(inputref.current.value>0){
     const fecha2 = Date.now();
     const fecha22= fecha2.toString();
    console.log(inputref.current.value,"soy la cantidad")
@@ -91,10 +95,12 @@ const Admin: React.FC<Props2> = ({state,dispatch}) => {
     
    let resultado;
    let resultado2;
+   let resultado3;
     if (docSnap.exists()) {
-   
+     
        resultado=docSnap.data().abono;
         resultado2=docSnap.data().monto;
+        resultado3=docSnap.data().totalabonos;
         await addDoc(collection(db2,"Payments"),{
          abono:parseInt(inputref.current.value),
          monto:resultado2-parseInt(inputref.current.value),
@@ -114,7 +120,10 @@ const Admin: React.FC<Props2> = ({state,dispatch}) => {
     setOpen(false)
     
     // setCantidad(resultado);
+   
+    
     await updateDoc(doc(db2, "Users",recibidorId),{ monto:resultado2-parseInt(inputref.current.value), })
+    await updateDoc(doc(db2, "Users",recibidorId),{ totalabonos:resultado3+1, })
     const consulta=query(collection(db2, "Users"),where("propietario","==",user.email));
     const querySnapshot = await getDocs(consulta);
               if (querySnapshot.docs) {
@@ -126,8 +135,10 @@ const Admin: React.FC<Props2> = ({state,dispatch}) => {
             
             }
           
-        return querySnapshot.docs
+            return querySnapshot.docs
   }
+  
+}
 
   const handleCloseDelete = () => {
     setOpenDelete(false);
@@ -195,7 +206,7 @@ const Admin: React.FC<Props2> = ({state,dispatch}) => {
       };
       //agregar abono (consultar realmente. mejorar despues)
       const addPay = async (id:string) => {
-     
+      
         setRecibidorId(id);
         
         const message="¿Quieres Abonar este valor?";
@@ -205,8 +216,9 @@ const Admin: React.FC<Props2> = ({state,dispatch}) => {
        let resultado=0;
        let resultado2=0;
         if (docSnap.exists()) {
-           resultado=docSnap.data().abono;
-    
+         
+          resultado=docSnap.data().abono;
+          setCantidad(resultado)
         } else {
         
           console.log("No such document!");
@@ -326,54 +338,6 @@ const Admin: React.FC<Props2> = ({state,dispatch}) => {
 
         }
 
-        // const getUserStatistics= async (value:any,value2:any) => {
-        // console.log(value,value2,"somos las dos fechas")
-        //   if(user){
-        //      if(value && value2){
-        //       const consulta=query(collection(db2, "Payments"),where("fecha",">=",value));
-        //       const querySnapshot = await getDocs(consulta);
-        //       const consulta2=query(collection(db2, "Payments"),where("fecha","<=",value2));
-        //       const querySnapshot2 = await getDocs(consulta2);
-        //       console.log(querySnapshot.docs,"rango mayor")
-        //       console.log(querySnapshot2.docs,"rango menor")
-        //        const pagoslistos= querySnapshot2.docs.filter(pago1 => 
-        //          querySnapshot.docs.find(pago2=> pago1.id==pago2.id)===undefined
-        //        );
-        //       console.log(pagoslistos,"soy pagos listos")
-        //       if (querySnapshot.docs) {
-                
-        //           dispatch({ type: TYPES.CONSULTAR_ESTADISTICAS, payload:pagoslistos });
-                  
-        //           //setError(null);
-        //         } else {
-        //           dispatch({ type: TYPES.SIN_DATOS });
-        //           //setError();
-        //         }
-        //         return querySnapshot.docs
-        //      }
-             
-        //       if(value){
-        //         const consulta=query(collection(db2, "Payments"),where("fecha",">=",value));
-        //         const querySnapshot = await getDocs(consulta);
-        //         console.log(value)
-        //         console.log( querySnapshot.docs)
-        //         console.log(querySnapshot.docs.map((doc:any)=>(doc.data().fecha)))
-                
-        //         if (querySnapshot.docs) {
-                
-        //           dispatch({ type: TYPES.CONSULTAR_ESTADISTICAS, payload:querySnapshot.docs });
-                  
-        //           //setError(null);
-        //         } else {
-        //           dispatch({ type: TYPES.SIN_DATOS });
-        //           //setError();
-        //         }6/09/2022
-        //         return querySnapshot.docs
-        //      }
-        //       }
-           
-              
-        //     }
         
          const getUserStatistics= async (value:string,value2:string) => {
           "año-mes-dia"
@@ -414,7 +378,6 @@ const Admin: React.FC<Props2> = ({state,dispatch}) => {
           nombre:data.nombre,
           apellido:data.apellido,
           celular:data.celular,
-          alias:data.alias,
           abono:data.abono,
           propietario:data.propietario,
 
@@ -461,8 +424,27 @@ const Admin: React.FC<Props2> = ({state,dispatch}) => {
      // const eliminar= await deleteDoc(doc(db2, 'Payments'),where("clienteid","==",recibidorId));
      }
      //eliminar nota del usuario
-
+    //  const totalabonos = async() => {
+    //   const ref=collection(db2, "Payments")
+    //   const consulta=query(ref,where("clienteid","==",recibidorId));
+    //   const querySnapshot = await getDocs(consulta);
   
+    //    console.log(querySnapshot.docs,"hola")
+    //     if (querySnapshot.docs) {
+    //       dispatch({ type: TYPES.CONSULTAR_PAGOS, payload:querySnapshot.docs });
+          
+       
+    //     } else {
+    //       dispatch({ type: TYPES.SIN_DATOS });
+        
+    //     }
+    //     return querySnapshot.docs
+    //   }
+      const handleChange = (e: React.ChangeEvent<HTMLInputElement>  ) => {
+       // e.preventDefault();
+        setCantidad(parseInt(e.target.value));
+    
+      };
    
   return (
     <>
@@ -475,15 +457,18 @@ const Admin: React.FC<Props2> = ({state,dispatch}) => {
             name='cantidad'
             id="name"
             type='number'
-            ref={inputref}
-           
+            onChange={handleChange}
+            //ref={inputref}
+            value={cantidad}
+            
+      
           />
           </Grid>
 
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Cancelar</Button>
-          
+       
           <Button onClick={agregar}>Aceptar</Button>
         </DialogActions>
       </Dialog>

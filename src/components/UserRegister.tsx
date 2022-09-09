@@ -33,12 +33,12 @@ import { useEffect } from 'react';
     nombre: "",
     apellido: "",
     celular:0,
-    alias:"",   
     direccion:"",
     monto:0, 
     tipo:"", 
     abono:0,
     propietario:"",
+    totalabonos:0,
   };
 
 
@@ -113,7 +113,6 @@ const UserRegister: React.FC<Props3> = ({edit}) => {
             !form.nombre ||
             !form.apellido ||
             !form.celular ||
-            !form.alias ||
             !form.monto ||
             !form.tipo ||
             !form.abono
@@ -168,15 +167,6 @@ const UserRegister: React.FC<Props3> = ({edit}) => {
             type='number'
             label="Celular"
             value={form.celular}
-          />
-        </Grid>
-        <Grid item xs={12} md={3}>
-          <TextField
-            name="alias"
-            onChange={handleChange}
-            required
-            label="alias"
-            value={form.alias}
           />
         </Grid>
         <Grid item xs={12} md={3} sx={{marginTop:1}}>

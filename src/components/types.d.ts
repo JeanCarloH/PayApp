@@ -14,12 +14,12 @@ export interface UserRegistered{
     nombre:string;
     apellido:string;
     celular:number;
-    alias:string;
     direccion:string;
     monto:number;   
     tipo:string;    
     abono:number;
     propietario:string;
+    totalabonos:number;
 }
 export type ActionType=
 |{ type:'CONSULTAR_PRODUCTO', payload}

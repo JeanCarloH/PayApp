@@ -80,8 +80,10 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
         const docRef2 = doc(db2, "Users",recibidorId);
         const docSnap2 = await getDoc(docRef2);
         let resultado2;
+         let resultado3;
         if (docSnap2.exists()) {
           resultado2=docSnap2.data().monto;
+          resultado3=docSnap2.data().totalabonos;
         }
         
        let resultado;
@@ -99,6 +101,7 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
         }
         setOpen(false)
         await updateDoc(doc(db2, "Users",recibidorId),{ monto:resultado2+resultado, })
+        await updateDoc(doc(db2, "Users",recibidorId),{ totalabonos:resultado3-1, })
       }
        setOpen(false)
     }
