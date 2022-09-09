@@ -258,16 +258,18 @@ const Admin: React.FC<Props2> = ({state,dispatch}) => {
           
         return querySnapshot.docs
         }
-        
       }
+        
+      
  
       //obtener los pagos de cada usuario
-      const getDataPayments = async (id:any) => {
+      const getDataPayments = async (id:any,busquedaPagos:any) => {
         
         setRecibidorId(id);
         if(user){
-          const ref=collection(db2, "Payments")
-          const consulta=query(ref,where("clienteid","==",id),orderBy("fecha"))
+          if(busquedaPagos){
+            const ref=collection(db2, "Payments")
+          const consulta=query(ref,where("clienteid","==",id),where("fecha","==",busquedaPagos));
           const querySnapshot = await getDocs(consulta);
       
            console.log(querySnapshot.docs,"hola")
@@ -279,12 +281,29 @@ const Admin: React.FC<Props2> = ({state,dispatch}) => {
               dispatch({ type: TYPES.SIN_DATOS });
             
             }
+            return querySnapshot.docs
+          }
+        }if(busquedaPagos==""){
+          const ref=collection(db2, "Payments")
+          const consulta=query(ref,where("clienteid","==",id),orderBy("fecha"))
+          const querySnapshot = await getDocs(consulta);
+      
+           
+            if (querySnapshot.docs) {
+              dispatch({ type: TYPES.CONSULTAR_PAGOS, payload:querySnapshot.docs });
+              
+           
+            } else {
+              dispatch({ type: TYPES.SIN_DATOS });
+            
+            }
           
+        
         return querySnapshot.docs
-          
-        }
-
       }
+    }
+  
+      
       
       const getDataNote = async () => {
         if(user){
@@ -360,13 +379,16 @@ const Admin: React.FC<Props2> = ({state,dispatch}) => {
           "año-mes-dia"
           let fecha1 = new Date(value).getTime();
           let fecha2 = new Date(value2).getTime();
-          console.log(fecha1,fecha2,"somos las dos fechas")
-         let fecha11= fecha1.toString();
-        let fecha22=fecha2.toString();
+      
+          let fecha11 = fecha1+18000000;
+          let fecha22 = fecha2+18000000;
+      
+         let fechaReal1= fecha11.toString();
+        let fechaReal2=fecha22.toString();
         var someDate = new Date("2022-09-06").getTime();
        
     // console.log(someDate,"la que es")
-              const consulta=query(collection(db2, "Payments"),where('fecha2','>=',fecha11),where('fecha2','<=',fecha22));
+              const consulta=query(collection(db2, "Payments"),where('fecha2','>=',fechaReal1),where('fecha2','<=',fechaReal2));
               const querySnapshot = await getDocs(consulta);
             
               console.log(querySnapshot.docs.map((doc:any)=>(doc.data())),"soy la fecha")
@@ -436,7 +458,7 @@ const Admin: React.FC<Props2> = ({state,dispatch}) => {
      };
      
      const deleteDataPayment = async(recibidorId:any) => {
-      //const eliminar= await deleteDoc(doc(db2, 'Payments'),where("clienteid","==",recibidorId));
+     // const eliminar= await deleteDoc(doc(db2, 'Payments'),where("clienteid","==",recibidorId));
      }
      //eliminar nota del usuario
 
