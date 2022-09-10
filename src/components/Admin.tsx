@@ -78,11 +78,13 @@ const Admin: React.FC<Props2> = ({state,dispatch}) => {
   const eliminar =()=>{
    // deleteData(recibidorId);
    deleteData2(recibidorId);
+<<<<<<< HEAD
    
+=======
+    
+>>>>>>> aaf1718768e05db49b8533e9cf4de57fc0489f3d
   }
-  // const cambiar= ()=>{
-  //   setCantidad(inputref)
-  // }
+ 
 
   const agregar =async()=>{
     if(inputref.current.value>0){
@@ -162,7 +164,7 @@ const Admin: React.FC<Props2> = ({state,dispatch}) => {
     const getDataUserReady = async () => {
     
    
-      const consulta2=query(collection(db2, "Users"),where("propietario","==",user.email)) //me trae6 
+      const consulta2=query(collection(db2, "Users"),where("propietario","==",user.email),where("tipo","==","1")) //me trae6 
       const consulta=query(collection(db2, "Payments"),where("fecha","==",now)); //me trae 5
 
       const querySnapshot = await getDocs(consulta);
@@ -420,6 +422,7 @@ const Admin: React.FC<Props2> = ({state,dispatch}) => {
    
      };
      
+<<<<<<< HEAD
     
       const handleChange = (e: React.ChangeEvent<HTMLInputElement>  ) => {
        // e.preventDefault();
@@ -427,6 +430,9 @@ const Admin: React.FC<Props2> = ({state,dispatch}) => {
     
       };
    
+=======
+
+>>>>>>> aaf1718768e05db49b8533e9cf4de57fc0489f3d
   return (
     <>
       <Dialog open={open} onClose={handleClose}>
@@ -438,10 +444,10 @@ const Admin: React.FC<Props2> = ({state,dispatch}) => {
             name='cantidad'
             id="name"
             type='number'
-            onChange={handleChange}
-            //ref={inputref}
-            value={cantidad}
-            
+          
+            ref={inputref}
+           
+            defaultValue={cantidad}
       
           />
           </Grid>
