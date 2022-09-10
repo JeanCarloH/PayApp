@@ -4,7 +4,10 @@ import UserReadyTable from './UserReadyTable'
 import { useOutletContext } from 'react-router-dom'
 const UserReady = () => {
   const { addPayment,dbpayments,dbusersready,getDataUserReady }:any = useOutletContext();
- 
+  useEffect(() => {
+    getDataUserReady();
+  
+  }, []);
   return (
     <>
     <UserReadyAppBar/>

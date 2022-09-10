@@ -57,10 +57,7 @@ const Admin: React.FC<Props2> = ({state,dispatch}) => {
   let inputref:any= useRef();
   const clave:any= useRef();
   
-  useEffect(() => {
-    getDataUserReady();
   
-  }, []);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -78,11 +75,7 @@ const Admin: React.FC<Props2> = ({state,dispatch}) => {
   const eliminar =()=>{
    // deleteData(recibidorId);
    deleteData2(recibidorId);
-<<<<<<< HEAD
    
-=======
-    
->>>>>>> aaf1718768e05db49b8533e9cf4de57fc0489f3d
   }
  
 
@@ -240,6 +233,7 @@ const Admin: React.FC<Props2> = ({state,dispatch}) => {
 
       //obtener datos dependiendo de la busqueda
     const getData = async (busqueda:any) => {
+      
       if(user){
         if(busqueda){
           const consulta=query(collection(db2, "Users"),where("propietario","==",user.email),where("nombre","==",busqueda));
@@ -422,17 +416,13 @@ const Admin: React.FC<Props2> = ({state,dispatch}) => {
    
      };
      
-<<<<<<< HEAD
     
-      const handleChange = (e: React.ChangeEvent<HTMLInputElement>  ) => {
-       // e.preventDefault();
-        setCantidad(parseInt(e.target.value));
+      // const handleChange = (e: React.ChangeEvent<HTMLInputElement>  ) => {
+      //  // e.preventDefault();
+      //   setCantidad(parseInt(e.target.value));
     
-      };
+      // };
    
-=======
-
->>>>>>> aaf1718768e05db49b8533e9cf4de57fc0489f3d
   return (
     <>
       <Dialog open={open} onClose={handleClose}>

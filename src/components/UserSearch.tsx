@@ -32,7 +32,7 @@ const UserSearch = () => {
         setBusqueda("");
       }
       useEffect(()=>{
-        getData(busqueda);
+        getData(busqueda?.toLowerCase());
       } ,[busqueda])
     const Search = styled('div')(({ theme }) => ({
         position: 'relative',

@@ -147,7 +147,7 @@ const UserRegister: React.FC<Props3> = ({edit}) => {
             onChange={handleChange}
             required
             label="Nombre"
-            value={form.nombre}
+            value={form.nombre.toLocaleLowerCase()}
           />
         </Grid>
         <Grid item xs={12} md={3}>

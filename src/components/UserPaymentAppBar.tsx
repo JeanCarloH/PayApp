@@ -74,7 +74,7 @@ const pages = [
     url: "/Admin/UserNote",
   },
   {
-    nombre: "Usuarios Restantes",
+    nombre: "Usuarios Faltantes",
     url: "/Admin/UserReady",
   },
   {
@@ -143,10 +143,13 @@ const pages = [
               ))}
             </Menu>
             <Typography variant="h6" noWrap component="div" sx={{ flexGrow: 1, marginTop:1.4 }} >
-                PayApp
+                PayApp 
+            </Typography>
+            <Typography variant="h6" noWrap component="div" sx={{ flexGrow: -5, marginTop:1.4 }} >
+                Pagos Usuarios
             </Typography>
             <Tooltip title="Regresar Inicio">
-          <Link to="/Admin/Home">
+          <Link to="/Admin/UserSearch">
             <IconButton sx={{flexGrow: 0, m: 1, color: grey[100]}}>
               <AssignmentReturnIcon/>
             </IconButton>

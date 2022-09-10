@@ -30,8 +30,8 @@ const Home =()=>{
   const getDataUserMora = async () => {
     
    
-    const consulta2=query(collection(db2, "Users"))
-   const consulta=query(collection(db2, "Payments"),where("fecha","<=",now),where("fecha",">=",antier)); //corone creo
+    const consulta2=query(collection(db2, "Users"),where("totalabonos",">",0));
+    const consulta=query(collection(db2, "Payments"),where("fecha","<=",now),where("fecha",">=",antier)); //corone creo
    
     const querySnapshot = await getDocs(consulta);
     const querySnapshot2 = await getDocs(consulta2);

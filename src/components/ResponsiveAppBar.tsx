@@ -47,7 +47,7 @@ const pages = [
     url: "/Admin/UserNote",
   },
   {
-    nombre: "Usuarios Restantes",
+    nombre: "Usuarios Faltantes",
     url: "/Admin/UserReady",
   },
   {
