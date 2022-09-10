@@ -60,6 +60,12 @@ export function userReducer(state , action) {
           db: state.db.filter((user) => (user.id !== action.payload)),
         };
       }
+      case TYPES.ELIMINAR_USUARIOLISTO: {
+        return {
+          ...state,
+          db: state.db.filter((user) => (user.id !== action.payload)),
+        };
+      }
       case TYPES.ELIMINAR_PAGO: {
         return {
           ...state,

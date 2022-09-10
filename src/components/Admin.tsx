@@ -78,7 +78,7 @@ const Admin: React.FC<Props2> = ({state,dispatch}) => {
   const eliminar =()=>{
    // deleteData(recibidorId);
    deleteData2(recibidorId);
-    deleteDataPayment(recibidorId);
+   
   }
   // const cambiar= ()=>{
   //   setCantidad(inputref)
@@ -420,26 +420,7 @@ const Admin: React.FC<Props2> = ({state,dispatch}) => {
    
      };
      
-     const deleteDataPayment = async(recibidorId:any) => {
-     // const eliminar= await deleteDoc(doc(db2, 'Payments'),where("clienteid","==",recibidorId));
-     }
-     //eliminar nota del usuario
-    //  const totalabonos = async() => {
-    //   const ref=collection(db2, "Payments")
-    //   const consulta=query(ref,where("clienteid","==",recibidorId));
-    //   const querySnapshot = await getDocs(consulta);
-  
-    //    console.log(querySnapshot.docs,"hola")
-    //     if (querySnapshot.docs) {
-    //       dispatch({ type: TYPES.CONSULTAR_PAGOS, payload:querySnapshot.docs });
-          
-       
-    //     } else {
-    //       dispatch({ type: TYPES.SIN_DATOS });
-        
-    //     }
-    //     return querySnapshot.docs
-    //   }
+    
       const handleChange = (e: React.ChangeEvent<HTMLInputElement>  ) => {
        // e.preventDefault();
         setCantidad(parseInt(e.target.value));
