@@ -8,14 +8,14 @@
       "type": "image/x-icon"
     },
     {
-      "src": "logo192.png",
+      "src": "PayApp_icon.png",
       "type": "image/png",
-      "sizes": "192x192"
+      "sizes": "101x88"
     },
     {
-      "src": "logo512.png",
+      "src": "PayApp_picture.png",
       "type": "image/png",
-      "sizes": "512x512"
+      "sizes": "304x253"
     }
   ],
   "start_url": ".",
