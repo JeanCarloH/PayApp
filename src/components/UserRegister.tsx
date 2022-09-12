@@ -141,7 +141,7 @@ const UserRegister: React.FC<Props3> = ({edit}) => {
         <Grid item xs={12} md={12}>
           <h2>Registre su cliente acá</h2>
         </Grid>
-        <Grid item xs={12} md={3}>
+        <Grid item xs={12} md={3} sx={{marginTop:1}}>
           <TextField
             name="nombre"
             onChange={handleChange}
@@ -150,7 +150,7 @@ const UserRegister: React.FC<Props3> = ({edit}) => {
             value={form.nombre.toLocaleLowerCase()}
           />
         </Grid>
-        <Grid item xs={12} md={3}>
+        <Grid item xs={12} md={3} sx={{marginTop:1}}>
           <TextField
             name="apellido"
             onChange={handleChange}
@@ -159,7 +159,7 @@ const UserRegister: React.FC<Props3> = ({edit}) => {
             value={form.apellido}
           />
         </Grid>
-        <Grid item xs={12} md={3}>
+        <Grid item xs={12} md={3} sx={{marginTop:1}}>
           <TextField
             name="celular"
             onChange={handleChange}
@@ -227,8 +227,8 @@ const UserRegister: React.FC<Props3> = ({edit}) => {
             value={user.email}
           />
         </Grid>
-        <ThemeProvider theme={temaNuevo}>
-          <Grid item xs={12} md={6}>
+        <ThemeProvider theme={temaNuevo} >
+          <Grid item xs={12} md={6} sx={{marginTop:1}}>
             <Link to={ruta}>
               <Button variant="contained" color="secondary">
                 regresar
@@ -236,7 +236,7 @@ const UserRegister: React.FC<Props3> = ({edit}) => {
             </Link>
           </Grid>
 
-          <Grid item xs={12} md={6}>
+          <Grid item xs={12} md={6} sx={{marginTop:1}}>
             <Link to={ruta}>
               <Button
                 onClick={handleSubmit}

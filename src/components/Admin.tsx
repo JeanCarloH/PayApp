@@ -102,7 +102,8 @@ const Admin: React.FC<Props2> = ({state,dispatch}) => {
          fecha:now,
          fecha2:fecha22, //fecha en epoch
          clienteid:recibidorId,
-         nombre:docSnap.data().nombre
+         nombre:docSnap.data().nombre,
+         propietario:docSnap.data().propietario,
         })
        
         
@@ -337,6 +338,7 @@ const Admin: React.FC<Props2> = ({state,dispatch}) => {
         
          const getUserStatistics= async (value:string,value2:string) => {
           "año-mes-dia"
+          console.log(typeof(user.email))
           let fecha1 = new Date(value).getTime();
           let fecha2 = new Date(value2).getTime();
       
@@ -345,10 +347,8 @@ const Admin: React.FC<Props2> = ({state,dispatch}) => {
       
          let fechaReal1= fecha11.toString();
         let fechaReal2=fecha22.toString();
-        var someDate = new Date("2022-09-06").getTime();
-       
-    // console.log(someDate,"la que es")
-              const consulta=query(collection(db2, "Payments"),where('fecha2','>=',fechaReal1),where('fecha2','<=',fechaReal2));
+ 
+              const consulta=query(collection(db2, "Payments"),where("propietario","==",user.email),where('fecha2','>=',fechaReal1),where('fecha2','<=',fechaReal2));
               const querySnapshot = await getDocs(consulta);
             
               console.log(querySnapshot.docs.map((doc:any)=>(doc.data())),"soy la fecha")
@@ -430,7 +430,7 @@ const Admin: React.FC<Props2> = ({state,dispatch}) => {
         <DialogContent>
           <Grid>
           <input
-            autoFocus={true}
+         //   autoFocus={true}
             name='cantidad'
             id="name"
             type='number'
@@ -454,7 +454,7 @@ const Admin: React.FC<Props2> = ({state,dispatch}) => {
         <DialogTitle>¿Deseas eliminar este cliente?</DialogTitle>
         <DialogActions>
         <input
-            autoFocus={true}
+          //  autoFocus={true}
             name='cantidad'
             id="name"
             type='number'

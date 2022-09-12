@@ -113,7 +113,7 @@ const UserPayment = () => {
          inputProps={{ "aria-label": "search" }}
          onChange={handlechange}
          value={busquedaPagos}
-         autoFocus
+        // autoFocus
        />
         
 
@@ -152,7 +152,7 @@ const UserPayment = () => {
          inputProps={{ "aria-label": "search" }}
          onChange={handlechange}
          value={busquedaPagos}
-         autoFocus
+       //  autoFocus
        />
         
 

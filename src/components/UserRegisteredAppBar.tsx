@@ -14,8 +14,8 @@ import { teal } from "@mui/material/colors";
 import {useState} from "react";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
-
-function appBarLabel(label:any,label2:any) {
+import { useLocation } from "react-router-dom";
+function appBarLabel(label:any,label2:any,ruta:any) {
   return (
     <Toolbar>
       <IconButton edge="start" color="inherit" aria-label="menu" sx={{ mr: 2 }}>
@@ -29,7 +29,7 @@ function appBarLabel(label:any,label2:any) {
       </Typography>
 
         <Tooltip title="Regresar">
-          <Link to="/Admin/UserSearch">
+          <Link to={ruta}>
             <IconButton sx={{flexGrow: 0, m: 1, color: grey[100]}}>
               <AssignmentReturnIcon/>
             </IconButton>
@@ -51,6 +51,15 @@ const greenTheme = createTheme({
 });
 
 export default function EnableColorOnDarkAppBar() {
+  const sampleLocation = useLocation();
+  console.log(sampleLocation.pathname)
+  let ruta="";
+   
+  if(sampleLocation.pathname=="/Admin/UserRegister"){
+    ruta="/Admin/home";
+  }else{
+    ruta="/Admin/UserSearch";
+  }
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElNav(event.currentTarget);
@@ -92,7 +101,7 @@ const pages = [
         
              
         <AppBar position="sticky" color="primary" >
-        {appBarLabel("PayApp","Registro")}
+        {appBarLabel("PayApp","Registro",ruta)}
   
   
         </AppBar>
@@ -149,7 +158,7 @@ const pages = [
                 Registrar 
             </Typography>
             <Tooltip title="Regresar Inicio">
-          <Link to="/Admin/Home">
+          <Link to={ruta}>
             <IconButton sx={{flexGrow: 0, m: 1, color: grey[100]}}>
               <AssignmentReturnIcon/>
             </IconButton>

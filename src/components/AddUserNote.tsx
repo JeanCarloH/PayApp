@@ -6,6 +6,7 @@ import {Props5} from './types';
 import { useOutletContext, useParams } from "react-router-dom";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import TextField from "@mui/material/TextField";
+import { TextareaAutosize } from '@mui/material';
 import { Link } from "react-router-dom";
 import SaveIcon from "@mui/icons-material/Save";
 import {
@@ -44,7 +45,7 @@ const AddUserNote : React.FC<Props5>= ({edit}) => {
           },
         },
       });
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>  ) => {
+    const handleChange = (e: any ) => {
         e.preventDefault();
         setForm({
           ...form,
@@ -85,7 +86,7 @@ const AddUserNote : React.FC<Props5>= ({edit}) => {
         <Grid item xs={12} md={12}>
           <h2>Registre su Nota Acá</h2>
         </Grid>
-        <Grid item xs={12} md={6}>
+        <Grid item xs={12} md={6} sx={{marginTop:1}}>
           <TextField
             name="titulo"
             onChange={handleChange}
@@ -94,7 +95,7 @@ const AddUserNote : React.FC<Props5>= ({edit}) => {
             value={form.titulo}
           />
         </Grid>
-        <Grid item xs={12} md={6}>
+        <Grid item xs={12} md={6} sx={{marginTop:1}}>
           <TextField
             name="recordatorio"
             onChange={handleChange}
@@ -105,7 +106,7 @@ const AddUserNote : React.FC<Props5>= ({edit}) => {
           />
         </Grid>
         <ThemeProvider theme={temaNuevo}>
-          <Grid item xs={12} md={6} sx={{marginTop:2}} >
+          <Grid item xs={12} md={6} sx={{marginTop:1}} >
             <Link to="/Admin/UserNote">
               <Button variant="contained" color="secondary">
                 regresar
@@ -113,7 +114,7 @@ const AddUserNote : React.FC<Props5>= ({edit}) => {
             </Link>
           </Grid>
 
-          <Grid item xs={12} md={6} sx={{marginTop:2}} >
+          <Grid item xs={12} md={6} sx={{marginTop:1}} >
             <Link to="/Admin/UserNote">
               <Button
                 onClick={handleSubmit}

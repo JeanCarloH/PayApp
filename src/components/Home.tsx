@@ -7,7 +7,7 @@ import { doc, onSnapshot, collection, query, where,addDoc,updateDoc,setDoc,delet
 import { useEffect,useState } from "react";
 import { Link, useOutletContext } from "react-router-dom";
 import { FenceSharp } from "@mui/icons-material";
-
+import { useAuth } from '../context/authContext';
 var today = new Date();
  
 var now = today.toLocaleDateString('en-GB');
@@ -22,6 +22,7 @@ antierxd.setDate(antierxd.getDate() - 2)
 const antier =antierxd.toLocaleDateString('en-GB')
 console.log(now,ayer,antier)
 const Home =()=>{
+  const{user,logout,login}:any=useAuth() 
   const {dispatch,dbmora}:any = useOutletContext();
   useEffect(()=>{
     getDataUserMora();
@@ -30,7 +31,7 @@ const Home =()=>{
   const getDataUserMora = async () => {
     
    
-    const consulta2=query(collection(db2, "Users"),where("totalabonos",">",0));
+    const consulta2=query(collection(db2, "Users"),where("propietario","==",user.email),where("totalabonos",">",0));
     const consulta=query(collection(db2, "Payments"),where("fecha","<=",now),where("fecha",">=",antier)); //corone creo
    
     const querySnapshot = await getDocs(consulta);

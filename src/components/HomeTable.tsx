@@ -69,7 +69,7 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
           <Table sx={{ width:"100%" }} aria-label="customized table">
             <TableHead>
               <TableRow>
-                 <StyledTableCell align="left">Usuarios con más mora</StyledTableCell>
+                 <StyledTableCell align="left">USUARIOS EN MORA</StyledTableCell>
 
                </TableRow>
             </TableHead>

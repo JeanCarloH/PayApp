@@ -114,7 +114,7 @@ const UserSearch = () => {
          inputProps={{ "aria-label": "search" }}
          onChange={handlechange}
          value={busqueda}
-         autoFocus
+         //autoFocus
        />
         
 
@@ -153,7 +153,7 @@ const UserSearch = () => {
          inputProps={{ "aria-label": "search" }}
          onChange={handlechange}
          value={busqueda}
-         autoFocus
+         //autoFocus
        />
         
 

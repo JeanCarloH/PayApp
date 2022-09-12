@@ -158,7 +158,7 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
         <DialogTitle>¿Deseas eliminar este abono?</DialogTitle>
         <DialogActions>
         <input
-            autoFocus={true}
+            //autoFocus={true}
             name='cantidad'
             id="name"
             type='number'
