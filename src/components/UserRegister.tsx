@@ -121,8 +121,9 @@ const UserRegister: React.FC<Props3> = ({edit}) => {
             return;
           } else {
             if(edit){
+              console.log(id,"soy el useparams")
                 updateData(id, form);
-                console.log("entre")
+                
             } 
             else{
                 addData(form);

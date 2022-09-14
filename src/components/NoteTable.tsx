@@ -64,6 +64,9 @@ export default function Note() {
       <Typography variant="body2">
         {product.recordatorio}
       </Typography>
+      <Typography variant="body2">
+        Hora: {product.fecha}
+      </Typography>
     </CardContent>
     <CardActions>
     <Link to={`/Admin/EditUsernote/${product.id}`}>

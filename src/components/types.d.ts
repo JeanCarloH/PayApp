@@ -39,6 +39,7 @@ export interface Props4{
 export interface NoteAdded{
  titulo:string;
  recordatorio:string;
+ fecha:string;
  propietario:string;
 }
 

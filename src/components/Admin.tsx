@@ -11,7 +11,7 @@ import {
   } from "../reducers/userReducer";
   import { Props2 } from '../components/types';
  import { useAuth } from '../context/authContext';
-import { idText } from 'typescript';
+import { convertToObject, idText } from 'typescript';
 import { useOutletContext } from 'react-router-dom';
 import UsersTable from './UsersTable';
 import Button from '@mui/material/Button';
@@ -25,6 +25,7 @@ import { UserRegistered2 } from './types';
 import { Analytics, ConstructionOutlined, FenceSharp } from '@mui/icons-material';
 import { Grid } from '@mui/material';
 import { useRef } from 'react';
+import toast, { Toaster } from 'react-hot-toast';
 var today = new Date();
  
 
@@ -51,19 +52,69 @@ const Admin: React.FC<Props2> = ({state,dispatch}) => {
   const [open, setOpen] = React.useState(false);
   const [openDelete, setOpenDelete] = React.useState(false);
   const [cantidad, setCantidad] = React.useState(0);
+  const [fechas, setFechas] = React.useState([]);
   const [cantidadBoolean, setCantidadBoolean] = React.useState(false);
   const [recibidorId, setRecibidorId] = React.useState("");
   const [recibidorObjeto, setRecibidorObjeto] = React.useState("");
+  const [openNotificacion, setOpenNotificacion] = React.useState(false);
+  const [titulo, setTitulo] = React.useState("");
+  const [recordatorio, setRecordatorio] = React.useState("");
   let inputref:any= useRef();
   const clave:any= useRef();
+  let fecha:any=[];
+  React.useEffect(() => {
+    
+    setInterval(() => {
+
+   muestraReloj();
+   mirador();
+   }, 1000);
+}
+, [])
   
+  function muestraReloj():any {
+    var fechaHora = new Date();
+    var horas:any = fechaHora.getHours();
+    var minutos:any = fechaHora.getMinutes();
+    var segundos:any = fechaHora.getSeconds();
   
+    if(horas < 10) { horas = '0' + horas; }
+    if(minutos < 10) { minutos = '0' + minutos; }
+    if(segundos < 10) { segundos = '0' + segundos; }
+ 
+     let tiempo:string=horas + ':' + minutos + ':' + segundos;
+     console.log(tiempo)
+   return   tiempo;
+  }
+  const mirador = async() => {
+    const consulta=query(collection(db2, "Notes")); //me trae 5
+    const querySnapshot = await getDocs(consulta);
+    let titulo=querySnapshot.docs.map(doc => doc.data().titulo);
+    let recordatorio=querySnapshot.docs.map(doc => doc.data().recordatorio);
+    fecha= querySnapshot.docs.map(doc => doc.data().fecha);
+   
+  for (let i = 0; i < fecha.length; i++) {
+    if(muestraReloj() == fecha[i]){
+      //window.alert(titulo[i] + " " + recordatorio[i])
+      setTitulo(titulo[i])
+      setRecordatorio(recordatorio[i])
+      setOpenNotificacion(true)
+      
+    // return toast.success(titulo[i] + " " + recordatorio[i])
+         }
+    
+  }
+   
+  
+  }
+
 
   const handleClickOpen = () => {
     setOpen(true);
   };
 
   const handleClose = () => {
+    setOpenNotificacion(false);
     setOpen(false);
   };
 
@@ -80,10 +131,11 @@ const Admin: React.FC<Props2> = ({state,dispatch}) => {
  
 
   const agregar =async()=>{
+    console.log(inputref.current.value,"soy el useref");
     if(inputref.current.value>0){
     const fecha2 = Date.now();
     const fecha22= fecha2.toString();
-   console.log(inputref.current.value,"soy la cantidad")
+   
     
     const docRef = doc(db2, "Users",recibidorId);
     const docSnap = await getDoc(docRef);
@@ -200,10 +252,11 @@ const Admin: React.FC<Props2> = ({state,dispatch}) => {
         await addDoc(hola, object);
      
       };
-      //agregar abono (consultar realmente. mejorar despues)
+      //agregar abono 
       const addPay = async (id:string) => {
       
         setRecibidorId(id);
+        console.log(recibidorId,"soy el id del usestate")
         
         const message="¿Quieres Abonar este valor?";
         const docRef = doc(db2, "Users",id);
@@ -465,6 +518,18 @@ const Admin: React.FC<Props2> = ({state,dispatch}) => {
           <Button onClick={eliminar}>Aceptar</Button>
         </DialogActions>
       </Dialog>
+
+      <Dialog open={openNotificacion} onClose={handleClose}>
+      <DialogTitle>{titulo}</DialogTitle>
+      <DialogContent>
+       {recordatorio}
+      </DialogContent>
+      <DialogActions>
+        <Button onClick={handleClose}>Cancelar</Button>
+     
+        <Button onClick={handleClose}>Aceptar</Button>
+      </DialogActions>
+    </Dialog>
   
     <Outlet context={{db,dbnote,dbpayments,dbusersready,dbstatistics,dbmora,recibidorId,getUserStatistics,getDataUserReady,addPayment,addData, getData,updateData,deleteData,addPay,addDataNote,updateDataNote,getDataNote,handleClickOpenDelete,getDataPayments,dispatch}} />
     </>

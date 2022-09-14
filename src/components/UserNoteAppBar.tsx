@@ -55,7 +55,7 @@ const greenTheme = createTheme({
 
 export default function EnableColorOnDarkAppBar() {
   const sampleLocation = useLocation();
-  console.log(sampleLocation.pathname)
+  
   let ruta="";
    
   if(sampleLocation.pathname=="/Admin/UserNote"){

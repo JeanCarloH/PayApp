@@ -25,6 +25,7 @@ import {
 const initialForm = {
     titulo: "",
     recordatorio:"",
+    fecha:"",
     propietario:"",
 
   };
@@ -72,7 +73,7 @@ const AddUserNote : React.FC<Props5>= ({edit}) => {
                 } 
                 else{
                     addDataNote(form)
-                    console.log("entre a registrar")
+                   
                 }
               }
                 handleReset();
@@ -86,7 +87,7 @@ const AddUserNote : React.FC<Props5>= ({edit}) => {
         <Grid item xs={12} md={12}>
           <h2>Registre su Nota Acá</h2>
         </Grid>
-        <Grid item xs={12} md={6} sx={{marginTop:1}}>
+        <Grid item xs={12} md={4} sx={{marginTop:1}}>
           <TextField
             name="titulo"
             onChange={handleChange}
@@ -95,7 +96,7 @@ const AddUserNote : React.FC<Props5>= ({edit}) => {
             value={form.titulo}
           />
         </Grid>
-        <Grid item xs={12} md={6} sx={{marginTop:1}}>
+        <Grid item xs={12} md={4} sx={{marginTop:1}}>
           <TextField
             name="recordatorio"
             onChange={handleChange}
@@ -105,7 +106,19 @@ const AddUserNote : React.FC<Props5>= ({edit}) => {
             value={form.recordatorio}
           />
         </Grid>
+        <Grid item xs={12} md={4} sx={{marginTop:1}}>
+          <TextField
+            name="fecha"
+            onChange={handleChange}
+            type="text"
+            required
+            label="fecha"
+            value={form.fecha}
+          />
+        </Grid>
+   
         <ThemeProvider theme={temaNuevo}>
+          <Grid container textAlign="center">
           <Grid item xs={12} md={6} sx={{marginTop:1}} >
             <Link to="/Admin/UserNote">
               <Button variant="contained" color="secondary">
@@ -125,6 +138,7 @@ const AddUserNote : React.FC<Props5>= ({edit}) => {
                 guardar
               </Button>
             </Link>
+          </Grid>
           </Grid>
         </ThemeProvider>
         </Grid>

@@ -52,7 +52,7 @@ const greenTheme = createTheme({
 
 export default function EnableColorOnDarkAppBar() {
   const sampleLocation = useLocation();
-  console.log(sampleLocation.pathname)
+  console.log(sampleLocation.pathname,"soy el uselocation")
   let ruta="";
    
   if(sampleLocation.pathname=="/Admin/UserRegister"){
