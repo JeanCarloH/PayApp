@@ -27,19 +27,9 @@ export default function UserNote() {
 
     }
     , [])
-    // Notification.requestPermission().then(function(result) {
-    //   console.log(result);
-    // });
-    // const createNotification = () => {
-    //   var img = '/to-do-notifications/img/icon-128.png';
-    //   var text = '¡OYE! Tu tarea " " ahora está vencida.';
-    //   var notification = new Notification('Lista de tareas')
-    //   console.log(notification)
-    // }
+ 
 
 
-
-   
 
   return (
     <>

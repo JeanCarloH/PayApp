@@ -64,11 +64,11 @@ const Admin: React.FC<Props2> = ({state,dispatch}) => {
   let fecha:any=[];
   React.useEffect(() => {
     
-    setInterval(() => {
+  //   setInterval(() => {
 
-   muestraReloj();
-   mirador();
-   }, 1000);
+  //  muestraReloj();
+  //  mirador();
+  //  }, 1000);
 }
 , [])
   
