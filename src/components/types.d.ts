@@ -63,3 +63,7 @@ export interface Props7{
         monto:number;     
 
     }
+export interface xd{
+    title:string;
+    body:string;
+}

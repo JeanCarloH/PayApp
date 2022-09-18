@@ -1,7 +1,12 @@
 import React from "react";
 import { HashRouter, Route, Routes } from "react-router-dom";
-import logo from "./logo.svg";
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
 import "./App.css";
+import Button from '@mui/material/Button';
 import { AuthProvider } from "./context/authContext";
 import Login from "./components/Login";
 import Home from "./components/Home";
@@ -15,23 +20,43 @@ import AddUserNote from "./components/AddUserNote";
 import UserPayment from "./components/UserPayment";
 import UserReady from "./components/UserReady";
 import UserStatistics from "./components/UserStatistics";
-
+import { getToken2 } from "./firebase";
+import { onMessageListener } from "./firebase";
+import { xd } from "./components/types";
 function App() {
-  if ('serviceWorker' in navigator) {
-    window.addEventListener('load', function() {
-      navigator.serviceWorker.register('/sw.js').then(function(registration) {
-        // Si es exitoso
-        console.log('SW registrado correctamente');
-      }, function(err) {
-        // Si falla
-        console.log('SW fallo', err);
-      });
-    });
-  }
+  // if ('serviceWorker' in navigator) {
+  //   window.addEventListener('load', function() {
+  //     navigator.serviceWorker.register('/sw.js').then(function(registration) {
+  //       // Si es exitoso
+  //       console.log('SW registrado correctamente');
+  //     }, function(err) {
+  //       // Si falla
+  //       console.log('SW fallo', err);
+  //     });
+  //   });
+  // }
+  //const [openNotificacion, setOpenNotificacion] = React.useState(false);
+
+  const [show, setShow] = useState(false);
+  const [notification, setNotification] = useState<xd>({title: '', body: ''});
+
+  const [isTokenFound, setTokenFound] = useState(false);
+  getToken2(setTokenFound);
+
   const [state, dispatch] = useReducer(userReducer, userInitialState);
+
+  onMessageListener().then((payload:any) => {
+    setShow(true);
+    setNotification({title: payload.notification.title, body: payload.notification.body})
+    console.log(payload);
+  }).catch(err => console.log('failed: ', err));
+  const handleClose = () => {
+    setShow(false);
+   
+  };
   return (
     <>
-      <AuthProvider>
+      <AuthProvider >
         <HashRouter>
           <Routes>
             <Route path="/" element={<Login />} />
@@ -64,6 +89,24 @@ function App() {
           </Routes>
         </HashRouter>
       </AuthProvider>
+   {show ?(
+         <Dialog open={show} onClose={handleClose}>
+         <DialogTitle>{notification.title}</DialogTitle>
+         <DialogContent>
+         {notification.body}
+         </DialogContent>
+         <DialogActions>
+           <Button onClick={handleClose}>Cancelar</Button>
+        
+           <Button onClick={handleClose}>Aceptar</Button>
+         </DialogActions>
+       </Dialog>
+   ):(
+      <></>
+   )}
+
+
+   
     </>
   );
 }
