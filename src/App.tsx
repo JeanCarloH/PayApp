@@ -21,6 +21,7 @@ import { onMessageListener } from "./firebase";
 import Button from "@mui/material/Button";
 import { IconButton, Snackbar } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
+
 function App() {
   const [show, setShow] = useState(false);
   const [isTokenFound, setTokenFound] = useState(false);
