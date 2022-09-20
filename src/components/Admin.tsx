@@ -1,4 +1,6 @@
+
 import React , { ChangeEvent } from 'react'
+
 import { Outlet } from "react-router-dom";
 import { useEffect, useReducer, useState } from "react";
 import { doc, onSnapshot, collection, query, where,addDoc,updateDoc,setDoc,deleteDoc,getDocs,getDoc,documentId,orderBy} from "firebase/firestore";
@@ -9,6 +11,7 @@ import {
     userInitialState,
     userReducer,
   } from "../reducers/userReducer";
+
   import { Props2 } from '../components/types';
  import { useAuth } from '../context/authContext';
 import { convertToObject, idText } from 'typescript';
@@ -26,6 +29,10 @@ import { Analytics, ConstructionOutlined, FenceSharp } from '@mui/icons-material
 import { Grid } from '@mui/material';
 import { useRef } from 'react';
 import toast, { Toaster } from 'react-hot-toast';
+
+import {getAuth} from "firebase/auth";
+import { getMessaging } from 'firebase/messaging';
+
 var today = new Date();
  
 
@@ -50,6 +57,7 @@ const antier =antierxd.toLocaleDateString('en-GB')
 const Admin: React.FC<Props2> = ({state,dispatch}) => {
   
   const [open, setOpen] = React.useState(false);
+  
   const [openDelete, setOpenDelete] = React.useState(false);
   const [cantidad, setCantidad] = React.useState(0);
   const [fechas, setFechas] = React.useState([]);
@@ -62,15 +70,23 @@ const Admin: React.FC<Props2> = ({state,dispatch}) => {
   let inputref:any= useRef();
   const clave:any= useRef();
   let fecha:any=[];
+  const { db}:any = state;
+  const {dbnote}:any =state;
+  const {dbpayments}:any =state;
+  const {dbusersready}:any =state;
+  const {dbstatistics}:any =state;
+  const {dbmora}:any =state;
+  const topic="notes";
   React.useEffect(() => {
-    
-  //   setInterval(() => {
+   
 
-  //  muestraReloj();
-  //  mirador();
-  //  }, 1000);
-}
+ }
 , [])
+// setInterval(() => {
+
+//   muestraReloj();
+//   mirador();
+//   }, 1000);
   
   function muestraReloj():any {
     var fechaHora = new Date();
@@ -86,27 +102,54 @@ const Admin: React.FC<Props2> = ({state,dispatch}) => {
      console.log(tiempo)
    return   tiempo;
   }
-  const mirador = async() => {
-    const consulta=query(collection(db2, "Notes")); //me trae 5
-    const querySnapshot = await getDocs(consulta);
-    let titulo=querySnapshot.docs.map(doc => doc.data().titulo);
-    let recordatorio=querySnapshot.docs.map(doc => doc.data().recordatorio);
-    fecha= querySnapshot.docs.map(doc => doc.data().fecha);
+  
+
+  const registrationTokens = [
+    "evVTCKr4EAG-HvQ7ugFoxV:APA91bFACTcVKE1X3PDR_2zHTLIo4oKCFmgWN4fIa1JckbNv7M2alTO36RnJArXvxeA7IK6DvfEi67L_8HmMHlGAiW0lNm_dc5C-QHWUXiQTYvYqZUfmSlgDlqY1MsfUzSiKk2QjGDp8"
+     ];
+     
    
-  for (let i = 0; i < fecha.length; i++) {
+    //  getMessaging().subscribeToTopic(registrationTokens, topic)
+    //    .then((response:any) => {
+    //      // See the MessagingTopicManagementResponse reference documentation
+    //      // for the contents of response.
+    //      console.log('Successfully unsubscribed from topic:', response);
+    //    })
+    //    .catch((error:any) => {
+    //      console.log('Error unsubscribing from topic:', error);
+    //    });
+
+  const mirador = async() => {
+  
+    let titulo:any=dbnote.map((doc:any) => doc.titulo);
+    let recordatorio=dbnote.map((doc:any) => doc.recordatorio);
+    let fecha=dbnote.map((doc:any) => doc.fecha);
+   console.log(titulo,recordatorio,fecha)
+   
+  for (let i = 0; i < dbnote.length; i++) {
     if(muestraReloj() == fecha[i]){
       //window.alert(titulo[i] + " " + recordatorio[i])
       setTitulo(titulo[i])
       setRecordatorio(recordatorio[i])
       setOpenNotificacion(true)
+    
+
+      const message = {
+        data: {
+          titulo: titulo[i],
+         recordatorio: recordatorio[i],
+        },
+        topic: topic
+      };
       
-    // return toast.success(titulo[i] + " " + recordatorio[i])
+     // getMessaging().send(message)
          }
+        }
     
   }
    
   
-  }
+  
 
 
   const handleClickOpen = () => {
@@ -167,7 +210,7 @@ const Admin: React.FC<Props2> = ({state,dispatch}) => {
 
     setOpen(false)
     
-    // setCantidad(resultado);
+    
    
     
     await updateDoc(doc(db2, "Users",recibidorId),{ monto:resultado2-parseInt(inputref.current.value), })
@@ -193,19 +236,12 @@ const Admin: React.FC<Props2> = ({state,dispatch}) => {
   };
 
 
- 
   const{user,logout,login}:any=useAuth() //aca traemos el estado de usecontext
-  //const [form, setForm] = useState<UserRegistered2>(initialForm);
-  
-  // useEffect(() => {
- 
-  // }, [])
-    const { db}:any = state;
-    const {dbnote}:any =state;
-    const {dbpayments}:any =state;
-    const {dbusersready}:any =state;
-    const {dbstatistics}:any =state;
-    const {dbmora}:any =state;
+
+  const addPropietario = async () => {
+    const docRef = doc(db2, "tokens",recibidorId);
+    const docSnap = await getDoc(docRef);
+  }
 
     const getDataUserReady = async () => {
     
@@ -250,6 +286,13 @@ const Admin: React.FC<Props2> = ({state,dispatch}) => {
       const addDataNote = async (object:any) => {
         const hola = collection(db2, "Notes");
         await addDoc(hola, object);
+        
+        
+        // dispatch({ type: TYPES.AGREGAR_NOTA, payload:object });
+          
+       
+      
+        
      
       };
       //agregar abono 
