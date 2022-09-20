@@ -4,7 +4,7 @@ import {getAuth} from "firebase/auth";
 import { getFirestore , collection, doc,addDoc,setDoc} from "firebase/firestore";
 import { getMessaging, getToken, onMessage } from "firebase/messaging";
 
-//const { initializeApp } = require('firebase-admin/app');
+
 //import { doc, onSnapshot, collection, query, where,addDoc,updateDoc,setDoc,deleteDoc,getDocs,getDoc,documentId,orderBy} from "firebase/firestore";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -24,7 +24,7 @@ const firebaseConfig = {
 
 export const getToken2 = (setTokenFound) => {
   
-  return getToken(messaging, {vapidKey: "BB1Xe-i3dVi7POm4swH7RAxAReADelXaYT2P_4qgy1Em01hzLrAstpbaSCt-46f14l7BuwshpgPVxFmf5jGF3ys"}).then((currentToken:any) => {
+  return getToken(messaging, {vapidKey: "BB1Xe-i3dVi7POm4swH7RAxAReADelXaYT2P_4qgy1Em01hzLrAstpbaSCt-46f14l7BuwshpgPVxFmf5jGF3ys"}).then((currentToken) => {
     if (currentToken) {
       console.log('current token for client: ', currentToken);
       setTokenFound(true);
@@ -59,7 +59,8 @@ export const onMessageListener = () =>
 
 // Initialize Firebase
 export const app = initializeApp(firebaseConfig);
+  
 
 export const auth=getAuth(app);
-const messaging = getMessaging(app);
+export const messaging = getMessaging(app);
 export const db2 = getFirestore();

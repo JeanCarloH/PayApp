@@ -1,6 +1,6 @@
 import React from "react";
 import { HashRouter, Route, Routes } from "react-router-dom";
-import logo from "./logo.svg";
+
 import "./App.css";
 import { AuthProvider } from "./context/authContext";
 import Login from "./components/Login";
@@ -21,6 +21,7 @@ import { onMessageListener } from "./firebase";
 import Button from "@mui/material/Button";
 import { IconButton, Snackbar } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
+import { getMessaging } from "firebase/messaging";
 
 function App() {
   const [show, setShow] = useState(false);
@@ -34,6 +35,8 @@ function App() {
       setNotification({title: payload.notification.title, body: payload.notification.body})
       console.log(payload);
     }).catch(err => console.log('failed: ', err));
+
+   
   const [state, dispatch] = useReducer(userReducer, userInitialState);
   const [open, setOpen] = React.useState(false);
 

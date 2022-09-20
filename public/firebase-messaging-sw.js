@@ -1,7 +1,10 @@
-// Scripts for firebase and firebase messaging
-importScripts('https://www.gstatic.com/firebasejs/9.0.0/firebase-app-compat.js');
-importScripts('https://www.gstatic.com/firebasejs/9.0.0/firebase-messaging-compat.js');
-importScripts("https://www.gstatic.com/firebasejs/8.2.0/firebase-messaging.js");
+// // Scripts for firebase and firebase messaging
+// importScripts('https://www.gstatic.com/firebasejs/9.0.0/firebase-app-compat.js');
+// importScripts('https://www.gstatic.com/firebasejs/9.0.0/firebase-messaging-compat.js');
+
+//importScripts("https://www.gstatic.com/firebasejs/8.2.0/firebase-app.js");
+importScripts("https://www.gstatic.com/firebasejs/9.10.0/firebase-app-compat.js");
+importScripts("https://www.gstatic.com/firebasejs/9.10.0/firebase-messaging-compat.js");
 
 
 
@@ -15,11 +18,11 @@ var firebaseConfig = {
     messagingSenderId: "68080362712",
     appId: "1:68080362712:web:d2b610524b7c94e48163ad"
 };
+const app = firebase.initializeApp(firebaseConfig);
 
-firebase.initializeApp(firebaseConfig);
 
 // Retrieve firebase messaging
- const messaging = getMessaging();
+  const messaging = firebase.messaging(app);
 
 messaging.onBackgroundMessage(function(payload) {
   console.log('Received background message ', payload);

@@ -32,6 +32,8 @@ import toast, { Toaster } from 'react-hot-toast';
 
 import {getAuth} from "firebase/auth";
 import { getMessaging } from 'firebase/messaging';
+import { messaging } from 'firebase-admin';
+import { initializeApp } from 'firebase-admin/app';
 
 var today = new Date();
  
@@ -55,7 +57,7 @@ const antier =antierxd.toLocaleDateString('en-GB')
 
 
 const Admin: React.FC<Props2> = ({state,dispatch}) => {
-  
+ 
   const [open, setOpen] = React.useState(false);
   
   const [openDelete, setOpenDelete] = React.useState(false);
