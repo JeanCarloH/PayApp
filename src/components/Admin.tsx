@@ -32,8 +32,7 @@ import toast, { Toaster } from 'react-hot-toast';
 
 import {getAuth} from "firebase/auth";
 import { getMessaging } from 'firebase/messaging';
-import { messaging } from 'firebase-admin';
-import { initializeApp } from 'firebase-admin/app';
+
 
 var today = new Date();
  

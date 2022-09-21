@@ -59,7 +59,6 @@
     ]
   },
   "devDependencies": {
-    "webpack": "^4.44.2",
-    "webpack-cli": "^4.10.0"
+    "@expo/webpack-config": "^0.17.2"
   }
 }

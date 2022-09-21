@@ -1,17 +1,17 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
+//import  {initializeApp}  from 'firebase-admin/app';
+//import * as admin from "firebase-admin";
+
 import {getAuth} from "firebase/auth";
 import { getFirestore , collection, doc,addDoc,setDoc} from "firebase/firestore";
 import { getMessaging, getToken, onMessage } from "firebase/messaging";
+ 
+ 
 
 
-//import { doc, onSnapshot, collection, query, where,addDoc,updateDoc,setDoc,deleteDoc,getDocs,getDoc,documentId,orderBy} from "firebase/firestore";
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
 
-// Your web app's Firebase configuration
-//var admin = require("firebase-admin");
-//var serviceAccount = require("payapp-e52fd-firebase-adminsdk-9h72t-90ee09457c.json");
+
 const firebaseConfig = {
   apiKey: "AIzaSyCYo8YZeuoRpYwj1x0rbP9LYyr9f_g2f30",
   authDomain: "payapp-e52fd.firebaseapp.com",
