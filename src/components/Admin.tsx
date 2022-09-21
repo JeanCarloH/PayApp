@@ -32,6 +32,7 @@ import toast, { Toaster } from 'react-hot-toast';
 
 import {getAuth} from "firebase/auth";
 import { getMessaging } from 'firebase/messaging';
+import { application } from 'express';
 
 
 var today = new Date();
@@ -119,6 +120,39 @@ const Admin: React.FC<Props2> = ({state,dispatch}) => {
     //    .catch((error:any) => {
     //      console.log('Error unsubscribing from topic:', error);
     //    });
+    let _datos = {
+      
+        "data": {
+          "score": "5x1",
+          "time": "15:10"
+        },
+        "to": "f6hJreF1OlAeNGDmJN7o_R:APA91bHg8lJV7aTYxuxoX6S1llQONfWR5n_URFdJRvzAX2TDFWYVV_scp8uZCGu4hFXDTVAFxGMfQLWZerN7Kb-XYQnwtQZs_RMRWYVPLxPYgIHyskK39CrkvQPXUIzM1VJiGNomXRq1"
+      
+    }
+
+    let _datos2 = {
+      "message":{
+        "token":"f6hJreF1OlAeNGDmJN7o_R:APA91bHg8lJV7aTYxuxoX6S1llQONfWR5n_URFdJRvzAX2TDFWYVV_scp8uZCGu4hFXDTVAFxGMfQLWZerN7Kb-XYQnwtQZs_RMRWYVPLxPYgIHyskK39CrkvQPXUIzM1VJiGNomXRq1",
+        "notification":{
+          "body":"This is an FCM notification message!",
+          "title":"FCM Message"
+        }
+     }
+    
+    }
+    
+    fetch('https://fcm.googleapis.com/v1/projects/payapp-e52fd/messages:send', {
+      method: "POST",
+      body: JSON.stringify(_datos2),
+      headers: {"Content-type": "application/json;charset=UTF-8",
+                "Authorization:": "AAAAD9nn5Ng:APA91bF9IsrUfNYv_7Iikw_jj-B-dY-LQk-Jv4jgZdtYRDkZPfVD-W8t1HoNWDmaMd-dS4F3UiH9e8fugsj_rInHf2kj3BqJBShRMQD-4JeK8gE_PItZ5Og9hTbiEERaTGVFLR7549kH"
+    },
+      
+    }).then(response => response.json()) 
+    .then(json => console.log(json));
+
+   
+  
 
   const mirador = async() => {
   
