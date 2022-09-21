@@ -136,20 +136,24 @@ const Admin: React.FC<Props2> = ({state,dispatch}) => {
         "notification":{
           "body":"This is an FCM notification message!",
           "title":"FCM Message"
+        }, "webpush":{
+          "headers":{
+            "image":"https://foo.bar/pizza-monster.png"
+          }
         }
      }
     
     }
     
-    fetch('https://fcm.googleapis.com/v1/projects/payapp-e52fd/messages:send', {
-      method: "POST",
-      body: JSON.stringify(_datos2),
-      headers: {"Content-type": "application/json;charset=UTF-8",
-                "Authorization:": "AAAAD9nn5Ng:APA91bF9IsrUfNYv_7Iikw_jj-B-dY-LQk-Jv4jgZdtYRDkZPfVD-W8t1HoNWDmaMd-dS4F3UiH9e8fugsj_rInHf2kj3BqJBShRMQD-4JeK8gE_PItZ5Og9hTbiEERaTGVFLR7549kH"
-    },
-      
-    }).then(response => response.json()) 
-    .then(json => console.log(json));
+      fetch('https://fcm.googleapis.com/v1/projects/payapp-e52fd/messages:send HTTP/1.1', {
+        method: "POST",
+        body: JSON.stringify(_datos2),
+        headers: {"Content-type": "application/json",
+                  "Authorization:": "AAAAD9nn5Ng:APA91bF9IsrUfNYv_7Iikw_jj-B-dY-LQk-Jv4jgZdtYRDkZPfVD-W8t1HoNWDmaMd-dS4F3UiH9e8fugsj_rInHf2kj3BqJBShRMQD-4JeK8gE_PItZ5Og9hTbiEERaTGVFLR7549kH"
+      },
+        
+      }).then(response => response.json()) 
+      .then(json => console.log(json));
 
    
   
