@@ -80,15 +80,15 @@ const Admin: React.FC<Props2> = ({state,dispatch}) => {
   const {dbmora}:any =state;
   const topic="notes";
   React.useEffect(() => {
-   
-
+    
  }
 , [])
-// setInterval(() => {
+ setInterval(() => {
 
-//   muestraReloj();
-//   mirador();
-//   }, 1000);
+  muestraReloj();
+   mirador();
+   }, 1000);
+
   
   function muestraReloj():any {
     var fechaHora = new Date();
@@ -106,56 +106,39 @@ const Admin: React.FC<Props2> = ({state,dispatch}) => {
   }
   
 
-  const registrationTokens = [
-    "evVTCKr4EAG-HvQ7ugFoxV:APA91bFACTcVKE1X3PDR_2zHTLIo4oKCFmgWN4fIa1JckbNv7M2alTO36RnJArXvxeA7IK6DvfEi67L_8HmMHlGAiW0lNm_dc5C-QHWUXiQTYvYqZUfmSlgDlqY1MsfUzSiKk2QjGDp8"
-     ];
-     
-   
-    //  getMessaging().subscribeToTopic(registrationTokens, topic)
-    //    .then((response:any) => {
-    //      // See the MessagingTopicManagementResponse reference documentation
-    //      // for the contents of response.
-    //      console.log('Successfully unsubscribed from topic:', response);
-    //    })
-    //    .catch((error:any) => {
-    //      console.log('Error unsubscribing from topic:', error);
-    //    });
-    let _datos = {
-      
-        "data": {
-          "score": "5x1",
-          "time": "15:10"
-        },
-        "to": "f6hJreF1OlAeNGDmJN7o_R:APA91bHg8lJV7aTYxuxoX6S1llQONfWR5n_URFdJRvzAX2TDFWYVV_scp8uZCGu4hFXDTVAFxGMfQLWZerN7Kb-XYQnwtQZs_RMRWYVPLxPYgIHyskK39CrkvQPXUIzM1VJiGNomXRq1"
-      
-    }
+  
 
     let _datos2 = {
-      "message":{
-        "token":"f6hJreF1OlAeNGDmJN7o_R:APA91bHg8lJV7aTYxuxoX6S1llQONfWR5n_URFdJRvzAX2TDFWYVV_scp8uZCGu4hFXDTVAFxGMfQLWZerN7Kb-XYQnwtQZs_RMRWYVPLxPYgIHyskK39CrkvQPXUIzM1VJiGNomXRq1",
-        "notification":{
-          "body":"This is an FCM notification message!",
-          "title":"FCM Message"
-        }, "webpush":{
-          "headers":{
-            "image":"https://foo.bar/pizza-monster.png"
-          }
+      
+        "to" : "f6hJreF1OlAeNGDmJN7o_R:APA91bHg8lJV7aTYxuxoX6S1llQONfWR5n_URFdJRvzAX2TDFWYVV_scp8uZCGu4hFXDTVAFxGMfQLWZerN7Kb-XYQnwtQZs_RMRWYVPLxPYgIHyskK39CrkvQPXUIzM1VJiGNomXRq1",
+        "collapse_key" : "type_a",
+        "notification" : {
+            "body" : "hola",
+            "title": "probando",
+        },
+        "data" : {
+            "body" : "Body of Your Notification in Data",
+            "title": "Title of Your Notification in Title",
+            "key_1" : "Value for key_1",
+            "key_2" : "Value for key_2"
         }
-     }
-    
+       
+      
     }
-    
-      fetch('https://fcm.googleapis.com/v1/projects/payapp-e52fd/messages:send HTTP/1.1', {
+    const notifications = async () => {
+      await fetch('https://fcm.googleapis.com/fcm/send', {
         method: "POST",
         body: JSON.stringify(_datos2),
-        headers: {"Content-type": "application/json",
-                  "Authorization:": "AAAAD9nn5Ng:APA91bF9IsrUfNYv_7Iikw_jj-B-dY-LQk-Jv4jgZdtYRDkZPfVD-W8t1HoNWDmaMd-dS4F3UiH9e8fugsj_rInHf2kj3BqJBShRMQD-4JeK8gE_PItZ5Og9hTbiEERaTGVFLR7549kH"
+        headers: {"Content-Type": "application/json",
+                  "Authorization": "key=AAAAD9nn5Ng:APA91bFoD968PcLHMJy-PYmf09ILP9s8oygc2nudaYhqyoHYU0lUThvp02rnVCnoiUzpJDLSE4yS5QoFpxzo0sOfOQd-Y0EAkJ9k6QZXvIB24RTSa5VlryeOGb3zIfwNhsA-2JGQL0Sv"
       },
         
       }).then(response => response.json()) 
       .then(json => console.log(json));
-
-   
+    }
+      
+    
+      
   
 
   const mirador = async() => {
@@ -167,21 +150,15 @@ const Admin: React.FC<Props2> = ({state,dispatch}) => {
    
   for (let i = 0; i < dbnote.length; i++) {
     if(muestraReloj() == fecha[i]){
-      //window.alert(titulo[i] + " " + recordatorio[i])
+      
       setTitulo(titulo[i])
       setRecordatorio(recordatorio[i])
       setOpenNotificacion(true)
-    
+      notifications();
 
-      const message = {
-        data: {
-          titulo: titulo[i],
-         recordatorio: recordatorio[i],
-        },
-        topic: topic
-      };
+     
       
-     // getMessaging().send(message)
+     
          }
         }
     

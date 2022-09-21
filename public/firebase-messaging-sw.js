@@ -38,18 +38,3 @@ console.log("ENTRE")
     notificationOptions);
     
 });
-// const topic="notes";
-// const registrationTokens = [
-//   "evVTCKr4EAG-HvQ7ugFoxV:APA91bFACTcVKE1X3PDR_2zHTLIo4oKCFmgWN4fIa1JckbNv7M2alTO36RnJArXvxeA7IK6DvfEi67L_8HmMHlGAiW0lNm_dc5C-QHWUXiQTYvYqZUfmSlgDlqY1MsfUzSiKk2QjGDp8"
-//    ];
-   
- 
-//    messaging().subscribeToTopic(registrationTokens, topic)
-//      .then((response) => {
-//        // See the MessagingTopicManagementResponse reference documentation
-//        // for the contents of response.
-//        console.log('Successfully subscribed to topic:', response);
-//      })
-//      .catch((error) => {
-//        console.log('Error subscribing to topic:', error);
-//      });

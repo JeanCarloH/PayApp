@@ -102,7 +102,7 @@ function App() {
       
       <Snackbar
         open={open}
-        autoHideDuration={2000}
+        autoHideDuration={5000}
         onClose={handleClose}
         message={notification.title}
         action={action}
