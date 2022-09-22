@@ -16,7 +16,8 @@ import UserPayment from "./components/UserPayment";
 import UserReady from "./components/UserReady";
 import UserStatistics from "./components/UserStatistics";
 import {xd} from "./components/types";
-import { getToken2 } from "./firebase";
+//import { getToken2 } from "./firebase";
+import { getToken2  } from "./components/Home";
 import { onMessageListener } from "./firebase";
 import Button from "@mui/material/Button";
 import { IconButton, Snackbar } from "@mui/material";
@@ -26,19 +27,21 @@ import { getMessaging } from "firebase/messaging";
 function App() {
   const [show, setShow] = useState(false);
   const [isTokenFound, setTokenFound] = useState(false);
+  const [open, setOpen] = useState(false);
+  const [state, dispatch] = useReducer(userReducer, userInitialState);
   const [notification, setNotification] = useState<xd>({title: '', body: ''});
     getToken2(setTokenFound);
  
     onMessageListener().then((payload:any)=> {
-      setShow(true);
+      //setShow(true);
       setOpen(true);
       setNotification({title: payload.notification.title, body: payload.notification.body})
       console.log(payload);
     }).catch(err => console.log('failed: ', err));
 
    
-  const [state, dispatch] = useReducer(userReducer, userInitialState);
-  const [open, setOpen] = React.useState(false);
+  
+  
 
  
 
@@ -102,7 +105,7 @@ function App() {
       
       <Snackbar
         open={open}
-        autoHideDuration={5000}
+        autoHideDuration={50000}
         onClose={handleClose}
         message={notification.title}
         action={action}

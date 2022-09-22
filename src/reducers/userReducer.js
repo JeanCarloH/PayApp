@@ -7,6 +7,7 @@ export const userInitialState = {
   dbusersready:[],
   dbstatistics:[],
   dbmora:[],
+  dbtokens:[],
 };
 
 export function userReducer(state , action) {
@@ -46,6 +47,12 @@ export function userReducer(state , action) {
         return {
           ...state,
           dbmora: action.payload.map((producto) =>  ({ id: producto.id, ...producto.data() })),
+        };
+      }
+      case TYPES.CONSULTAR_TOKENS: {
+        return {
+          ...state,
+          dbtokens: action.payload.map((producto) =>  ({ id: producto.id, ...producto.data() })),
         };
       }
       case TYPES.ELIMINAR_NOTA: {

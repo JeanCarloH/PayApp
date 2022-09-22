@@ -78,9 +78,9 @@ const Admin: React.FC<Props2> = ({state,dispatch}) => {
   const {dbusersready}:any =state;
   const {dbstatistics}:any =state;
   const {dbmora}:any =state;
-  const topic="notes";
+  const {dbtokens}:any =state;
   React.useEffect(() => {
-    
+    agregadorTokens();
  }
 , [])
  setInterval(() => {
@@ -89,7 +89,20 @@ const Admin: React.FC<Props2> = ({state,dispatch}) => {
    mirador();
    }, 1000);
 
-  
+  const agregadorTokens=async()=>{
+    
+    const consulta=query(collection(db2, "tokens"),where("propietario","==",user.email));
+    const querySnapshot = await getDocs(consulta);
+              if (querySnapshot.docs) {
+              dispatch({ type: TYPES.CONSULTAR_TOKENS, payload:querySnapshot.docs });
+              
+           
+            } else {
+              dispatch({ type: TYPES.SIN_DATOS });
+              
+            }
+            return querySnapshot.docs
+  }
   function muestraReloj():any {
     var fechaHora = new Date();
     var horas:any = fechaHora.getHours();
@@ -108,24 +121,29 @@ const Admin: React.FC<Props2> = ({state,dispatch}) => {
 
   
 
+    const notifications = async () => {
+      let token=dbtokens.map((doc:any) => doc.tokenUser);
+      for (let i = 0; i < token.length; i++) {
+       
+        
+      
     let _datos2 = {
       
-        "to" : "f6hJreF1OlAeNGDmJN7o_R:APA91bHg8lJV7aTYxuxoX6S1llQONfWR5n_URFdJRvzAX2TDFWYVV_scp8uZCGu4hFXDTVAFxGMfQLWZerN7Kb-XYQnwtQZs_RMRWYVPLxPYgIHyskK39CrkvQPXUIzM1VJiGNomXRq1",
-        "collapse_key" : "type_a",
-        "notification" : {
-            "body" : "hola",
-            "title": "probando",
-        },
-        "data" : {
-            "body" : "Body of Your Notification in Data",
-            "title": "Title of Your Notification in Title",
-            "key_1" : "Value for key_1",
-            "key_2" : "Value for key_2"
-        }
-       
-      
-    }
-    const notifications = async () => {
+      "to" : token[i],
+      "collapse_key" : "type_a",
+      "notification" : {
+          "body" : {recordatorio},
+          "title": {titulo},
+      }
+      // "data" : {
+      //     "body" : "Body of Your Notification in Data",
+      //     "title": "Title of Your Notification in Title",
+      //     "key_1" : "Value for key_1",
+      //     "key_2" : "Value for key_2"
+      // }
+     
+    
+  }
       await fetch('https://fcm.googleapis.com/fcm/send', {
         method: "POST",
         body: JSON.stringify(_datos2),
@@ -136,6 +154,7 @@ const Admin: React.FC<Props2> = ({state,dispatch}) => {
       }).then(response => response.json()) 
       .then(json => console.log(json));
     }
+  }
       
     
       
@@ -143,10 +162,10 @@ const Admin: React.FC<Props2> = ({state,dispatch}) => {
 
   const mirador = async() => {
   
-    let titulo:any=dbnote.map((doc:any) => doc.titulo);
+    let  titulo:any=dbnote.map((doc:any) => doc.titulo);
     let recordatorio=dbnote.map((doc:any) => doc.recordatorio);
     let fecha=dbnote.map((doc:any) => doc.fecha);
-   console.log(titulo,recordatorio,fecha)
+  
    
   for (let i = 0; i < dbnote.length; i++) {
     if(muestraReloj() == fecha[i]){
@@ -590,7 +609,7 @@ const Admin: React.FC<Props2> = ({state,dispatch}) => {
       </DialogActions>
     </Dialog>
   
-    <Outlet context={{db,dbnote,dbpayments,dbusersready,dbstatistics,dbmora,recibidorId,getUserStatistics,getDataUserReady,addPayment,addData, getData,updateData,deleteData,addPay,addDataNote,updateDataNote,getDataNote,handleClickOpenDelete,getDataPayments,dispatch}} />
+    <Outlet context={{db,dbnote,dbpayments,dbusersready,dbstatistics,dbmora,recibidorId,dbtokens,agregadorTokens,getUserStatistics,getDataUserReady,addPayment,addData, getData,updateData,deleteData,addPay,addDataNote,updateDataNote,getDataNote,handleClickOpenDelete,getDataPayments,dispatch}} />
     </>
   )
 }

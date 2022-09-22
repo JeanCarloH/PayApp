@@ -22,33 +22,33 @@ const firebaseConfig = {
 };
 
 
-export const getToken2 = (setTokenFound) => {
+// export const getToken2 = (setTokenFound) => {
   
-  return getToken(messaging, {vapidKey: "BB1Xe-i3dVi7POm4swH7RAxAReADelXaYT2P_4qgy1Em01hzLrAstpbaSCt-46f14l7BuwshpgPVxFmf5jGF3ys"}).then((currentToken) => {
-    if (currentToken) {
-      console.log('current token for client: ', currentToken);
-      setTokenFound(true);
+//   return getToken(messaging, {vapidKey: "BB1Xe-i3dVi7POm4swH7RAxAReADelXaYT2P_4qgy1Em01hzLrAstpbaSCt-46f14l7BuwshpgPVxFmf5jGF3ys"}).then((currentToken) => {
+//     if (currentToken) {
+//       console.log('current token for client: ', currentToken);
+//       setTokenFound(true);
       
-      addToken(currentToken)
-      // Track the token -> client mapping, by sending to backend server
-      // show on the UI that permission is secured
-    } else {
-      console.log('No registration token available. Request permission to generate one.');
-      setTokenFound(false);
-      // shows on the UI that permission is required 
-    }
-  }).catch((err) => {
-    console.log('An error occurred while retrieving token. ', err);
-    // catch error while creating client token
-  });
-}
+//       addToken(currentToken)
+//       // Track the token -> client mapping, by sending to backend server
+//       // show on the UI that permission is secured
+//     } else {
+//       console.log('No registration token available. Request permission to generate one.');
+//       setTokenFound(false);
+//       // shows on the UI that permission is required 
+//     }
+//   }).catch((err) => {
+//     console.log('An error occurred while retrieving token. ', err);
+//     // catch error while creating client token
+//   });
+// }
 
-const addToken = async (token) => {
-  const hola = await setDoc(doc(db2, "tokens",token), {
-    tokenUser:token
-  });
+// const addToken = async (token) => {
+//   const hola = await setDoc(doc(db2, "tokens",token), {
+//     tokenUser:token
+//   });
 
-};
+// };
 export const onMessageListener = () =>
   new Promise((resolve) => {
     onMessage(messaging, (payload) => {

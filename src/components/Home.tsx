@@ -16,6 +16,8 @@ import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { Grid } from "@mui/material";
+import { getMessaging, getToken, onMessage } from "firebase/messaging";
+import { messaging } from "../firebase";
 var today = new Date();
  
 var now = today.toLocaleDateString('en-GB');
@@ -29,14 +31,57 @@ antierxd.setDate(antierxd.getDate() - 2)
 
 const antier =antierxd.toLocaleDateString('en-GB')
 console.log(now,ayer,antier)
+export const getToken2 = (setTokenFound:any) => {
+  
+  return getToken(messaging, {vapidKey: "BB1Xe-i3dVi7POm4swH7RAxAReADelXaYT2P_4qgy1Em01hzLrAstpbaSCt-46f14l7BuwshpgPVxFmf5jGF3ys"}).then((currentToken) => {
+    if (currentToken) {
+      console.log('current token for client: ', currentToken);
+      setTokenFound(true);
+      
+      addToken(currentToken)
+    
+      // Track the token -> client mapping, by sending to backend server
+      // show on the UI that permission is secured
+    } else {
+      console.log('No registration token available. Request permission to generate one.');
+      setTokenFound(false);
+      // shows on the UI that permission is required 
+    }
+  }).catch((err) => {
+    console.log('An error occurred while retrieving token. ', err);
+    // catch error while creating client token
+  });
+ 
+}
+const addToken = async (token:any) => {
+  const hola = await setDoc(doc(db2, "tokens",token), {
+    tokenUser:token,
+    propietario:"jeancarlocj14@gmail.com"
+    
+  });
+  
+}
+
 const Home =()=>{
+
+ 
   const{user,logout,login}:any=useAuth() 
-  const {dispatch,dbmora,db,dbusersready,getDataUserReady,getData}:any = useOutletContext();
+
+
+  const {dispatch,dbmora,db,dbusersready,getDataUserReady,getData,agregadorTokens}:any = useOutletContext();
   useEffect(()=>{
+    
     getDataUserMora();
     getDataUserReady();
     getData("");
   },[])
+  const addToken = async (token:any) => {
+    const hola = await setDoc(doc(db2, "tokens",token), {
+      tokenUser:token,
+      propietario:user.email
+    });
+  
+  };
   const bull = (
     <Box
       component="span"

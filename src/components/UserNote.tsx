@@ -21,10 +21,10 @@ import { WindowSharp } from '@mui/icons-material';
 
 
 export default function UserNote() {
-    const {dbnote, getDataNote}:any = useOutletContext();
+    const {dbnote, getDataNote,agregadorTokens}:any = useOutletContext();
     React.useEffect(() => {
         getDataNote();
-
+       // agregadorTokens();
     }
     , [])
  
