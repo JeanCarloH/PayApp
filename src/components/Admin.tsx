@@ -25,7 +25,7 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import { UserRegistered2 } from './types';
-import { Analytics, ConstructionOutlined, FenceSharp } from '@mui/icons-material';
+import { Analytics, ConstructionOutlined, FenceSharp, Notifications } from '@mui/icons-material';
 import { Grid } from '@mui/material';
 import { useRef } from 'react';
 import toast, { Toaster } from 'react-hot-toast';
@@ -78,10 +78,11 @@ const Admin: React.FC<Props2> = ({state,dispatch}) => {
   const {dbusersready}:any =state;
   const {dbstatistics}:any =state;
   const {dbmora}:any =state;
+  const {dbtokens}:any =state;
   const topic="notes";
   React.useEffect(() => {
    
-
+      agregadorTokens();
  }
 , [])
 setInterval(() => {
@@ -121,23 +122,64 @@ setInterval(() => {
       setTitulo(titulo[i])
       setRecordatorio(recordatorio[i])
       setOpenNotificacion(true)
-    
+      notifications();
 
-      const message = {
-        data: {
-          titulo: titulo[i],
-         recordatorio: recordatorio[i],
-        },
-        topic: topic
-      };
+     
       
      // getMessaging().send(message)
          }
         }
     
   }
+  const agregadorTokens=async()=>{
+    
+    const consulta=query(collection(db2, "tokens"),where("propietario","==",user.email));
+    const querySnapshot = await getDocs(consulta);
+              if (querySnapshot.docs) {
+              dispatch({ type: TYPES.CONSULTAR_TOKENS, payload:querySnapshot.docs });
+              
+           
+            } else {
+              dispatch({ type: TYPES.SIN_DATOS });
+              
+            }
+            return querySnapshot.docs
+  }
+   
+  const notifications = async () => {
+    let token=dbtokens.map((doc:any) => doc.tokenUser);
+    for (let i = 0; i < token.length; i++) {
+     
+      
+    
+  let _datos2 = {
+    
+    "to" : token[i],
+    "collapse_key" : "type_a",
+    "notification" : {
+        "body" : {recordatorio},
+        "title": {titulo},
+    }
+    // "data" : {
+    //     "body" : "Body of Your Notification in Data",
+    //     "title": "Title of Your Notification in Title",
+    //     "key_1" : "Value for key_1",
+    //     "key_2" : "Value for key_2"
+    // }
    
   
+}
+    await fetch('https://fcm.googleapis.com/fcm/send', {
+      method: "POST",
+      body: JSON.stringify(_datos2),
+      headers: {"Content-Type": "application/json",
+                "Authorization": "key=AAAAD9nn5Ng:APA91bFoD968PcLHMJy-PYmf09ILP9s8oygc2nudaYhqyoHYU0lUThvp02rnVCnoiUzpJDLSE4yS5QoFpxzo0sOfOQd-Y0EAkJ9k6QZXvIB24RTSa5VlryeOGb3zIfwNhsA-2JGQL0Sv"
+    },
+      
+    }).then(response => response.json()) 
+    .then(json => console.log(json));
+  }
+}
   
 
 
