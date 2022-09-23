@@ -34,7 +34,7 @@ import {getAuth} from "firebase/auth";
 import { getMessaging } from 'firebase/messaging';
 import { messaging } from 'firebase-admin';
 
-
+import { getToken2 } from './Home';
 var today = new Date();
  
 
@@ -80,11 +80,14 @@ const Admin: React.FC<Props2> = ({state,dispatch}) => {
   const {dbmora}:any =state;
   const {dbtokens}:any =state;
   const topic="notes";
+  const [isTokenFound, setTokenFound] = useState(false);
+  const{user,logout,login}:any=useAuth() //aca traemos el estado de usecontext
   React.useEffect(() => {
    
       agregadorTokens();
  }
 , [])
+getToken2(setTokenFound,user.email)
 setInterval(() => {
 
   muestraReloj();
@@ -118,16 +121,15 @@ setInterval(() => {
    
   for (let i = 0; i < dbnote.length; i++) {
     if(muestraReloj() == fecha[i]){
-      //window.alert(titulo[i] + " " + recordatorio[i])
+      
       setTitulo(titulo[i])
       setRecordatorio(recordatorio[i])
       setOpenNotificacion(true)
       notifications();
 
      
-      
-     // getMessaging().send(message)
          }
+         
         }
     
   }
@@ -156,15 +158,23 @@ setInterval(() => {
     
     "to" : token[i],
     "collapse_key" : "type_a",
+    "direct_boot_ok" : true,
     "notification" : {
-        "body" : {recordatorio},
-        "title": {titulo},
+        "body" : `recordatorio: ${recordatorio}`,
+        "title": `titulo: ${titulo}`
     }
+    // "webpush":{
+    //   "headers":{
+    //     "image":"./PayApp_picture.png"
+    //   },
+    //   "fcm_options":{
+    //     "link":"localhost:3000"
+    //   }
+   // },
+    
     // "data" : {
-    //     "body" : "Body of Your Notification in Data",
-    //     "title": "Title of Your Notification in Title",
-    //     "key_1" : "Value for key_1",
-    //     "key_2" : "Value for key_2"
+    //     "body" : {recordatorio},
+    //     "title": {titulo}
     // }
    
   
@@ -267,7 +277,7 @@ setInterval(() => {
   };
 
 
-  const{user,logout,login}:any=useAuth() //aca traemos el estado de usecontext
+  
 
   const addPropietario = async () => {
     const docRef = doc(db2, "tokens",recibidorId);

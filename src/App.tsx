@@ -23,6 +23,7 @@ import Button from "@mui/material/Button";
 import { IconButton, Snackbar } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import { getMessaging } from "firebase/messaging";
+import { useAuth } from "./context/authContext";
 
 function App() {
   const [show, setShow] = useState(false);
@@ -30,7 +31,9 @@ function App() {
   const [open, setOpen] = useState(false);
   const [state, dispatch] = useReducer(userReducer, userInitialState);
   const [notification, setNotification] = useState<xd>({title: '', body: ''});
-    getToken2(setTokenFound);
+  const{user,logout,login}:any=useAuth() 
+  const useremail = user?.email;
+    getToken2(setTokenFound,useremail);
  
     onMessageListener().then((payload:any)=> {
       //setShow(true);

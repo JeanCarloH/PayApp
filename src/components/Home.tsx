@@ -18,6 +18,7 @@ import Typography from '@mui/material/Typography';
 import { Grid } from "@mui/material";
 import { getMessaging, getToken, onMessage } from "firebase/messaging";
 import { messaging } from "../firebase";
+
 var today = new Date();
  
 var now = today.toLocaleDateString('en-GB');
@@ -31,14 +32,14 @@ antierxd.setDate(antierxd.getDate() - 2)
 
 const antier =antierxd.toLocaleDateString('en-GB')
 console.log(now,ayer,antier)
-export const getToken2 = (setTokenFound:any) => {
+export const getToken2 = (setTokenFound:any,useremail:any) => {
   
   return getToken(messaging, {vapidKey: "BB1Xe-i3dVi7POm4swH7RAxAReADelXaYT2P_4qgy1Em01hzLrAstpbaSCt-46f14l7BuwshpgPVxFmf5jGF3ys"}).then((currentToken) => {
     if (currentToken) {
       console.log('current token for client: ', currentToken);
       setTokenFound(true);
       
-      addToken(currentToken)
+      addToken(currentToken,useremail)
     
       // Track the token -> client mapping, by sending to backend server
       // show on the UI that permission is secured
@@ -53,10 +54,10 @@ export const getToken2 = (setTokenFound:any) => {
   });
  
 }
-const addToken = async (token:any) => {
+const addToken = async (token:any,useremail:any) => {
   const hola = await setDoc(doc(db2, "tokens",token), {
     tokenUser:token,
-    propietario:"jeancarlocj14@gmail.com"
+    propietario:useremail,
     
   });
   
@@ -113,7 +114,7 @@ const Home =()=>{
         dispatch({ type: TYPES.SIN_DATOS });
       
       }
-    
+      const imagen = 'public/payappreal.png'
   return querySnapshot.docs
      
     }
@@ -121,6 +122,12 @@ const Home =()=>{
     <>
     <ResponsiveAppBar/>
 
+    <Box sx={{ display: { xs: "flex", md: "none" }, mr: 2}} >
+           <img src={process.env.PUBLIC_URL +'payappreal.png'}  alt="payapp" width="100%" height="100%"/>
+             </Box>
+             <Box sx={{ display: { xs: "none", md: "flex" }, mr: 2}} >
+           <img src={process.env.PUBLIC_URL +'payapplogopc.png'}  alt="payapp" width="100%" height="100%"/>
+             </Box>
     <HomeTable/>
    
     <Grid sx={{m:-0.1}}>
