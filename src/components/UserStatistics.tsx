@@ -35,7 +35,7 @@ const UserStatistics = () => {
 
   var now = today.toLocaleDateString('en-GB');
  
-    const {dbuserstatistics,getUserStatistics}:any = useOutletContext();
+    const {dbuserstatistics,getUserStatistics,getDataNote}:any = useOutletContext();
     const [form, setForm] = useState<UserEstatistics>(initialForm);
     const value:any= useRef();
     const value2:any= useRef();
@@ -45,6 +45,7 @@ const UserStatistics = () => {
     useEffect(() => {
 
       getUserStatistics();
+      getDataNote();
     }, []);
  
    

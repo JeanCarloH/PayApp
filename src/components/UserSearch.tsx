@@ -22,7 +22,7 @@ import { useAuth } from "../context/authContext";
 const UserSearch = () => {
   const {user}:any = useAuth();
   const [state, dispatch] = useReducer(userReducer, userInitialState);
-  const {getData,getDataName}:any = useOutletContext();
+  const {getData,getDataName,getDataNote}:any = useOutletContext();
     const [busqueda, setBusqueda] = React.useState<string|null>("");
     const handlechange=(e: React.ChangeEvent<HTMLInputElement>)=>{
         setBusqueda(e.target.value)
@@ -33,6 +33,7 @@ const UserSearch = () => {
       }
       useEffect(()=>{
         getData(busqueda?.toLowerCase());
+        getDataNote();
       } ,[busqueda])
     const Search = styled('div')(({ theme }) => ({
         position: 'relative',

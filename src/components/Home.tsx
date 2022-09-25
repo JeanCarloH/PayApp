@@ -69,12 +69,13 @@ const Home =()=>{
   const{user,logout,login}:any=useAuth() 
 
 
-  const {dispatch,dbmora,db,dbusersready,getDataUserReady,getData,agregadorTokens}:any = useOutletContext();
+  const {dispatch,dbmora,db,dbusersready,getDataUserReady,getData,agregadorTokens,getDataNote}:any = useOutletContext();
   useEffect(()=>{
     
     getDataUserMora();
     getDataUserReady();
     getData("");
+    getDataNote();
   },[])
 
   const bull = (
