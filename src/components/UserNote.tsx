@@ -28,7 +28,10 @@ export default function UserNote() {
     }
     , [1000])
  
+    setInterval(() => {
 
+      getDataNote();
+      }, 1000);
 
 
   return (
