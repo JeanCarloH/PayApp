@@ -26,7 +26,7 @@ export default function UserNote() {
         getDataNote();
        // agregadorTokens();
     }
-    , [1000])
+    , [])
  
  
 
