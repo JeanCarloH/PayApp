@@ -24,6 +24,13 @@ const app = firebase.initializeApp(firebaseConfig);
 // Retrieve firebase messaging
   const messaging = firebase.messaging(app);
 
+ //const messaging = getMessaging();
+messaging.onMessage(function (payload) {
+  console.log('Message received. ', payload);
+  window.alert('Message received. ', payload)
+  // ...
+});
+
 messaging.onBackgroundMessage(function(payload) {
   console.log('Received background message ', payload);
 console.log("ENTRE")

@@ -18,7 +18,7 @@ import UserStatistics from "./components/UserStatistics";
 import {xd} from "./components/types";
 //import { getToken2 } from "./firebase";
 import { getToken2  } from "./components/Home";
-import { onMessageListener } from "./firebase";
+import {onMessageListener } from './firebase';
 import Button from "@mui/material/Button";
 import { IconButton, Snackbar } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";

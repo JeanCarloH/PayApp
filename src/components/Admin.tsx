@@ -84,7 +84,7 @@ const Admin: React.FC<Props2> = ({state,dispatch}) => {
   const{user,logout,login}:any=useAuth() //aca traemos el estado de usecontext
   React.useEffect(() => {
    
-      agregadorTokens();
+     
  }
 , [])
 getToken2(setTokenFound,user.email)
@@ -121,7 +121,7 @@ setInterval(() => {
    
   for (let i = 0; i < dbnote.length; i++) {
     if(muestraReloj() == fecha[i]){
-      
+      agregadorTokens();
       setTitulo(titulo[i])
       setRecordatorio(recordatorio[i])
       setOpenNotificacion(true)
@@ -157,8 +157,8 @@ setInterval(() => {
   let _datos2 = {
     
     "to" : token[i],
-    "collapse_key" : "type_a",
-    "direct_boot_ok" : true,
+     "collapse_key" : "type_a",
+    // "direct_boot_ok" : true,
     "notification" : {
         "body" : `recordatorio: ${recordatorio}`,
         "title": `titulo: ${titulo}`

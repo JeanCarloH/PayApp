@@ -76,13 +76,7 @@ const Home =()=>{
     getDataUserReady();
     getData("");
   },[])
-  const addToken = async (token:any) => {
-    const hola = await setDoc(doc(db2, "tokens",token), {
-      tokenUser:token,
-      propietario:user.email
-    });
-  
-  };
+
   const bull = (
     <Box
       component="span"
