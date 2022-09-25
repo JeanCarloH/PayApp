@@ -327,9 +327,7 @@ setInterval(() => {
       const addDataNote = async (object:any) => {
         const hola = collection(db2, "Notes");
         await addDoc(hola, object);
-        
-        
-        // dispatch({ type: TYPES.AGREGAR_NOTA, payload:object });
+        getDataNote();
           
        
       
