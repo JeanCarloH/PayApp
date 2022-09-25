@@ -28,7 +28,7 @@ const bull = (
 
 
 export default function Note() {
-    const { dbnote,dispatch}:any = useOutletContext();
+    const { dbnote,dispatch,getDataNote}:any = useOutletContext();
     const [open, setOpen] = React.useState(false);
     const [id, setId] = React.useState("");
     const deleteDataNote = async() => {
@@ -37,7 +37,7 @@ export default function Note() {
       setOpen(false);
     
         dispatch({type:'ELIMINAR_NOTA',payload:id});
-      
+      getDataNote();
 
     }
       const handleClickOpen = (id:any) => {

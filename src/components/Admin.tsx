@@ -522,6 +522,7 @@ setInterval(() => {
               recordatorio:data.recordatorio,
     
             })
+            getDataNote();
          };
          //eliminar usuario 
       const deleteData = async(recibidorId:any) => {
