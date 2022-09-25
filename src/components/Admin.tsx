@@ -327,7 +327,7 @@ setInterval(() => {
       const addDataNote = async (object:any) => {
         const hola = collection(db2, "Notes");
         await addDoc(hola, object);
-        getDataNote();
+   
           
        
       
@@ -522,7 +522,7 @@ setInterval(() => {
               recordatorio:data.recordatorio,
     
             })
-            getDataNote();
+          
          };
          //eliminar usuario 
       const deleteData = async(recibidorId:any) => {
