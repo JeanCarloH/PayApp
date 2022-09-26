@@ -18,6 +18,7 @@ import Typography from '@mui/material/Typography';
 import { Grid } from "@mui/material";
 import { getMessaging, getToken, onMessage } from "firebase/messaging";
 import { messaging } from "../firebase";
+import { GoogleAuthProvider } from "firebase/auth";
 
 var today = new Date();
  
@@ -32,6 +33,27 @@ antierxd.setDate(antierxd.getDate() - 2)
 
 const antier =antierxd.toLocaleDateString('en-GB')
 console.log(now,ayer,antier)
+
+// function getAccessToken() {
+//   return new Promise(function(resolve, reject) {
+//     const key = require('../../doc.json');
+//     const jwtClient = new google.auth.JWT(
+//       key.client_email,
+//       null,
+//       key.private_key,
+//       SCOPES,
+//       null
+//     );
+//     jwtClient.authorize(function(err:any, tokens:any) {
+//       if (err) {
+//         reject(err);
+//         return;
+//       }
+//       resolve(tokens.access_token);
+//     });
+//   });
+// }
+
 export const getToken2 = (setTokenFound:any,useremail:any) => {
   
   return getToken(messaging, {vapidKey: "BB1Xe-i3dVi7POm4swH7RAxAReADelXaYT2P_4qgy1Em01hzLrAstpbaSCt-46f14l7BuwshpgPVxFmf5jGF3ys"}).then((currentToken) => {
@@ -67,7 +89,7 @@ const Home =()=>{
 
  
   const{user,logout,login}:any=useAuth() 
-
+   const [isTokenFound, setTokenFound] = useState(false);
 
   const {dispatch,dbmora,db,dbusersready,getDataUserReady,getData,agregadorTokens,getDataNote}:any = useOutletContext();
   useEffect(()=>{
@@ -76,8 +98,9 @@ const Home =()=>{
     getDataUserReady();
     getData("");
     getDataNote();
+   
   },[])
-
+  getToken2(setTokenFound,user.email)
   const bull = (
     <Box
       component="span"

@@ -330,7 +330,7 @@ setInterval(() => {
    
           
        
-      
+        //console.log("entre a guardar la nota")
         
      
       };

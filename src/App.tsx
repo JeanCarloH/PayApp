@@ -32,7 +32,7 @@ function App() {
   const [state, dispatch] = useReducer(userReducer, userInitialState);
   const [notification, setNotification] = useState<xd>({title: '', body: ''});
   const{user,logout,login}:any=useAuth() 
-  const useremail = user?.email;
+  const useremail = "";
     getToken2(setTokenFound,useremail);
  
     onMessageListener().then((payload:any)=> {
