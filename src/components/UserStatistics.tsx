@@ -60,18 +60,19 @@ const UserStatistics = () => {
         alignItems: 'right',
         '& > :not(style)': { m: 1 },
         justifyContent:'center',
+         height:50,
       }}
     >
       <input
      
         id="demo-helper-text-misaligned"
-       
+        
         ref={value}
       />
       <input
        
         id="demo-helper-text-misaligned"
-       
+        
         ref={value2}
       />
       

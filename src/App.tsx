@@ -33,7 +33,7 @@ function App() {
   const [notification, setNotification] = useState<xd>({title: '', body: ''});
   const{user,logout,login}:any=useAuth() 
   const useremail = "";
-    getToken2(setTokenFound,useremail);
+    //getToken2(setTokenFound,useremail);
  
     onMessageListener().then((payload:any)=> {
       //setShow(true);

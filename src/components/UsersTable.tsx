@@ -82,6 +82,7 @@ const UsersTable: React.FC<Props4> = ({busqueda})=> {
               <StyledTableCell align="center">Monto</StyledTableCell>
               <StyledTableCell align="center">Tipo de pago</StyledTableCell>
               <StyledTableCell align="center">Abono</StyledTableCell>
+              <StyledTableCell align="center">Fecha Prestamo</StyledTableCell>
               <StyledTableCell align="center">Total abonos</StyledTableCell>
              <StyledTableCell align="center" >Acciones</StyledTableCell>
             </TableRow>
@@ -122,12 +123,13 @@ const UsersTable: React.FC<Props4> = ({busqueda})=> {
                   <StyledTableCell align="right">
                     {product.abono}
                   </StyledTableCell>
-                  <StyledTableCell align="right">
+                  <StyledTableCell align="center">
+                    {product.fecha}
+                  </StyledTableCell>
+                  <StyledTableCell align="center">
                     {product.totalabonos}
                   </StyledTableCell>
-
-                 
-                  
+     
                   <StyledTableCell align="right">
                   <Link to="/Admin/Payment">
                     <PaidIcon

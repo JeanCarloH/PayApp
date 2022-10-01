@@ -23,11 +23,7 @@ import UserRegisteredAppBar from "./UserRegisteredAppBar";
 import { Props3 } from './types';
 import { useEffect } from 'react';
 
-    // // crea un nuevo objeto `Date`
-    // var today = new Date();
  
-
-    // var now = today.toLocaleDateString('en-US');
     
   const initialForm = {
     nombre: "",
@@ -38,12 +34,17 @@ import { useEffect } from 'react';
     tipo:"", 
     abono:0,
     propietario:"",
+    fecha:"",
     totalabonos:0,
   };
 
 
 const UserRegister: React.FC<Props3> = ({edit}) => {
+   // // crea un nuevo objeto `Date`
+   var today = new Date();
+ 
 
+   var now = today.toLocaleDateString('en-GB');
  
     const {db, addData, updateData,addPayment}:any = useOutletContext();
     const { user }: any = useAuth();
@@ -77,13 +78,14 @@ const UserRegister: React.FC<Props3> = ({edit}) => {
     const [form, setForm] = useState<UserRegistered>(initialForm);
   
   
-
+console.log(now)
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>  ) => {
         e.preventDefault();
         setForm({
           ...form,
           [e.target.name]: e.target.value,
           ['propietario']: user.email,
+          ['fecha']: now,
 
         });
         // setForm2({
@@ -111,8 +113,6 @@ const UserRegister: React.FC<Props3> = ({edit}) => {
      
         if (
             !form.nombre ||
-            !form.apellido ||
-            !form.celular ||
             !form.monto ||
             !form.tipo ||
             !form.abono
@@ -148,7 +148,7 @@ const UserRegister: React.FC<Props3> = ({edit}) => {
             onChange={handleChange}
             required
             label="Nombre"
-            value={form.nombre.toLocaleLowerCase()}
+            value={form.nombre}
           />
         </Grid>
         <Grid item xs={12} md={3} sx={{marginTop:1}}>
@@ -219,13 +219,22 @@ const UserRegister: React.FC<Props3> = ({edit}) => {
             value={form.abono}
           />
         </Grid>
-        <Grid item xs={12} md={12} sx={{marginTop:1}}>
+        <Grid item xs={12} md={3} sx={{marginTop:1}}>
           <TextField
             name="propietario"
             onChange={handleChange}
             required
             label="propietario"
             value={user.email}
+          />
+        </Grid>
+        <Grid item xs={12} md={12} sx={{marginTop:1}}>
+          <TextField
+            name="propietario"
+            onChange={handleChange}
+            required
+            label="fecha"
+            value={now}
           />
         </Grid>
         <ThemeProvider theme={temaNuevo} >

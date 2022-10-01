@@ -19,6 +19,7 @@ export interface UserRegistered{
     tipo:string;    
     abono:number;
     propietario:string;
+    fecha:string;
     totalabonos:number;
 }
 export type ActionType=

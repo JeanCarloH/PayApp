@@ -1,6 +1,6 @@
 
 import React , { ChangeEvent } from 'react'
-
+import useMediaQuery from '@mui/material/useMediaQuery';
 import { Outlet } from "react-router-dom";
 import { useEffect, useReducer, useState } from "react";
 import { doc, onSnapshot, collection, query, where,addDoc,updateDoc,setDoc,deleteDoc,getDocs,getDoc,documentId,orderBy} from "firebase/firestore";
@@ -26,7 +26,7 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import { UserRegistered2 } from './types';
 import { Analytics, ConstructionOutlined, FenceSharp, Notifications } from '@mui/icons-material';
-import { Grid } from '@mui/material';
+import { Box, Grid, useTheme } from '@mui/material';
 import { useRef } from 'react';
 import toast, { Toaster } from 'react-hot-toast';
 
@@ -80,19 +80,19 @@ const Admin: React.FC<Props2> = ({state,dispatch}) => {
   const {dbmora}:any =state;
   const {dbtokens}:any =state;
   const topic="notes";
-  const [isTokenFound, setTokenFound] = useState(false);
+  
   const{user,logout,login}:any=useAuth() //aca traemos el estado de usecontext
   React.useEffect(() => {
    
      
  }
 , [])
-getToken2(setTokenFound,user.email)
-setInterval(() => {
 
-  muestraReloj();
-  mirador();
-  }, 1000);
+// setInterval(() => {
+
+//   muestraReloj();
+//   mirador();
+//   }, 1000);
   
   function muestraReloj():any {
     var fechaHora = new Date();
@@ -504,7 +504,7 @@ setInterval(() => {
        const updateData = async(id:any,data:any) => {
         await updateDoc(doc(db2,'Users',id),{
           tipo:data.tipo,
-          //no debo dejar editar el monto
+          monto:data.monto,
           direccion:data.direccion,
           nombre:data.nombre,
           apellido:data.apellido,
@@ -553,42 +553,56 @@ setInterval(() => {
      };
      
     
-      // const handleChange = (e: React.ChangeEvent<HTMLInputElement>  ) => {
-      //  // e.preventDefault();
-      //   setCantidad(parseInt(e.target.value));
-    
-      // };
-   
+      const theme = useTheme();
+      const fullScreen = useMediaQuery(theme.breakpoints.down('xs'));
   return (
     <>
-      <Dialog open={open} onClose={handleClose}>
+      <Dialog open={open} onClose={handleClose} fullScreen={fullScreen}>
+      
         <DialogTitle>¿Deseas Abonar esta cantidad?</DialogTitle>
-        <DialogContent>
-          <Grid>
+         
+          <Box
+      sx={{
+       textAlign: 'center',
+         height:50,
+        size:"1000px",
+         
+      }}
+    >
           <input
          //   autoFocus={true}
             name='cantidad'
-            id="name"
+            id="number"
             type='number'
-          
+            step="1000"
             ref={inputref}
            
             defaultValue={cantidad}
-      
+            
           />
-          </Grid>
+          </Box>
+          
 
-        </DialogContent>
-        <DialogActions>
+       <Box sx={{ textAlign:"center"}}>
+        
           <Button onClick={handleClose}>Cancelar</Button>
        
           <Button onClick={agregar}>Aceptar</Button>
-        </DialogActions>
+        </Box>
+        
       </Dialog>
 
       <Dialog open={openDelete} onClose={handleCloseDelete}>
         <DialogTitle>¿Deseas eliminar este cliente?</DialogTitle>
-        <DialogActions>
+        
+        <Box
+      sx={{
+        textAlign: 'center',
+         height:50,
+       
+         
+      }}
+    >
         <input
           //  autoFocus={true}
             name='cantidad'
@@ -597,9 +611,13 @@ setInterval(() => {
             ref={clave}
            
           />
+          </Box>
+          <Box sx={{textAlign:"center"}}>
           <Button onClick={handleCloseDelete}>Cancelar</Button>
           <Button onClick={eliminar}>Aceptar</Button>
-        </DialogActions>
+          </Box>
+         
+        
       </Dialog>
 
       <Dialog open={openNotificacion} onClose={handleClose}>

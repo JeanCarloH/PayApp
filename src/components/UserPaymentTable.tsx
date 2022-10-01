@@ -114,6 +114,7 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
           <Table sx={{ width:"100%" }} aria-label="customized table">
             <TableHead>
               <TableRow>
+                <StyledTableCell align="left">Nombre</StyledTableCell>
                  <StyledTableCell align="left">Fecha</StyledTableCell>
                  <StyledTableCell align="left">abono</StyledTableCell>
                  <StyledTableCell align="left">Monto</StyledTableCell>
@@ -128,6 +129,9 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
             
               
               <StyledTableRow key={row.id}>
+                  <StyledTableCell align="left">
+                  {row.nombre}
+                  </StyledTableCell>
                   <StyledTableCell align="left">
                   {row.fecha}
                   </StyledTableCell>
@@ -156,7 +160,16 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
 
         <Dialog open={open} onClose={handleClose}>
         <DialogTitle>¿Deseas eliminar este abono?</DialogTitle>
-        <DialogActions>
+    
+        <Box
+        sx={{
+       
+          textAlign:"center",
+         height:40,
+       
+         
+      }}
+    >
         <input
             //autoFocus={true}
             name='cantidad'
@@ -165,9 +178,17 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
             ref={clave}
            
           />
+          </Box>
+        
+          <Box sx={{textAlign:"Center"}}>
+         
           <Button onClick={handleClose}>Cancelar</Button>
           <Button onClick={deletePayment}>Aceptar</Button>
-        </DialogActions>
+          
+          
+        
+          </Box>
+       
       </Dialog>
       </>
     );
