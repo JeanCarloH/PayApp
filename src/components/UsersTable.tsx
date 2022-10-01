@@ -57,7 +57,7 @@ const temaNuevo = createTheme({
 )
 
 
-const UsersTable: React.FC<Props4> = ({busqueda})=> {
+const UsersTable: React.FC<Props4> = ({busqueda,filtro})=> {
   const { db,deleteData, addPay, getDataPayments,handleClickOpenDelete,}:any = useOutletContext();
   const [checked, setChecked] = useState(true);
   const [busquedaPagos, setBusquedaPagos] = React.useState<string|null>("");

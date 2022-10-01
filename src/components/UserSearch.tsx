@@ -18,11 +18,13 @@ import { useReducer } from "react";
 import { Outlet } from "react-router-dom";
 import { useOutletContext } from "react-router-dom";
 import { useAuth } from "../context/authContext";
+import { FormControl, Grid, InputLabel, MenuItem, Select, SelectChangeEvent } from '@mui/material';
 
 const UserSearch = () => {
   const {user}:any = useAuth();
   const [state, dispatch] = useReducer(userReducer, userInitialState);
   const {getData,getDataName,getDataNote}:any = useOutletContext();
+  const [filtro, setFiltro] = useState("1");
     const [busqueda, setBusqueda] = React.useState<string|null>("");
     const handlechange=(e: React.ChangeEvent<HTMLInputElement>)=>{
         setBusqueda(e.target.value)
@@ -32,9 +34,9 @@ const UserSearch = () => {
         setBusqueda("");
       }
       useEffect(()=>{
-        getData(busqueda?.toLowerCase());
+        getData(busqueda?.toLowerCase(),filtro);
         getDataNote();
-      } ,[busqueda])
+      } ,[busqueda,filtro])
     const Search = styled('div')(({ theme }) => ({
         position: 'relative',
         borderRadius: theme.shape.borderRadius,
@@ -99,7 +101,12 @@ const UserSearch = () => {
     
       }));
      
-   
+      const handleChange2 = (e: any) => {
+        
+            setFiltro(e.target.value);
+       
+    }
+
 
   return (
     <>
@@ -182,9 +189,34 @@ const UserSearch = () => {
 
         }
          </Search>
+         
+         <Grid item xs={12} md={3}>
+          <FormControl sx={{ m: 1, minWidth: 210 }}>
+            <InputLabel id="demo-simple-select-autowidth-label">
+              filtro
+            </InputLabel>
+            <Select
+              labelId="demo-simple-select-autowidth-label"
+              id="demo-simple-select-autowidth"
+              value={filtro}
+              name="filtro"
+              onChange={handleChange2}
+              label="filtro"
+            >
+              
+              <MenuItem value="1">Diario</MenuItem>
+              <MenuItem value="2">Semanal</MenuItem>
+              <MenuItem value="3">Quincenal</MenuItem>
+              <MenuItem value="4">Mensual</MenuItem>
+             
+            </Select>
+          </FormControl>
+        </Grid>
+
          {user&&
-          <UsersTable busqueda={busqueda}/>
+          <UsersTable busqueda={busqueda} filtro={filtro}/>
          }
+        
         
 
       

@@ -35,7 +35,8 @@ export interface Props3{
     edit:any
 }
 export interface Props4{
-    busqueda:any
+    busqueda:any;
+    filtro:any;
 }
 export interface NoteAdded{
  titulo:string;

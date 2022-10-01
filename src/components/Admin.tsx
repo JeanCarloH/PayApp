@@ -368,10 +368,29 @@ const Admin: React.FC<Props2> = ({state,dispatch}) => {
 
 
       //obtener datos dependiendo de la busqueda
-    const getData = async (busqueda:any) => {
+    const getData = async (busqueda:any,filtro:any) => {
+      console.log(busqueda,filtro,"los datos que recibo")
       
       if(user){
-        if(busqueda){
+        if(busqueda=="" && filtro==""){
+
+          const consulta=query(collection(db2, "Users"),where("propietario","==",user.email));
+          const querySnapshot = await getDocs(consulta);
+
+          console.log("entre a filtrar")
+          if (querySnapshot.docs) {
+              dispatch({ type: TYPES.CONSULTAR_PRODUCTO, payload:querySnapshot.docs });
+              
+            
+            } else {
+              dispatch({ type: TYPES.SIN_DATOS });
+             
+            }
+          
+        return querySnapshot.docs
+        }
+        if(busqueda ){
+          console.log("entre a buscar")
           const consulta=query(collection(db2, "Users"),where("propietario","==",user.email),where("nombre","==",busqueda));
           const querySnapshot = await getDocs(consulta);
     
@@ -386,11 +405,12 @@ const Admin: React.FC<Props2> = ({state,dispatch}) => {
           
         return querySnapshot.docs
           }
-        }if(busqueda==""){
-          const consulta=query(collection(db2, "Users"),where("propietario","==",user.email))
+        }if(busqueda=="" && filtro){
+
+          const consulta=query(collection(db2, "Users"),where("propietario","==",user.email),where("tipo","==",filtro));
           const querySnapshot = await getDocs(consulta);
 
-   
+          console.log("entre a filtrar")
           if (querySnapshot.docs) {
               dispatch({ type: TYPES.CONSULTAR_PRODUCTO, payload:querySnapshot.docs });
               
@@ -402,6 +422,24 @@ const Admin: React.FC<Props2> = ({state,dispatch}) => {
           
         return querySnapshot.docs
         }
+        if(busqueda && filtro){
+
+          const consulta=query(collection(db2, "Users"),where("propietario","==",user.email),where("tipo","==",filtro),where("nombre","==",busqueda));
+          const querySnapshot = await getDocs(consulta);
+
+          console.log("entre a filtrar")
+          if (querySnapshot.docs) {
+              dispatch({ type: TYPES.CONSULTAR_PRODUCTO, payload:querySnapshot.docs });
+              
+            
+            } else {
+              dispatch({ type: TYPES.SIN_DATOS });
+             
+            }
+          
+        return querySnapshot.docs
+        }
+       
       }
         
       

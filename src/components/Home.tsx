@@ -90,13 +90,15 @@ const Home =()=>{
  
   const{user,logout,login}:any=useAuth() 
    const [isTokenFound, setTokenFound] = useState(false);
-
+   const [busqueda, setBusqueda] = useState("");
+   const [filtro, setFiltro] = useState("1");
+  
   const {dispatch,dbmora,db,dbusersready,getDataUserReady,getData,agregadorTokens,getDataNote}:any = useOutletContext();
   useEffect(()=>{
     
     getDataUserMora();
     getDataUserReady();
-    getData("");
+    getData(busqueda,filtro)
     getDataNote();
    
   },[])
@@ -160,7 +162,7 @@ const Home =()=>{
    <Card sx={{  m:1 }}>
       <CardContent>
         <Typography variant="h5" component="div">
-          {bull} La cantidad de clientes es: {db.length}
+          {bull} La cantidad de clientes diarios es: {db.length}
         </Typography>
       </CardContent>
    </Card>
@@ -171,6 +173,40 @@ const Home =()=>{
         </Typography>
       </CardContent>
    </Card>
+    {/* <Card sx={{  m:1 }}>
+      <CardContent>
+        <Typography variant="h5" component="div">
+          {bull} la cantidad de dinero Diario prestado es: {dbusersready.length}
+        </Typography>
+      </CardContent>
+      </Card>
+      <Card sx={{  m:1 }}>
+      <CardContent>
+        <Typography variant="h5" component="div">
+          {bull} la cantidad de dinero Semanal prestado es: {dbusersready.length}
+        </Typography>
+      </CardContent>
+      </Card>
+      <Card sx={{  m:1 }}>
+      <CardContent>
+        <Typography variant="h5" component="div">
+          {bull} la cantidad de dinero Quincenal prestado es: {dbusersready.length}
+        </Typography>
+      </CardContent>
+      </Card>
+      <Card sx={{  m:1 }}>
+      <CardContent>
+        <Typography variant="h5" component="div">
+          {bull} la cantidad de dinero Mensual prestado es: {dbusersready.length}
+        </Typography>
+      </CardContent>
+      <CardContent>
+        <Typography variant="h5" component="div">
+          {bull} la cantidad de dinero Total prestado es: {dbusersready.length}
+        </Typography>
+      </CardContent>  
+
+   </Card> */}
    </Grid>
     </>
     );
