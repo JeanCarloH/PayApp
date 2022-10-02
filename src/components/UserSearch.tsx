@@ -34,9 +34,9 @@ const UserSearch = () => {
         setBusqueda("");
       }
       useEffect(()=>{
-        getData(busqueda?.toLowerCase(),filtro);
+      
         getDataNote();
-      } ,[busqueda,filtro])
+      } ,[])
     const Search = styled('div')(({ theme }) => ({
         position: 'relative',
         borderRadius: theme.shape.borderRadius,

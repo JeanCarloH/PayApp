@@ -84,12 +84,12 @@ const Home =()=>{
    const [busqueda, setBusqueda] = useState("");
    const [filtro, setFiltro] = useState("1");
   
-  const {dispatch,dbmora,db,dbusersready,getDataUserReady,getData,agregadorTokens,getDataNote}:any = useOutletContext();
+  const {dispatch,dbmora,db,dbusersready,getDataUserReady,getData,agregadorTokens,getDataNote,getDataBase, getDataBaseDiarios}:any = useOutletContext();
   useEffect(()=>{
     
     getDataUserMora();
     getDataUserReady();
-    getData(busqueda,filtro)
+    
     getDataNote();
    
   },[])
@@ -148,6 +148,7 @@ const Home =()=>{
   return querySnapshot.docs
      
     }
+    getDataBaseDiarios();
       return( 
     <>
     <ResponsiveAppBar/>

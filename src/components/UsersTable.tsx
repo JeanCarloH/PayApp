@@ -88,8 +88,11 @@ const UsersTable: React.FC<Props4> = ({busqueda,filtro})=> {
             </TableRow>
           </TableHead>
           <TableBody>
-            {db.length > 0 && 
-              db.map((product:any)=>(
+            
+
+            
+            { busqueda && filtro && 
+              db.filter((product:any) => (product.nombre.toLowerCase().includes(busqueda.toLowerCase()) || product.apellido.toLowerCase().includes(busqueda.toLowerCase()))&& product.tipo==filtro).map(((product:any) => (
               <StyledTableRow key={product.id}>
                   <StyledTableCell align="right">
                     {product.nombre}
@@ -155,7 +158,75 @@ const UsersTable: React.FC<Props4> = ({busqueda,filtro})=> {
                   </StyledTableCell>
                 </StyledTableRow>
               
-             )) }
+             )) )}
+              { !busqueda && filtro && 
+              db.filter((product:any) =>  (product.tipo==filtro)).map(((product:any) => (
+              <StyledTableRow key={product.id}>
+                  <StyledTableCell align="right">
+                    {product.nombre}
+                  </StyledTableCell>
+                  <StyledTableCell align="right">
+                    {product.apellido}
+                  </StyledTableCell>
+                  <StyledTableCell align="right">
+                    {product.celular}
+                  </StyledTableCell>
+                  <StyledTableCell align="right">
+                    {product.direccion}
+                  </StyledTableCell>
+                  <StyledTableCell align="right">
+                    {product.monto}
+                  </StyledTableCell>
+                  <StyledTableCell align="right">
+                    {product.tipo==1 &&
+                    'Diario'
+                    }
+                    {product.tipo==2 &&
+                    'semanal'
+                    }
+                     {product.tipo==3 &&
+                    'Quincenal'
+                    }
+                     {product.tipo==4 &&
+                    'Mensual'
+                    }
+                  </StyledTableCell>
+                  <StyledTableCell align="right">
+                    {product.abono}
+                  </StyledTableCell>
+                  <StyledTableCell align="center">
+                    {product.fecha}
+                  </StyledTableCell>
+                  <StyledTableCell align="center">
+                    {product.totalabonos}
+                  </StyledTableCell>
+     
+                  <StyledTableCell align="right">
+                  <Link to="/Admin/Payment">
+                    <PaidIcon
+                    onClick={()=> getDataPayments(product.id,busquedaPagos)}
+                     sx={{m:1}} 
+                    />
+                    </Link>
+                    <AddIcon 
+                     onClick={()=> addPay(product.id)}
+                    sx={{m:1}} 
+                    />
+                  <ThemeProvider theme={temaNuevo}>
+                    <Link to={`/Admin/Edit/${product.id}`}>
+                   <EditIcon 
+                    sx={{m:1}}
+                    />
+                    </Link>
+                   <DeleteIcon
+                    sx={{m:1}}
+                    onClick={() =>handleClickOpenDelete(product.id)}
+                    />
+                       </ThemeProvider>
+                  </StyledTableCell>
+                </StyledTableRow>
+              
+             )) )}
           </TableBody>
         </Table>
       </TableContainer>

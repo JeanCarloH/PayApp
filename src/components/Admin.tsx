@@ -83,7 +83,7 @@ const Admin: React.FC<Props2> = ({state,dispatch}) => {
   
   const{user,logout,login}:any=useAuth() //aca traemos el estado de usecontext
   React.useEffect(() => {
-   
+   getDataBase();
      
  }
 , [])
@@ -361,86 +361,120 @@ const Admin: React.FC<Props2> = ({state,dispatch}) => {
     
 
       };
+      //toda la informacion de los usuarios
+      const getDataBase = async () => {
+        
+        const consulta=query(collection(db2, "Users"),where("propietario","==",user.email));
+        const querySnapshot = await getDocs(consulta);
 
+        console.log("entre a filtrar")
+        if (querySnapshot.docs) {
+            dispatch({ type: TYPES.CONSULTAR_PRODUCTO, payload:querySnapshot.docs });
+            
+          
+          } else {
+            dispatch({ type: TYPES.SIN_DATOS });
+           
+          }
+        
+      return querySnapshot.docs
+      }
+      const getDataBaseDiarios = async () => {
+        let numero=1;
+        let numero2=numero.toString();
+        const consulta=query(collection(db2, "Users"),where("propietario","==",user.email),where("tipo","==",numero2));
+        const querySnapshot = await getDocs(consulta);
 
+        console.log("entre a filtrar")
+        if (querySnapshot.docs) {
+            dispatch({ type: TYPES.CONSULTAR_PRODUCTO, payload:querySnapshot.docs });
+            
+          
+          } else {
+            dispatch({ type: TYPES.SIN_DATOS });
+           
+          }
+        
+      return querySnapshot.docs
+      }
 
 
 
 
       //obtener datos dependiendo de la busqueda
-    const getData = async (busqueda:any,filtro:any) => {
-      console.log(busqueda,filtro,"los datos que recibo")
+    // const getData = async (busqueda:any,filtro:any) => {
+    //   console.log(busqueda,filtro,"los datos que recibo")
       
-      if(user){
-        if(busqueda=="" && filtro==""){
+    //   if(user){
+    //     if(busqueda=="" && filtro==""){
 
-          const consulta=query(collection(db2, "Users"),where("propietario","==",user.email));
-          const querySnapshot = await getDocs(consulta);
+    //       const consulta=query(collection(db2, "Users"),where("propietario","==",user.email));
+    //       const querySnapshot = await getDocs(consulta);
 
-          console.log("entre a filtrar")
-          if (querySnapshot.docs) {
-              dispatch({ type: TYPES.CONSULTAR_PRODUCTO, payload:querySnapshot.docs });
+    //       console.log("entre a filtrar")
+    //       if (querySnapshot.docs) {
+    //           dispatch({ type: TYPES.CONSULTAR_PRODUCTO, payload:querySnapshot.docs });
               
             
-            } else {
-              dispatch({ type: TYPES.SIN_DATOS });
+    //         } else {
+    //           dispatch({ type: TYPES.SIN_DATOS });
              
-            }
+    //         }
           
-        return querySnapshot.docs
-        }
-        if(busqueda ){
-          console.log("entre a buscar")
-          const consulta=query(collection(db2, "Users"),where("propietario","==",user.email),where("nombre","==",busqueda));
-          const querySnapshot = await getDocs(consulta);
+    //     return querySnapshot.docs
+    //     }
+    //     if(busqueda ){
+    //       console.log("entre a buscar")
+    //       const consulta=query(collection(db2, "Users"),where("propietario","==",user.email),where("nombre","==",busqueda));
+    //       const querySnapshot = await getDocs(consulta);
     
-          if (querySnapshot.docs) {
-              dispatch({ type: TYPES.CONSULTAR_PRODUCTO, payload:querySnapshot.docs });
+    //       if (querySnapshot.docs) {
+    //           dispatch({ type: TYPES.CONSULTAR_PRODUCTO, payload:querySnapshot.docs });
               
            
-            } else {
-              dispatch({ type: TYPES.SIN_DATOS });
+    //         } else {
+    //           dispatch({ type: TYPES.SIN_DATOS });
             
-            }
+    //         }
           
-        return querySnapshot.docs
-          }
-        }if(busqueda=="" && filtro){
+    //     return querySnapshot.docs
+    //       }
+    //     }if(busqueda=="" && filtro){
 
-          const consulta=query(collection(db2, "Users"),where("propietario","==",user.email),where("tipo","==",filtro));
-          const querySnapshot = await getDocs(consulta);
+    //       const consulta=query(collection(db2, "Users"),where("propietario","==",user.email),where("tipo","==",filtro));
+    //       const querySnapshot = await getDocs(consulta);
 
-          console.log("entre a filtrar")
-          if (querySnapshot.docs) {
-              dispatch({ type: TYPES.CONSULTAR_PRODUCTO, payload:querySnapshot.docs });
+    //       console.log("entre a filtrar")
+    //       if (querySnapshot.docs) {
+    //           dispatch({ type: TYPES.CONSULTAR_PRODUCTO, payload:querySnapshot.docs });
               
             
-            } else {
-              dispatch({ type: TYPES.SIN_DATOS });
+    //         } else {
+    //           dispatch({ type: TYPES.SIN_DATOS });
              
-            }
+    //         }
           
-        return querySnapshot.docs
-        }
-        if(busqueda && filtro){
+    //     return querySnapshot.docs
+    //     }
+    //     if(busqueda && filtro){
 
-          const consulta=query(collection(db2, "Users"),where("propietario","==",user.email),where("tipo","==",filtro),where("nombre","==",busqueda));
-          const querySnapshot = await getDocs(consulta);
+    //       const consulta=query(collection(db2, "Users"),where("propietario","==",user.email),where("tipo","==",filtro),where("nombre","==",busqueda));
+    //       const querySnapshot = await getDocs(consulta);
 
-          console.log("entre a filtrar")
-          if (querySnapshot.docs) {
-              dispatch({ type: TYPES.CONSULTAR_PRODUCTO, payload:querySnapshot.docs });
+    //       console.log("entre a filtrar")
+    //       if (querySnapshot.docs) {
+    //           dispatch({ type: TYPES.CONSULTAR_PRODUCTO, payload:querySnapshot.docs });
               
             
-            } else {
-              dispatch({ type: TYPES.SIN_DATOS });
+    //         } else {
+    //           dispatch({ type: TYPES.SIN_DATOS });
              
-            }
+    //         }
           
-        return querySnapshot.docs
-        }
+    //     return querySnapshot.docs
+    //     }
        
-      }
+    //   }
         
       
  
@@ -693,7 +727,7 @@ const Admin: React.FC<Props2> = ({state,dispatch}) => {
       </DialogActions>
     </Dialog>
   
-    <Outlet context={{db,dbnote,dbpayments,dbusersready,dbstatistics,dbmora,recibidorId,getUserStatistics,getDataUserReady,addPayment,addData, getData,updateData,deleteData,addPay,addDataNote,updateDataNote,getDataNote,handleClickOpenDelete,getDataPayments,dispatch}} />
+    <Outlet context={{db,dbnote,dbpayments,dbusersready,dbstatistics,dbmora,recibidorId,getDataBase, getDataBaseDiarios,getUserStatistics,getDataUserReady,addPayment,addData,updateData,deleteData,addPay,addDataNote,updateDataNote,getDataNote,handleClickOpenDelete,getDataPayments,dispatch}} />
     </>
   )
 }
