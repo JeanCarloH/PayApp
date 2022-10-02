@@ -31,29 +31,20 @@ const ayer=yesterday.toLocaleDateString('en-GB')
 const antierxd = new Date(today)
 antierxd.setDate(antierxd.getDate() - 2)
 
-const antier =antierxd.toLocaleDateString('en-GB')
+var antier =antierxd.toLocaleDateString('en-GB')
 console.log(now,ayer,antier)
 
-// function getAccessToken() {
-//   return new Promise(function(resolve, reject) {
-//     const key = require('../../doc.json');
-//     const jwtClient = new google.auth.JWT(
-//       key.client_email,
-//       null,
-//       key.private_key,
-//       SCOPES,
-//       null
-//     );
-//     jwtClient.authorize(function(err:any, tokens:any) {
-//       if (err) {
-//         reject(err);
-//         return;
-//       }
-//       resolve(tokens.access_token);
-//     });
-//   });
-// }
+function formatoFecha(fecha:any, formato:any) {
+  const map:any = {
+      dd: fecha.getDate(),
+      mm: fecha.getMonth() + 1,
+      yy: fecha.getFullYear().toString().slice(-2),
+      yyyy: fecha.getFullYear()
+  }
 
+  return formato.replace(/dd|mm|yy|yyyy/gi, (matched:any) => map[matched])
+}
+console.log(formatoFecha(today, 'dd/mm/yyyy'),"hola")
 export const getToken2 = (setTokenFound:any,useremail:any) => {
   
   return getToken(messaging, {vapidKey: "BB1Xe-i3dVi7POm4swH7RAxAReADelXaYT2P_4qgy1Em01hzLrAstpbaSCt-46f14l7BuwshpgPVxFmf5jGF3ys"}).then((currentToken) => {
@@ -112,10 +103,29 @@ const Home =()=>{
     </Box>
   );
   const getDataUserMora = async () => {
+    //año-mes-dia
+    var año=now.split("/")[2]
+    var mes=now.split("/")[1]
+    var dia=now.split("/")[0]
+    let fecha= año+"-"+mes+"-"+dia
+
+    var año2=antier.split("/")[2]
+    var mes2=antier.split("/")[1]
+    var dia2=antier.split("/")[0]
+    let fecha2= año2+"-"+mes2+"-"+dia2
+   console.log(fecha,fecha2)
+    let fechabien = new Date(fecha).getTime();
+    let fechabien2 = new Date(fecha2).getTime();
+    
+     let fecha11 = fechabien+18000000+82800000;
+     let fecha22 = fechabien2+18000000;
+
+    let fechaReal1= fecha11.toString();
+   let fechaReal2=fecha22.toString();
     
    
     const consulta2=query(collection(db2, "Users"),where("propietario","==",user.email),where("totalabonos",">",0));
-    const consulta=query(collection(db2, "Payments"),where("fecha","<=",now),where("fecha",">=",antier)); //corone creo
+    const consulta=query(collection(db2, "Payments"),where("fecha2","<=",fechaReal1),where("fecha2",">=",fechaReal2)); //corone creo
    
     const querySnapshot = await getDocs(consulta);
     const querySnapshot2 = await getDocs(consulta2);

@@ -511,16 +511,18 @@ const Admin: React.FC<Props2> = ({state,dispatch}) => {
         
          const getUserStatistics= async (value:string,value2:string) => {
           "año-mes-dia"
-          console.log(typeof(user.email))
+          
           let fecha1 = new Date(value).getTime();
           let fecha2 = new Date(value2).getTime();
       
           let fecha11 = fecha1+18000000;
-          let fecha22 = fecha2+18000000;
+          let fecha22 = fecha2+18000000+82800000;
       
          let fechaReal1= fecha11.toString();
         let fechaReal2=fecha22.toString();
- 
+          console.log(fechaReal1,fechaReal2,"fechas a comprobar")
+          if(value && value2){
+            console.log("soy las dos fechas")
               const consulta=query(collection(db2, "Payments"),where("propietario","==",user.email),where('fecha2','>=',fechaReal1),where('fecha2','<=',fechaReal2));
               const querySnapshot = await getDocs(consulta);
             
@@ -535,7 +537,28 @@ const Admin: React.FC<Props2> = ({state,dispatch}) => {
                   //setError();
                 }
                 return querySnapshot.docs
-             
+              }if(value){
+                console.log("soy una sola fecha")
+                let probando= fecha1+18000000+82800000;
+                let probando2=probando.toString();
+                console.log(fechaReal1,"fecha colocada")
+                console.log(probando,"soy la fecha probando")
+                const consulta=query(collection(db2, "Payments"),where("propietario","==",user.email),where('fecha2','>=',fechaReal1),where('fecha2','<=',probando2));
+                const querySnapshot = await getDocs(consulta);
+              
+                console.log(querySnapshot.docs.map((doc:any)=>(doc.data())),"soy la fecha")
+                if (querySnapshot.docs) {
+                  
+                    dispatch({ type: TYPES.CONSULTAR_ESTADISTICAS, payload:querySnapshot.docs});
+                    
+                    //setError(null);
+                  } else {
+                    dispatch({ type: TYPES.SIN_DATOS });
+                    //setError();
+                  }
+                  return querySnapshot.docs
+              }
+              
               }
           
       //actualizar datos de usuario
