@@ -239,6 +239,7 @@ const Admin: React.FC<Props2> = ({state,dispatch}) => {
          fecha2:fecha22, //fecha en epoch
          clienteid:recibidorId,
          nombre:docSnap.data().nombre,
+         apellido:docSnap.data().apellido,
          propietario:docSnap.data().propietario,
         })
        

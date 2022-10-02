@@ -130,7 +130,7 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
               
               <StyledTableRow key={row.id}>
                   <StyledTableCell align="left">
-                  {row.nombre}
+                  {row.nombre + " " + row.apellido}
                   </StyledTableCell>
                   <StyledTableCell align="left">
                   {row.fecha}
