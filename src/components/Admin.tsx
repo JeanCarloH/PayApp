@@ -215,6 +215,7 @@ const Admin: React.FC<Props2> = ({state,dispatch}) => {
  
 
   const agregar =async()=>{
+    
     console.log(inputref.current.value,"soy el useref");
     if(inputref.current.value>0){
     const fecha2 = Date.now();
@@ -337,7 +338,7 @@ const Admin: React.FC<Props2> = ({state,dispatch}) => {
       };
       //agregar abono 
       const addPay = async (id:string) => {
-      
+        console.log(id,"soy el id")
         setRecibidorId(id);
         console.log(recibidorId,"soy el id del usestate")
         
@@ -519,7 +520,25 @@ const Admin: React.FC<Props2> = ({state,dispatch}) => {
         return querySnapshot.docs
       }
     }
-  
+  const getDataPaymentsReal  = async (id:any,busqueda:any) => {
+    setRecibidorId(id);
+    const ref=collection(db2, "Payments")
+          const consulta=query(ref,where("clienteid","==",id),orderBy("fecha"))
+          const querySnapshot = await getDocs(consulta);
+      
+           console.log(querySnapshot.docs,"soy la data de pagos")
+            if (querySnapshot.docs) {
+              dispatch({ type: TYPES.CONSULTAR_PAGOS, payload:querySnapshot.docs });
+              
+           
+            } else {
+              dispatch({ type: TYPES.SIN_DATOS });
+            
+            }
+          
+        
+        return querySnapshot.docs
+  }
       
       
       const getDataNote = async () => {
@@ -728,7 +747,7 @@ const Admin: React.FC<Props2> = ({state,dispatch}) => {
       </DialogActions>
     </Dialog>
   
-    <Outlet context={{db,dbnote,dbpayments,dbusersready,dbstatistics,dbmora,recibidorId,getDataBase, getDataBaseDiarios,getUserStatistics,getDataUserReady,addPayment,addData,updateData,deleteData,addPay,addDataNote,updateDataNote,getDataNote,handleClickOpenDelete,getDataPayments,dispatch}} />
+    <Outlet context={{db,dbnote,dbpayments,dbusersready,dbstatistics,dbmora,recibidorId,getDataBase, getDataPaymentsReal,getDataBaseDiarios,getUserStatistics,getDataUserReady,addPayment,addData,updateData,deleteData,addPay,addDataNote,updateDataNote,getDataNote,handleClickOpenDelete,getDataPayments,dispatch}} />
     </>
   )
 }

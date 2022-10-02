@@ -30,7 +30,7 @@ import PaidIcon from '@mui/icons-material/Paid';
 import { db2 } from '../firebase';
 import { useEffect,useState } from "react";
 import { useRef } from 'react';
-
+import { Props8 } from "./types";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -55,7 +55,7 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
 
   
   //para eliminar un pago (recien agregado.. pendiente de probar)
-  const UserPaymentTable = ()=> {
+  const UserPaymentTable: React.FC<Props8> = ({busquedaPagos})=> {
     const clave:any= useRef();
   
     const {dispatch}:any = useOutletContext();
@@ -73,6 +73,7 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
     };
   
     const deletePayment = async () => {
+      console.log(recibidorId, id,"somos el recibidor id y el id del pago a eliminar");
       if(clave.current.value==1234){
         console.log(id,"si entre y soy el id")
         const docRef = doc(db2, "Payments",id);
@@ -123,14 +124,14 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
             </TableHead>
          
             <TableBody>
-             {dbpayments.length>0 &&
+             {busquedaPagos &&
              
-            dbpayments.map((row:any) => ( 
+             dbpayments.filter((row:any) => (row.fecha.toLowerCase().includes(busquedaPagos.toLowerCase())) ).map(((row:any) => (
             
               
               <StyledTableRow key={row.id}>
                   <StyledTableCell align="left">
-                  {row.nombre + " " + row.apellido}
+                  {row.nombre  +" "+ row.apellido}
                   </StyledTableCell>
                   <StyledTableCell align="left">
                   {row.fecha}
@@ -150,8 +151,36 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
                    </StyledTableCell>
 
                   </StyledTableRow>
-            ))}  
-
+            )))}  
+            {!busquedaPagos &&
+             
+             dbpayments.map((row:any) => ( 
+             
+               
+               <StyledTableRow key={row.id}>
+                   <StyledTableCell align="left">
+                   {row.nombre +" "+ row.apellido}
+                   </StyledTableCell>
+                   <StyledTableCell align="left">
+                   {row.fecha}
+                   </StyledTableCell>
+                   <StyledTableCell align="left">
+                   {row.abono}
+                   </StyledTableCell>
+                   <StyledTableCell align="left">
+                   {row.monto}
+                   </StyledTableCell>
+ 
+                   <StyledTableCell align="center">
+                   <DeleteIcon
+                   sx={{m:1}}
+                   onClick={() =>handleClickOpen(row.id)}
+                   />
+                    </StyledTableCell>
+ 
+                   </StyledTableRow>
+             ))}  
+  
      
               
             </TableBody>

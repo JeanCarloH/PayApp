@@ -89,8 +89,9 @@ const Home =()=>{
     
     getDataUserMora();
     getDataUserReady();
-    
+    getDataBase();
     getDataNote();
+    getDataBaseDiarios();
    
   },[])
   getToken2(setTokenFound,user.email)
@@ -148,7 +149,7 @@ const Home =()=>{
   return querySnapshot.docs
      
     }
-    getDataBaseDiarios();
+    //getDataBaseDiarios();
       return( 
     <>
     <ResponsiveAppBar/>

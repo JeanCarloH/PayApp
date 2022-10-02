@@ -65,6 +65,9 @@ export interface Props7{
         monto:number;     
 
     }
+    export interface Props8{
+        busquedaPagos:string | null;
+        }
 export interface xd{
     title:string;
     body:string;

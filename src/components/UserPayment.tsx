@@ -23,11 +23,14 @@ import SearchIcon from '@mui/icons-material/Search';
 
 
 const UserPayment = () => {
-  const { addPayment,dbpayments,getDataPayments,recibidorId}:any = useOutletContext();
+  const { addPayment,dbpayments,getDataPayments,recibidorId,getDataPaymentsReal}:any = useOutletContext();
   const [busquedaPagos, setBusquedaPagos] = React.useState<string|null>("");
   useEffect(()=>{
-    getDataPayments(recibidorId,busquedaPagos);
-  } ,[busquedaPagos])
+    getDataPayments()
+    getDataPaymentsReal(recibidorId,busquedaPagos);
+  } ,[])
+  
+  
   const handlechange=(e: React.ChangeEvent<HTMLInputElement>)=>{
     setBusquedaPagos(e.target.value)
   
@@ -180,7 +183,7 @@ const UserPayment = () => {
 
         }
         </Search>
-    <UserPaymentTable />
+    <UserPaymentTable busquedaPagos={busquedaPagos}/>
     </>
   )
 }

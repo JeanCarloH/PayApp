@@ -23,7 +23,7 @@ import { FormControl, Grid, InputLabel, MenuItem, Select, SelectChangeEvent } fr
 const UserSearch = () => {
   const {user}:any = useAuth();
   const [state, dispatch] = useReducer(userReducer, userInitialState);
-  const {getData,getDataName,getDataNote}:any = useOutletContext();
+  const {getData,getDataName,getDataNote,getDataBase}:any = useOutletContext();
   const [filtro, setFiltro] = useState("1");
     const [busqueda, setBusqueda] = React.useState<string|null>("");
     const handlechange=(e: React.ChangeEvent<HTMLInputElement>)=>{
@@ -34,7 +34,7 @@ const UserSearch = () => {
         setBusqueda("");
       }
       useEffect(()=>{
-      
+      getDataBase()
         getDataNote();
       } ,[])
     const Search = styled('div')(({ theme }) => ({

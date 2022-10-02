@@ -58,7 +58,7 @@ const temaNuevo = createTheme({
 
 
 const UsersTable: React.FC<Props4> = ({busqueda,filtro})=> {
-  const { db,deleteData, addPay, getDataPayments,handleClickOpenDelete,}:any = useOutletContext();
+  const { db,deleteData, addPay, getDataPayments,handleClickOpenDelete,getDataPaymentsReal}:any = useOutletContext();
   const [checked, setChecked] = useState(true);
   const [busquedaPagos, setBusquedaPagos] = React.useState<string|null>("");
 
@@ -136,7 +136,7 @@ const UsersTable: React.FC<Props4> = ({busqueda,filtro})=> {
                   <StyledTableCell align="right">
                   <Link to="/Admin/Payment">
                     <PaidIcon
-                    onClick={()=> getDataPayments(product.id,busquedaPagos)}
+                    onClick={()=> getDataPaymentsReal(product.id,busquedaPagos)}
                      sx={{m:1}} 
                     />
                     </Link>
@@ -204,7 +204,7 @@ const UsersTable: React.FC<Props4> = ({busqueda,filtro})=> {
                   <StyledTableCell align="right">
                   <Link to="/Admin/Payment">
                     <PaidIcon
-                    onClick={()=> getDataPayments(product.id,busquedaPagos)}
+                    onClick={()=> getDataPaymentsReal(product.id,busquedaPagos)}
                      sx={{m:1}} 
                     />
                     </Link>
