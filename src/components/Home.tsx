@@ -32,7 +32,7 @@ const antierxd = new Date(today)
 antierxd.setDate(antierxd.getDate() - 2)
 
 var antier =antierxd.toLocaleDateString('en-GB')
-console.log(now,ayer,antier)
+//console.log(now,ayer,antier)
 
 function formatoFecha(fecha:any, formato:any) {
   const map:any = {
@@ -44,7 +44,7 @@ function formatoFecha(fecha:any, formato:any) {
 
   return formato.replace(/dd|mm|yy|yyyy/gi, (matched:any) => map[matched])
 }
-console.log(formatoFecha(today, 'dd/mm/yyyy'),"hola")
+//console.log(formatoFecha(today, 'dd/mm/yyyy'),"hola")
 export const getToken2 = (setTokenFound:any,useremail:any) => {
   
   return getToken(messaging, {vapidKey: "BB1Xe-i3dVi7POm4swH7RAxAReADelXaYT2P_4qgy1Em01hzLrAstpbaSCt-46f14l7BuwshpgPVxFmf5jGF3ys"}).then((currentToken) => {
@@ -125,7 +125,7 @@ const Home =()=>{
    let fechaReal2=fecha22.toString();
     
    
-    const consulta2=query(collection(db2, "Users"),where("propietario","==",user.email),where("totalabonos",">",0));
+    const consulta2=query(collection(db2, "Users"),where("propietario","==",user.email),where("totalabonos",">",0),where("tipo","==","1"));
     const consulta=query(collection(db2, "Payments"),where("fecha2","<=",fechaReal1),where("fecha2",">=",fechaReal2)); //corone creo
    
     const querySnapshot = await getDocs(consulta);

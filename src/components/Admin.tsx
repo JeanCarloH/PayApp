@@ -41,6 +41,10 @@ var today = new Date();
 var now = today.toLocaleDateString('en-GB');
 
 
+var colombia2 = new Date().toLocaleString('en-GB');
+
+console.log(colombia2+"colombia2");
+console.log(now+"now ahora");
 
 const yesterday = new Date(today)
 yesterday.setDate(yesterday.getDate() - 1)
@@ -79,6 +83,7 @@ const Admin: React.FC<Props2> = ({state,dispatch}) => {
   const {dbstatistics}:any =state;
   const {dbmora}:any =state;
   const {dbtokens}:any =state;
+  const {dbpayments2}:any =state;
   const topic="notes";
   
   const{user,logout,login}:any=useAuth() //aca traemos el estado de usecontext
@@ -278,7 +283,22 @@ const Admin: React.FC<Props2> = ({state,dispatch}) => {
     setOpenDelete(false);
   };
 
-
+  const consultarPagos2 =  async() => {
+    console.log("si entreeee")
+    const consulta=query(collection(db2, "Payments"),where("propietario","==",user.email),where("fecha","==",now));
+    const querySnapshot = await getDocs(consulta);
+    console.log(querySnapshot.docs)
+    if (querySnapshot.docs) {
+      dispatch({ type: TYPES.CONSULTAR_PAGOS2, payload:querySnapshot.docs });
+      
+   
+    } else {
+      dispatch({ type: TYPES.SIN_DATOS });
+    
+    }
+  
+    return querySnapshot.docs
+  }
   
 
   const addPropietario = async () => {
@@ -403,80 +423,6 @@ const Admin: React.FC<Props2> = ({state,dispatch}) => {
 
 
 
-      //obtener datos dependiendo de la busqueda
-    // const getData = async (busqueda:any,filtro:any) => {
-    //   console.log(busqueda,filtro,"los datos que recibo")
-      
-    //   if(user){
-    //     if(busqueda=="" && filtro==""){
-
-    //       const consulta=query(collection(db2, "Users"),where("propietario","==",user.email));
-    //       const querySnapshot = await getDocs(consulta);
-
-    //       console.log("entre a filtrar")
-    //       if (querySnapshot.docs) {
-    //           dispatch({ type: TYPES.CONSULTAR_PRODUCTO, payload:querySnapshot.docs });
-              
-            
-    //         } else {
-    //           dispatch({ type: TYPES.SIN_DATOS });
-             
-    //         }
-          
-    //     return querySnapshot.docs
-    //     }
-    //     if(busqueda ){
-    //       console.log("entre a buscar")
-    //       const consulta=query(collection(db2, "Users"),where("propietario","==",user.email),where("nombre","==",busqueda));
-    //       const querySnapshot = await getDocs(consulta);
-    
-    //       if (querySnapshot.docs) {
-    //           dispatch({ type: TYPES.CONSULTAR_PRODUCTO, payload:querySnapshot.docs });
-              
-           
-    //         } else {
-    //           dispatch({ type: TYPES.SIN_DATOS });
-            
-    //         }
-          
-    //     return querySnapshot.docs
-    //       }
-    //     }if(busqueda=="" && filtro){
-
-    //       const consulta=query(collection(db2, "Users"),where("propietario","==",user.email),where("tipo","==",filtro));
-    //       const querySnapshot = await getDocs(consulta);
-
-    //       console.log("entre a filtrar")
-    //       if (querySnapshot.docs) {
-    //           dispatch({ type: TYPES.CONSULTAR_PRODUCTO, payload:querySnapshot.docs });
-              
-            
-    //         } else {
-    //           dispatch({ type: TYPES.SIN_DATOS });
-             
-    //         }
-          
-    //     return querySnapshot.docs
-    //     }
-    //     if(busqueda && filtro){
-
-    //       const consulta=query(collection(db2, "Users"),where("propietario","==",user.email),where("tipo","==",filtro),where("nombre","==",busqueda));
-    //       const querySnapshot = await getDocs(consulta);
-
-    //       console.log("entre a filtrar")
-    //       if (querySnapshot.docs) {
-    //           dispatch({ type: TYPES.CONSULTAR_PRODUCTO, payload:querySnapshot.docs });
-              
-            
-    //         } else {
-    //           dispatch({ type: TYPES.SIN_DATOS });
-             
-    //         }
-          
-    //     return querySnapshot.docs
-    //     }
-       
-    //   }
         
       
  
@@ -490,7 +436,7 @@ const Admin: React.FC<Props2> = ({state,dispatch}) => {
           const consulta=query(ref,where("clienteid","==",id),where("fecha","==",busquedaPagos));
           const querySnapshot = await getDocs(consulta);
       
-           console.log(querySnapshot.docs,"hola")
+          // console.log(querySnapshot.docs,"hola")
             if (querySnapshot.docs) {
               dispatch({ type: TYPES.CONSULTAR_PAGOS, payload:querySnapshot.docs });
               
@@ -523,10 +469,10 @@ const Admin: React.FC<Props2> = ({state,dispatch}) => {
   const getDataPaymentsReal  = async (id:any,busqueda:any) => {
     setRecibidorId(id);
     const ref=collection(db2, "Payments")
-          const consulta=query(ref,where("clienteid","==",id),orderBy("fecha"))
+          const consulta=query(ref,where("clienteid","==",id),orderBy("fecha2"))
           const querySnapshot = await getDocs(consulta);
       
-           console.log(querySnapshot.docs,"soy la data de pagos")
+          // console.log(querySnapshot.docs,"soy la data de pagos")
             if (querySnapshot.docs) {
               dispatch({ type: TYPES.CONSULTAR_PAGOS, payload:querySnapshot.docs });
               
@@ -565,7 +511,7 @@ const Admin: React.FC<Props2> = ({state,dispatch}) => {
         
          const getUserStatistics= async (value:string,value2:string) => {
           "año-mes-dia"
-          
+          consultarPagos2();
           let fecha1 = new Date(value).getTime();
           let fecha2 = new Date(value2).getTime();
       
@@ -574,13 +520,13 @@ const Admin: React.FC<Props2> = ({state,dispatch}) => {
       
          let fechaReal1= fecha11.toString();
         let fechaReal2=fecha22.toString();
-          console.log(fechaReal1,fechaReal2,"fechas a comprobar")
+         // console.log(fechaReal1,fechaReal2,"fechas a comprobar")
           if(value && value2){
-            console.log("soy las dos fechas")
+          //  console.log("soy las dos fechas")
               const consulta=query(collection(db2, "Payments"),where("propietario","==",user.email),where('fecha2','>=',fechaReal1),where('fecha2','<=',fechaReal2));
               const querySnapshot = await getDocs(consulta);
             
-              console.log(querySnapshot.docs.map((doc:any)=>(doc.data())),"soy la fecha")
+            //  console.log(querySnapshot.docs.map((doc:any)=>(doc.data())),"soy la fecha")
               if (querySnapshot.docs) {
                 
                   dispatch({ type: TYPES.CONSULTAR_ESTADISTICAS, payload:querySnapshot.docs});
@@ -592,15 +538,15 @@ const Admin: React.FC<Props2> = ({state,dispatch}) => {
                 }
                 return querySnapshot.docs
               }if(value){
-                console.log("soy una sola fecha")
+             //   console.log("soy una sola fecha")
                 let probando= fecha1+18000000+82800000;
                 let probando2=probando.toString();
-                console.log(fechaReal1,"fecha colocada")
-                console.log(probando,"soy la fecha probando")
+              //  console.log(fechaReal1,"fecha colocada")
+               // console.log(probando,"soy la fecha probando")
                 const consulta=query(collection(db2, "Payments"),where("propietario","==",user.email),where('fecha2','>=',fechaReal1),where('fecha2','<=',probando2));
                 const querySnapshot = await getDocs(consulta);
               
-                console.log(querySnapshot.docs.map((doc:any)=>(doc.data())),"soy la fecha")
+           //     console.log(querySnapshot.docs.map((doc:any)=>(doc.data())),"soy la fecha")
                 if (querySnapshot.docs) {
                   
                     dispatch({ type: TYPES.CONSULTAR_ESTADISTICAS, payload:querySnapshot.docs});
@@ -651,7 +597,7 @@ const Admin: React.FC<Props2> = ({state,dispatch}) => {
    
      };
      const deleteData2 = async(recibidorId:any) => {
-      console.log("entree dd")
+     // console.log("entree dd")
       if(clave.current.value==1234){
         let consulta= query(collection(db2,'Payments'),where('clienteid','==',recibidorId));
         let querySnapshot = await getDocs(consulta);
@@ -747,7 +693,7 @@ const Admin: React.FC<Props2> = ({state,dispatch}) => {
       </DialogActions>
     </Dialog>
   
-    <Outlet context={{db,dbnote,dbpayments,dbusersready,dbstatistics,dbmora,recibidorId,getDataBase, getDataPaymentsReal,getDataBaseDiarios,getUserStatistics,getDataUserReady,addPayment,addData,updateData,deleteData,addPay,addDataNote,updateDataNote,getDataNote,handleClickOpenDelete,getDataPayments,dispatch}} />
+    <Outlet context={{db,dbnote,dbpayments,dbusersready,dbstatistics,dbmora,recibidorId,dbpayments2,getDataBase, consultarPagos2,getDataPaymentsReal,getDataBaseDiarios,getUserStatistics,getDataUserReady,addPayment,addData,updateData,deleteData,addPay,addDataNote,updateDataNote,getDataNote,handleClickOpenDelete,getDataPayments,dispatch}} />
     </>
   )
 }

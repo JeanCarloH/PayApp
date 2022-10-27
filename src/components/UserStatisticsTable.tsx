@@ -58,9 +58,15 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
   
   
   const UserStatisticsTable: React.FC<Props6> = ({tipo, tipoMes})=> {
-    const { dbstatistics}:any = useOutletContext();
+    var today = new Date();
+ 
 
-  
+  var now = today.toLocaleDateString('en-GB');
+    const { dbstatistics,dbpayments2}:any = useOutletContext();
+
+    console.log(dbpayments2.length,"dbpayments2 tamaño desde estadistics")
+    dbpayments2.map((item:any)=>console.log(item))
+
   const totalcobro= dbstatistics.reduce((total:any,item:any)=>item.abono+total,0)
   
     return ( 
@@ -72,6 +78,7 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
               <TableRow>
                
                 <StyledTableCell>Total cobro  </StyledTableCell>
+   
                 
                 
                </TableRow>
@@ -91,8 +98,45 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
                  
                   </StyledTableCell>
                   </StyledTableRow>
-     
+         
               
+            </TableBody>
+            
+          </Table>
+        </TableContainer>
+
+        <TableContainer sx={{  m: -1 }} component={Paper}>
+          <Table sx={{ width:"100%" }} aria-label="customized table">
+            <TableHead>
+              <TableRow>
+               
+                <StyledTableCell>Lista Clientes  </StyledTableCell>
+                <StyledTableCell>abono  </StyledTableCell>
+                
+                
+               </TableRow>
+            </TableHead>
+         
+            <TableBody>
+            
+                  
+                  
+                  {dbpayments2.length>0 &&
+             
+             dbpayments2.map((row:any) => (
+            
+              
+              <StyledTableRow key={row.id}>
+                  <StyledTableCell align="center">
+                  {row.nombre  +" "+ row.apellido}
+                  </StyledTableCell>
+                  <StyledTableCell align="center">
+                  {row.abono}
+                  </StyledTableCell>
+                    </StyledTableRow>
+
+     ))}
+          
             </TableBody>
             
           </Table>

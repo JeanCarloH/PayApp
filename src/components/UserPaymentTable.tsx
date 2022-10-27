@@ -126,7 +126,7 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
             <TableBody>
              {busquedaPagos &&
              
-             dbpayments.filter((row:any) => (row.fecha.toLowerCase().includes(busquedaPagos.toLowerCase())) ).map(((row:any) => (
+             dbpayments.filter((row:any) => (row.fecha.includes(busquedaPagos)) ).map(((row:any) => (
             
               
               <StyledTableRow key={row.id}>
