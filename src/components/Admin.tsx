@@ -35,16 +35,18 @@ import { getMessaging } from 'firebase/messaging';
 import { messaging } from 'firebase-admin';
 
 import { getToken2 } from './Home';
+
 var today = new Date();
  
 
-var now = today.toLocaleDateString('en-GB');
+//var now = today.toLocaleDateString('en-GB');
 
+var sebas=today.toLocaleDateString();
+console.log(sebas,"fecha de sebas")
 
-var colombia2 = new Date().toLocaleString('en-GB');
-
-console.log(colombia2+"colombia2");
-console.log(now+"now ahora");
+console.log("======================================");
+console.log(new Date().toLocaleDateString())
+console.log("======================================");
 
 const yesterday = new Date(today)
 yesterday.setDate(yesterday.getDate() - 1)
@@ -87,18 +89,27 @@ const Admin: React.FC<Props2> = ({state,dispatch}) => {
   const topic="notes";
   
   const{user,logout,login}:any=useAuth() //aca traemos el estado de usecontext
+  let now:string;
+  let hora:string;
   React.useEffect(() => {
    getDataBase();
      
  }
 , [])
 
+React.useEffect(() => {
+    now=new Date().toLocaleDateString();
+    hora= new Date().toLocaleTimeString();
+    console.log(hora,"la hora")
+}
+)
+
 // setInterval(() => {
 
 //   muestraReloj();
 //   mirador();
 //   }, 1000);
-  
+
   function muestraReloj():any {
     var fechaHora = new Date();
     var horas:any = fechaHora.getHours();
@@ -222,6 +233,7 @@ const Admin: React.FC<Props2> = ({state,dispatch}) => {
   const agregar =async()=>{
     
     console.log(inputref.current.value,"soy el useref");
+   
     if(inputref.current.value>0){
     const fecha2 = Date.now();
     const fecha22= fecha2.toString();
@@ -229,26 +241,33 @@ const Admin: React.FC<Props2> = ({state,dispatch}) => {
     
     const docRef = doc(db2, "Users",recibidorId);
     const docSnap = await getDoc(docRef);
+
+  
     
    let resultado;
    let resultado2;
    let resultado3;
+   let valorabonar=inputref.current.value;
     if (docSnap.exists()) {
      
        resultado=docSnap.data().abono;
         resultado2=docSnap.data().monto;
         resultado3=docSnap.data().totalabonos;
+        console.log(resultado2,valorabonar)
+        console.log(typeof resultado2, typeof valorabonar)
+
         await addDoc(collection(db2,"Payments"),{
-         abono:parseInt(inputref.current.value),
-         monto:resultado2-parseInt(inputref.current.value),
+         abono:parseInt(valorabonar),
+         monto:parseInt(resultado2)-parseInt(valorabonar),
          fecha:now,
          fecha2:fecha22, //fecha en epoch
          clienteid:recibidorId,
          nombre:docSnap.data().nombre,
          apellido:docSnap.data().apellido,
          propietario:docSnap.data().propietario,
+         hora:hora,
         })
-       
+       console.log(parseInt(resultado2)-parseInt(valorabonar))
         
 
     } else {
@@ -261,8 +280,21 @@ const Admin: React.FC<Props2> = ({state,dispatch}) => {
     
    
     
-    await updateDoc(doc(db2, "Users",recibidorId),{ monto:resultado2-parseInt(inputref.current.value), })
-    await updateDoc(doc(db2, "Users",recibidorId),{ totalabonos:resultado3+1, })
+    await updateDoc(doc(db2, "Users",recibidorId),{ monto:parseInt(resultado2)-parseInt(valorabonar) })
+   
+    const consultaxd=query(collection(db2, "Payments"),where("clienteid","==",recibidorId));
+    const querySnapshotxd = await getDocs(consultaxd);
+    
+    let contador=querySnapshotxd.docs.length;
+    await updateDoc(doc(db2, "Users",recibidorId),{ totalabonos:contador}) 
+
+    console.log(resultado2+"abono")
+    console.log(resultado3+"totalabonos")
+    console.log(recibidorId+"recibidorId")
+    console.log(valorabonar+"valorabonar guardado")
+    
+   
+
     const consulta=query(collection(db2, "Users"),where("propietario","==",user.email));
     const querySnapshot = await getDocs(consulta);
               if (querySnapshot.docs) {
@@ -285,7 +317,7 @@ const Admin: React.FC<Props2> = ({state,dispatch}) => {
 
   const consultarPagos2 =  async() => {
     console.log("si entreeee")
-    const consulta=query(collection(db2, "Payments"),where("propietario","==",user.email),where("fecha","==",now));
+    const consulta=query(collection(db2, "Payments"),where("propietario","==",user.email),where("fecha","==",now),orderBy("nombre","asc"));
     const querySnapshot = await getDocs(consulta);
     console.log(querySnapshot.docs)
     if (querySnapshot.docs) {
@@ -587,7 +619,7 @@ const Admin: React.FC<Props2> = ({state,dispatch}) => {
          };
          //eliminar usuario 
       const deleteData = async(recibidorId:any) => {
-      if(clave.current.value==1234){
+      if(clave.current.value==1565){
         const eliminar= await deleteDoc(doc(db2, 'Users', recibidorId));
         dispatch({ type: TYPES.ELIMINAR_USUARIO, payload: recibidorId });
         setOpenDelete(false)
@@ -598,7 +630,7 @@ const Admin: React.FC<Props2> = ({state,dispatch}) => {
      };
      const deleteData2 = async(recibidorId:any) => {
      // console.log("entree dd")
-      if(clave.current.value==1234){
+      if(clave.current.value==1565){
         let consulta= query(collection(db2,'Payments'),where('clienteid','==',recibidorId));
         let querySnapshot = await getDocs(consulta);
         querySnapshot.forEach((doc) => {

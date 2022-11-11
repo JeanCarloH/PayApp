@@ -151,12 +151,13 @@ console.log(now)
             value={form.nombre}
           />
         </Grid>
+    
         <Grid item xs={12} md={3} sx={{marginTop:1}}>
           <TextField
             name="apellido"
             onChange={handleChange}
             required
-            label="apellido"
+            label="apellido o producto"
             value={form.apellido}
           />
         </Grid>

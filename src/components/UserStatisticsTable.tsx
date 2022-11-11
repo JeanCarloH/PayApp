@@ -67,7 +67,7 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
     console.log(dbpayments2.length,"dbpayments2 tamaño desde estadistics")
     dbpayments2.map((item:any)=>console.log(item))
 
-  const totalcobro= dbstatistics.reduce((total:any,item:any)=>item.abono+total,0)
+  const totalcobro= dbstatistics.reduce((total:any,item:any)=>parseInt(item.abono)+total,0)
   
     return ( 
       <>

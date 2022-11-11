@@ -74,7 +74,7 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
   
     const deletePayment = async () => {
       console.log(recibidorId, id,"somos el recibidor id y el id del pago a eliminar");
-      if(clave.current.value==1234){
+      if(clave.current.value==1565){
         console.log(id,"si entre y soy el id")
         const docRef = doc(db2, "Payments",id);
         const docSnap = await getDoc(docRef);
@@ -101,8 +101,12 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
           console.log("No such document!");
         }
         setOpen(false)
-        await updateDoc(doc(db2, "Users",recibidorId),{ monto:resultado2+resultado, })
-        await updateDoc(doc(db2, "Users",recibidorId),{ totalabonos:resultado3-1, })
+        await updateDoc(doc(db2, "Users",recibidorId),{ monto:resultado2+resultado })
+        const consultaxd=query(collection(db2, "Payments"),where("clienteid","==",recibidorId));
+        const querySnapshotxd = await getDocs(consultaxd);
+        
+        let contador=querySnapshotxd.docs.length;
+        await updateDoc(doc(db2, "Users",recibidorId),{ totalabonos:contador}) 
       }
        setOpen(false)
     }
@@ -118,6 +122,7 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
                 <StyledTableCell align="left">Nombre</StyledTableCell>
                  <StyledTableCell align="left">Fecha</StyledTableCell>
                  <StyledTableCell align="left">abono</StyledTableCell>
+                 <StyledTableCell align="left">Hora</StyledTableCell>
                  <StyledTableCell align="left">Monto</StyledTableCell>
                  <StyledTableCell align="center" >Acciones</StyledTableCell>
                </TableRow>
@@ -140,10 +145,13 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
                   {row.abono}
                   </StyledTableCell>
                   <StyledTableCell align="left">
+                  {row.hora}
+                  </StyledTableCell>
+                  <StyledTableCell align="left">
                   {row.monto}
                   </StyledTableCell>
 
-                  <StyledTableCell align="center">
+                  <StyledTableCell align="left">
                   <DeleteIcon
                   sx={{m:1}}
                   onClick={() =>handleClickOpen(row.id)}
@@ -166,6 +174,9 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
                    </StyledTableCell>
                    <StyledTableCell align="left">
                    {row.abono}
+                   </StyledTableCell>
+                   <StyledTableCell align="left">
+                   {row.hora}
                    </StyledTableCell>
                    <StyledTableCell align="left">
                    {row.monto}
