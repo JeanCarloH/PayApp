@@ -94,7 +94,7 @@ React.useEffect(() => {
     console.log(hora,"la hora")
 }
 )
-
+now=new Date().toLocaleDateString();
 // setInterval(() => {
 
 //   muestraReloj();
@@ -316,7 +316,7 @@ React.useEffect(() => {
 
     const getDataUserReady = async () => {
     
-   
+   console.log(now)
       const consulta2=query(collection(db2, "Users"),where("propietario","==",user.email),where("tipo","==","1")) //me trae6 
       const consulta=query(collection(db2, "Payments"),where("fecha","==",now)); //me trae 5
 
