@@ -19,6 +19,13 @@ import { Grid } from "@mui/material";
 import { getMessaging, getToken, onMessage } from "firebase/messaging";
 import { messaging } from "../firebase";
 import { GoogleAuthProvider } from "firebase/auth";
+import SearchIcon from '@mui/icons-material/Search';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
+import { useRef } from 'react';
 
 var today = new Date();
  
@@ -33,6 +40,7 @@ antierxd.setDate(antierxd.getDate() - 2)
 
 var antier =antierxd.toLocaleDateString('en-GB')
 //console.log(now,ayer,antier)
+
 
 function formatoFecha(fecha:any, formato:any) {
   const map:any = {
@@ -83,7 +91,9 @@ const Home =()=>{
    const [isTokenFound, setTokenFound] = useState(false);
    const [busqueda, setBusqueda] = useState("");
    const [filtro, setFiltro] = useState("1");
-  
+   const [open, setOpen] = React.useState(false);
+   const [validador2 , setValidador2] = useState(false);
+  const clave:any= useRef();
   const {dispatch,dbmora,db,dbusersready,getDataUserReady,getData,agregadorTokens,getDataNote,getDataBase, getDataBaseDiarios}:any = useOutletContext();
   useEffect(()=>{
     
@@ -91,7 +101,7 @@ const Home =()=>{
     getDataUserReady();
  
     getDataNote();
-    getDataBaseDiarios();
+
    
   },[])
   getToken2(setTokenFound,user.email)
@@ -103,6 +113,18 @@ const Home =()=>{
       •
     </Box>
   );
+  const validador = () => {
+    if(clave.current.value==1565){
+      getDataBaseDiarios();
+      setValidador2(true);
+    }
+    setOpen(false);
+
+  }
+ 
+ 
+
+  
   const getDataUserMora = async () => {
     //año-mes-dia
     var año=now.split("/")[2]
@@ -150,10 +172,42 @@ const Home =()=>{
   return querySnapshot.docs
      
     }
-    //getDataBaseDiarios();
-    const totalcobro= db.reduce((total:any,item:any)=>parseInt(item.monto)+total,0)
+    const handleClose = () => {
+ 
+      setOpen(false);
+    };
+ 
       return( 
     <>
+        <Dialog open={open} onClose={handleClose}>
+        <DialogTitle>use la clave para usar</DialogTitle>
+        
+        <Box
+      sx={{
+        textAlign: 'center',
+         height:50,
+       
+         
+      }}
+    >
+        <input
+          //  autoFocus={true}
+            name='cantidad'
+            id="name"
+            type='number'
+            ref={clave}
+           
+          />
+          </Box>
+          <Box sx={{textAlign:"center"}}>
+          <Button onClick={handleClose}>Cancelar</Button>
+          <Button onClick={validador}>Aceptar</Button>
+          </Box>
+         
+        
+      </Dialog>
+
+
     <ResponsiveAppBar/>
 
     <Box sx={{ display: { xs: "flex", md: "none" }, mr: 2}} >
@@ -173,13 +227,7 @@ const Home =()=>{
         </Typography>
       </CardContent>
    </Card>
-   <Card sx={{  m:1 }}>
-      <CardContent>
-        <Typography variant="h5" component="div">
-          {bull} La cantidad de clientes diarios es: {db.length}
-        </Typography>
-      </CardContent>
-   </Card>
+ 
    <Card sx={{  m:1 }}>
       <CardContent>
         <Typography variant="h5" component="div">
@@ -187,16 +235,27 @@ const Home =()=>{
         </Typography>
       </CardContent>
    </Card>
-
-   <Card sx={{  m:1 }}>
-      <CardContent>
-        <Typography variant="h5" component="div">
-          {bull} La cantidad total de dinero (CXC) es: {totalcobro}
-        </Typography>
-      </CardContent>
-   </Card>
-   
+   <Box sx={{display:'flex', justifyContent:'center', marginBottom:2}}>
+    <Button
+                onClick={() =>setOpen(true)}
+                variant="contained"
+                endIcon={< SearchIcon />}
+                color="success"
+               
+              >
+                consultar clientes diarios
+              </Button>
+              </Box>
+           
    </Grid>
+   {   validador2==true&&
+   <Card sx={{  m:1 }}>
+    <CardContent>
+      <Typography variant="h5" component="div">
+        {bull} La cantidad de clientes diarios es: {db.length}
+      </Typography>
+    </CardContent>
+ </Card>}
     </>
     );
    
