@@ -41,12 +41,7 @@ var today = new Date();
 
 //var now = today.toLocaleDateString('en-GB');
 
-var sebas=today.toLocaleDateString();
-console.log(sebas,"fecha de sebas")
 
-console.log("======================================");
-console.log(new Date().toLocaleDateString())
-console.log("======================================");
 
 const yesterday = new Date(today)
 yesterday.setDate(yesterday.getDate() - 1)
@@ -91,11 +86,7 @@ const Admin: React.FC<Props2> = ({state,dispatch}) => {
   const{user,logout,login}:any=useAuth() //aca traemos el estado de usecontext
   let now:string;
   let hora:string;
-  React.useEffect(() => {
-  // getDataBase();
-     
- }
-, [])
+ 
 
 React.useEffect(() => {
     now=new Date().toLocaleDateString();
@@ -443,7 +434,7 @@ React.useEffect(() => {
         
       
  
-      //obtener los pagos de cada usuario
+      //obtener los pagos de cada usuario YA NO SE USA ESTE METODO
       const getDataPayments = async (id:any,busquedaPagos:any) => {
         
         setRecibidorId(id);
@@ -710,7 +701,7 @@ React.useEffect(() => {
     </Dialog>
     
   
-    <Outlet context={{db,dbnote,dbpayments,dbusersready,dbstatistics,dbmora,recibidorId,dbpayments2,getDataBase,getDataPaymentsReal,getDataBaseDiarios,getUserStatistics,getDataUserReady,addPayment,addData,updateData,deleteData,addPay,addDataNote,updateDataNote,getDataNote,handleClickOpenDelete,getDataPayments,dispatch}} />
+    <Outlet context={{db,dbnote,dbpayments,dbusersready,dbstatistics,dbmora,recibidorId,dbpayments2,getDataBase,getDataPaymentsReal,getDataBaseDiarios,getUserStatistics,getDataUserReady,addPayment,addData,updateData,deleteData,addPay,addDataNote,updateDataNote,getDataNote,handleClickOpenDelete,dispatch}} />
     </>
   )
 }

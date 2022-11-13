@@ -23,10 +23,10 @@ import SearchIcon from '@mui/icons-material/Search';
 
 
 const UserPayment = () => {
-  const { addPayment,dbpayments,getDataPayments,recibidorId,getDataPaymentsReal}:any = useOutletContext();
+  const { addPayment,dbpayments,recibidorId,getDataPaymentsReal}:any = useOutletContext();
   const [busquedaPagos, setBusquedaPagos] = React.useState<string|null>("");
   useEffect(()=>{
-    getDataPayments()
+    //ACABE DE ELIMINAR UN METODO INUTIL
     getDataPaymentsReal(recibidorId,busquedaPagos);
   } ,[])
   

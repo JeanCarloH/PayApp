@@ -39,7 +39,7 @@ const antierxd = new Date(today)
 antierxd.setDate(antierxd.getDate() - 2)
 
 var antier =antierxd.toLocaleDateString('en-GB')
-//console.log(now,ayer,antier)
+
 
 
 function formatoFecha(fecha:any, formato:any) {
@@ -52,12 +52,12 @@ function formatoFecha(fecha:any, formato:any) {
 
   return formato.replace(/dd|mm|yy|yyyy/gi, (matched:any) => map[matched])
 }
-//console.log(formatoFecha(today, 'dd/mm/yyyy'),"hola")
+
 export const getToken2 = (setTokenFound:any,useremail:any) => {
   
   return getToken(messaging, {vapidKey: "BB1Xe-i3dVi7POm4swH7RAxAReADelXaYT2P_4qgy1Em01hzLrAstpbaSCt-46f14l7BuwshpgPVxFmf5jGF3ys"}).then((currentToken) => {
     if (currentToken) {
-      console.log('current token for client: ', currentToken);
+      //console.log('current token for client: ', currentToken);
       setTokenFound(true);
       
       addToken(currentToken,useremail)
@@ -65,12 +65,12 @@ export const getToken2 = (setTokenFound:any,useremail:any) => {
       // Track the token -> client mapping, by sending to backend server
       // show on the UI that permission is secured
     } else {
-      console.log('No registration token available. Request permission to generate one.');
+      //console.log('No registration token available. Request permission to generate one.');
       setTokenFound(false);
       // shows on the UI that permission is required 
     }
   }).catch((err) => {
-    console.log('An error occurred while retrieving token. ', err);
+   // console.log('An error occurred while retrieving token. ', err);
     // catch error while creating client token
   });
  
@@ -136,7 +136,7 @@ const Home =()=>{
     var mes2=antier.split("/")[1]
     var dia2=antier.split("/")[0]
     let fecha2= año2+"-"+mes2+"-"+dia2
-   console.log(fecha,fecha2)
+   //console.log(fecha,fecha2)
     let fechabien = new Date(fecha).getTime();
     let fechabien2 = new Date(fecha2).getTime();
     
@@ -152,8 +152,8 @@ const Home =()=>{
    
     const querySnapshot = await getDocs(consulta);
     const querySnapshot2 = await getDocs(consulta2);
-    console.log(querySnapshot.docs,"querySnapshot")
-    console.log(querySnapshot2.docs,"querySnapshot2")
+   // console.log(querySnapshot.docs,"querySnapshot")
+    //console.log(querySnapshot2.docs,"querySnapshot2")
   
    const usuarioslistos= querySnapshot2.docs.filter(cliente => 
       querySnapshot.docs.find(pago => pago.data().clienteid==cliente.id)===undefined

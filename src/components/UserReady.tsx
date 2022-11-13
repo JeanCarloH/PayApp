@@ -6,7 +6,7 @@ const UserReady = () => {
   const { addPayment,dbpayments,dbusersready,getDataUserReady,getDataNote}:any = useOutletContext();
   useEffect(() => {
     getDataUserReady();
-    getDataNote();
+ 
   }, []);
   return (
     <>

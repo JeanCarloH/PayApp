@@ -55,7 +55,7 @@ const UserStatistics = () => {
     useEffect(() => {
       
       getUserStatistics();
-      getDataNote();
+    
     }, []);
     const bull = (
       <Box

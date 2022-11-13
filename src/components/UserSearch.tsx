@@ -36,7 +36,7 @@ const UserSearch = () => {
       }
       useEffect(()=>{
       getDataBase()
-        getDataNote();
+  
       } ,[])
     const Search = styled('div')(({ theme }) => ({
         position: 'relative',
