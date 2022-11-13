@@ -89,7 +89,7 @@ const Home =()=>{
     
     getDataUserMora();
     getDataUserReady();
-    getDataBase();
+ 
     getDataNote();
     getDataBaseDiarios();
    
@@ -146,10 +146,12 @@ const Home =()=>{
       
       }
       const imagen = 'public/payappreal.png'
+     
   return querySnapshot.docs
      
     }
     //getDataBaseDiarios();
+    const totalcobro= db.reduce((total:any,item:any)=>parseInt(item.monto)+total,0)
       return( 
     <>
     <ResponsiveAppBar/>
@@ -185,40 +187,15 @@ const Home =()=>{
         </Typography>
       </CardContent>
    </Card>
-    {/* <Card sx={{  m:1 }}>
-      <CardContent>
-        <Typography variant="h5" component="div">
-          {bull} la cantidad de dinero Diario prestado es: {dbusersready.length}
-        </Typography>
-      </CardContent>
-      </Card>
-      <Card sx={{  m:1 }}>
-      <CardContent>
-        <Typography variant="h5" component="div">
-          {bull} la cantidad de dinero Semanal prestado es: {dbusersready.length}
-        </Typography>
-      </CardContent>
-      </Card>
-      <Card sx={{  m:1 }}>
-      <CardContent>
-        <Typography variant="h5" component="div">
-          {bull} la cantidad de dinero Quincenal prestado es: {dbusersready.length}
-        </Typography>
-      </CardContent>
-      </Card>
-      <Card sx={{  m:1 }}>
-      <CardContent>
-        <Typography variant="h5" component="div">
-          {bull} la cantidad de dinero Mensual prestado es: {dbusersready.length}
-        </Typography>
-      </CardContent>
-      <CardContent>
-        <Typography variant="h5" component="div">
-          {bull} la cantidad de dinero Total prestado es: {dbusersready.length}
-        </Typography>
-      </CardContent>  
 
-   </Card> */}
+   <Card sx={{  m:1 }}>
+      <CardContent>
+        <Typography variant="h5" component="div">
+          {bull} La cantidad total de dinero (CXC) es: {totalcobro}
+        </Typography>
+      </CardContent>
+   </Card>
+   
    </Grid>
     </>
     );

@@ -56,12 +56,7 @@ export function userReducer(state , action) {
           dbtokens: action.payload.map((producto) =>  ({ id: producto.id, ...producto.data() })),
         };
       }
-      case TYPES.CONSULTAR_PAGOS2: {
-        return {
-          ...state,
-          dbpayments2: action.payload.map((producto) =>  ({ id: producto.id, ...producto.data() })),
-        };
-      }
+
       case TYPES.ELIMINAR_NOTA: {
         return {
           ...state,

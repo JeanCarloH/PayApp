@@ -64,8 +64,7 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
   var now = today.toLocaleDateString('en-GB');
     const { dbstatistics,dbpayments2}:any = useOutletContext();
 
-    console.log(dbpayments2.length,"dbpayments2 tamaño desde estadistics")
-    dbpayments2.map((item:any)=>console.log(item))
+   
 
   const totalcobro= dbstatistics.reduce((total:any,item:any)=>parseInt(item.abono)+total,0)
   
@@ -121,9 +120,9 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
             
                   
                   
-                  {dbpayments2.length>0 &&
+                  {dbstatistics.length>0 &&
              
-             dbpayments2.map((row:any) => (
+             dbstatistics.map((row:any) => (
             
               
               <StyledTableRow key={row.id}>

@@ -1,6 +1,6 @@
 import React, { useRef } from 'react'
 import UserStatisticsAppBar from './UserStatisticsAppBar'
-import { Box, SelectChangeEvent } from "@mui/material";
+import { Box, Card, CardContent, SelectChangeEvent, Typography } from "@mui/material";
 import SearchIcon from '@mui/icons-material/Search';
 import SaveIcon from "@mui/icons-material/Save";
 import {
@@ -35,7 +35,7 @@ const UserStatistics = () => {
 
   var now = today.toLocaleDateString('en-GB');
  
-    const {dbuserstatistics,getUserStatistics,getDataNote}:any = useOutletContext();
+    const {dbuserstatistics,getUserStatistics,getDataNote,db,getDataBase}:any = useOutletContext();
     const [form, setForm] = useState<UserEstatistics>(initialForm);
     const value:any= useRef();
     const value2:any= useRef();
@@ -43,11 +43,18 @@ const UserStatistics = () => {
   
    
     useEffect(() => {
-
+      getDataBase();
       getUserStatistics();
       getDataNote();
     }, []);
- 
+    const bull = (
+      <Box
+        component="span"
+        sx={{ display: 'inline-block', mx: '2px', transform: 'scale(0.8)' }}
+      >
+        •
+      </Box>
+    );
    
   return (
     <>  
@@ -88,6 +95,13 @@ const UserStatistics = () => {
                 consultar
               </Button>
               </Box>
+    <Card sx={{  m:1 }}>
+      <CardContent>
+        <Typography variant="h5" component="div">
+          {bull} La cantidad de clientes totales son: {db.length}
+        </Typography>
+      </CardContent>
+   </Card>
     <UserStatisticsTable tipo={form.tipo} tipoMes={form.tipoMes}/>
     </>
   )

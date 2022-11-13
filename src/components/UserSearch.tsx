@@ -25,6 +25,7 @@ const UserSearch = () => {
   const [state, dispatch] = useReducer(userReducer, userInitialState);
   const {getData,getDataName,getDataNote,getDataBase}:any = useOutletContext();
   const [filtro, setFiltro] = useState("1");
+  const [filtro2, setFiltro2] = useState("0");
     const [busqueda, setBusqueda] = React.useState<string|null>("");
     const handlechange=(e: React.ChangeEvent<HTMLInputElement>)=>{
         setBusqueda(e.target.value)
@@ -101,12 +102,16 @@ const UserSearch = () => {
     
       }));
      
-      const handleChange2 = (e: any) => {
+      const handleChange2 = (e: any) => { //clientes diarios, semanales, quincenales, mensuales
         
             setFiltro(e.target.value);
        
     }
-
+    const handleChange4 = (e: any) => { //clientes nuevos y terminados
+        
+      setFiltro2(e.target.value);
+ 
+}
 
   return (
     <>
@@ -189,8 +194,8 @@ const UserSearch = () => {
 
         }
          </Search>
-         
-         <Grid item xs={12} md={3}>
+         <Grid container textAlign="center" sx={{ display: "inline-flex" }}>
+         <Grid item xs={12} md={6}>
           <FormControl sx={{ m: 1, minWidth: 210 }}>
             <InputLabel id="demo-simple-select-autowidth-label">
               filtro
@@ -213,8 +218,29 @@ const UserSearch = () => {
           </FormControl>
         </Grid>
 
+        <Grid item xs={12} md={6}>
+          <FormControl sx={{ m: 1, minWidth: 210 }}>
+            <InputLabel id="demo-simple-select-autowidth-label">
+              filtro2
+            </InputLabel>
+            <Select
+              labelId="demo-simple-select-autowidth-label"
+              id="demo-simple-select-autowidth"
+              value={filtro2}
+              name="filtro2"
+              onChange={handleChange4}
+              label="filtro2"
+            >
+              <MenuItem value="0">Ningun Filtro</MenuItem>
+              <MenuItem value="1">Clientes Nuevos</MenuItem>
+              <MenuItem value="2">Clientes terminados</MenuItem>
+             
+            </Select>
+          </FormControl>
+        </Grid>
+        </Grid>
          {user&&
-          <UsersTable busqueda={busqueda} filtro={filtro}/>
+          <UsersTable busqueda={busqueda} filtro={filtro} filtro2={filtro2}/>
          }
         
         

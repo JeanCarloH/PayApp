@@ -92,7 +92,7 @@ const Admin: React.FC<Props2> = ({state,dispatch}) => {
   let now:string;
   let hora:string;
   React.useEffect(() => {
-   getDataBase();
+  // getDataBase();
      
  }
 , [])
@@ -295,7 +295,7 @@ React.useEffect(() => {
     
    
 
-    const consulta=query(collection(db2, "Users"),where("propietario","==",user.email));
+    const consulta=query(collection(db2, "Users"),where("propietario","==",user.email),orderBy("direccion","asc"));
     const querySnapshot = await getDocs(consulta);
               if (querySnapshot.docs) {
               dispatch({ type: TYPES.CONSULTAR_PRODUCTO, payload:querySnapshot.docs });
@@ -315,22 +315,7 @@ React.useEffect(() => {
     setOpenDelete(false);
   };
 
-  const consultarPagos2 =  async() => {
-    console.log("si entreeee")
-    const consulta=query(collection(db2, "Payments"),where("propietario","==",user.email),where("fecha","==",now),orderBy("nombre","asc"));
-    const querySnapshot = await getDocs(consulta);
-    console.log(querySnapshot.docs)
-    if (querySnapshot.docs) {
-      dispatch({ type: TYPES.CONSULTAR_PAGOS2, payload:querySnapshot.docs });
-      
-   
-    } else {
-      dispatch({ type: TYPES.SIN_DATOS });
-    
-    }
-  
-    return querySnapshot.docs
-  }
+ 
   
 
   const addPropietario = async () => {
@@ -418,7 +403,7 @@ React.useEffect(() => {
       //toda la informacion de los usuarios
       const getDataBase = async () => {
         
-        const consulta=query(collection(db2, "Users"),where("propietario","==",user.email));
+        const consulta=query(collection(db2, "Users"),where("propietario","==",user.email),orderBy("direccion","asc"));
         const querySnapshot = await getDocs(consulta);
 
         console.log("entre a filtrar")
@@ -543,12 +528,11 @@ React.useEffect(() => {
         
          const getUserStatistics= async (value:string,value2:string) => {
           "año-mes-dia"
-          consultarPagos2();
           let fecha1 = new Date(value).getTime();
           let fecha2 = new Date(value2).getTime();
       
-          let fecha11 = fecha1+18000000;
-          let fecha22 = fecha2+18000000+82800000;
+          let fecha11 = fecha1+18000000; //sumandole 5 horas
+          let fecha22 = fecha2+18000000+82800000; //23 horas.
       
          let fechaReal1= fecha11.toString();
         let fechaReal2=fecha22.toString();
@@ -725,7 +709,7 @@ React.useEffect(() => {
       </DialogActions>
     </Dialog>
   
-    <Outlet context={{db,dbnote,dbpayments,dbusersready,dbstatistics,dbmora,recibidorId,dbpayments2,getDataBase, consultarPagos2,getDataPaymentsReal,getDataBaseDiarios,getUserStatistics,getDataUserReady,addPayment,addData,updateData,deleteData,addPay,addDataNote,updateDataNote,getDataNote,handleClickOpenDelete,getDataPayments,dispatch}} />
+    <Outlet context={{db,dbnote,dbpayments,dbusersready,dbstatistics,dbmora,recibidorId,dbpayments2,getDataBase,getDataPaymentsReal,getDataBaseDiarios,getUserStatistics,getDataUserReady,addPayment,addData,updateData,deleteData,addPay,addDataNote,updateDataNote,getDataNote,handleClickOpenDelete,getDataPayments,dispatch}} />
     </>
   )
 }
