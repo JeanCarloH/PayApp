@@ -708,6 +708,7 @@ React.useEffect(() => {
         <Button onClick={handleClose}>Aceptar</Button>
       </DialogActions>
     </Dialog>
+    
   
     <Outlet context={{db,dbnote,dbpayments,dbusersready,dbstatistics,dbmora,recibidorId,dbpayments2,getDataBase,getDataPaymentsReal,getDataBaseDiarios,getUserStatistics,getDataUserReady,addPayment,addData,updateData,deleteData,addPay,addDataNote,updateDataNote,getDataNote,handleClickOpenDelete,getDataPayments,dispatch}} />
     </>

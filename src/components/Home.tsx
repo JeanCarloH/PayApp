@@ -180,7 +180,7 @@ const Home =()=>{
       return( 
     <>
         <Dialog open={open} onClose={handleClose}>
-        <DialogTitle>use la clave para usar</DialogTitle>
+        <DialogTitle>usa la clave para consultar</DialogTitle>
         
         <Box
       sx={{
