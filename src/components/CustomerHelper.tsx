@@ -17,12 +17,14 @@ import {
 const CustomerHelper = () => {
     const value:any= useRef();
     const { getDataBaseUser}:any = useOutletContext();
-  
+  //PAGINA PRINCIPAL DEL USUARIO
   return (
   <>
    
   <CustomersAppBar/>
+  <Box sx={{textAlign:"center"}}>
   {<h4>Ingresa tu numero de celular</h4>}
+  </Box>
     <Box
       sx={{
         display: 'flex',
