@@ -23,12 +23,17 @@ import { usuario } from "./types";
 import { color, rgbToHex } from "@mui/system";
 import { createTheme } from "@mui/material/styles";
 import { ThemeProvider } from "@emotion/react";
-
+import { useOutletContext } from "react-router-dom";
+import Customers from "./CustomersAppBar";
+import CustomerHelper from "./CustomerHelper";
 const Login: React.FC = () => {
-
+  
   const [user, setUser] = useState<usuario>({
     email: "",
     password: "",
+  });
+  const [celular, setCelular] = useState<any>({
+   Celular: "",
   });
 
   const { login }: any = useAuth();
@@ -54,12 +59,19 @@ const Login: React.FC = () => {
     } catch (error: any) {
       setError(error.message);
     }
+    if(user.email=="invitado@gmail.com"){
+      navigate("/Admin/CustomerHelper");
+    }
   };
-
+  
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) =>
     setUser({ ...user, [e.target.name]: e.target.value });
 
- 
+
+    const handleChange2 = (e: React.ChangeEvent<HTMLInputElement>) =>
+    setCelular({ ...celular, [e.target.name]: e.target.value });
+
+    
 
   return (
     <>
@@ -97,6 +109,15 @@ const Login: React.FC = () => {
           />
         </Grid>
 
+        {/* <Grid>
+          <TextField
+            id="outlined-basic"
+            label="Celular"
+            variant="outlined"
+            name="Celular"
+            onChange={handleChange2}
+          />
+        </Grid> */}
         <ThemeProvider theme={theme}>
           <Grid >
             <Link to="/">
@@ -110,6 +131,8 @@ const Login: React.FC = () => {
           </Grid>
         </ThemeProvider>
       </Box>
+        
+
     </>
   );
 };

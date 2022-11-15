@@ -30,32 +30,13 @@ import PaidIcon from '@mui/icons-material/Paid';
 import { db2 } from '../firebase';
 import { useEffect,useState } from "react";
 import { useRef } from 'react';
-import { Props8 } from "./types";
+import { Props10 } from "./types";
 
-const StyledTableCell = styled(TableCell)(({ theme }) => ({
-    [`&.${tableCellClasses.head}`]: {
-      backgroundColor: theme.palette.common.black,
-      color: theme.palette.common.white,
-    },
-    [`&.${tableCellClasses.body}`]: {
-      fontSize: 14,
-    },
-  }));
-  
-  const StyledTableRow = styled(TableRow)(({ theme }) => ({
-    "&:nth-of-type(odd)": {
-      backgroundColor: theme.palette.action.hover,
-    },
-    // hide last border
-    "&:last-child td, &:last-child th": {
-      border: 0,
-    },
-  }));
   
 
   
   //para eliminar un pago (recien agregado.. pendiente de probar)
-  const UserPaymentTable: React.FC<Props8> = ({busquedaPagos})=> {
+  const CustomersPaymentTable: React.FC<Props10> = ({busquedaPagos})=> {
     const clave:any= useRef();
     const{user,logout,login}:any=useAuth()
     const {dispatch}:any = useOutletContext();
@@ -72,80 +53,26 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
       setOpen(false);
     };
   
-    const deletePayment = async () => {
-      console.log(recibidorId, id,"somos el recibidor id y el id del pago a eliminar");
-      if(clave.current.value==1565 && (user.email=="efren@gmail.com" || user.email=="jeancarlocj14@gmail.com")){
-        console.log(id,"si entre y soy el id")
-        const docRef = doc(db2, "Payments",id);
-        const docSnap = await getDoc(docRef);
-        const docRef2 = doc(db2, "Users",recibidorId);
-        const docSnap2 = await getDoc(docRef2);
-        let resultado2;
-         let resultado3;
-        if (docSnap2.exists()) {
-          resultado2=docSnap2.data().monto;
-          resultado3=docSnap2.data().totalabonos;
-        }
-        
-       let resultado;
-       
-        if (docSnap.exists()) {
-       console.log("entre al 1 mas importantes")
-           resultado=docSnap.data().abono;
-          
-           await deleteDoc(doc(db2, "Payments", id));
-          dispatch({type:"ELIMINAR_PAGO",payload:id});
-    
-        } else {
-        
-          console.log("No such document!");
-        }
-        setOpen(false)
-        await updateDoc(doc(db2, "Users",recibidorId),{ monto:resultado2+resultado })
-        const consultaxd=query(collection(db2, "Payments"),where("clienteid","==",recibidorId));
-        const querySnapshotxd = await getDocs(consultaxd);
-        
-        let contador=querySnapshotxd.docs.length;
-        await updateDoc(doc(db2, "Users",recibidorId),{ totalabonos:contador}) 
-      }
-      if(clave.current.value==1234 &&  user.email=="alejandra@gmail.com"){
-        console.log(id,"si entre y soy el id")
-        const docRef = doc(db2, "Payments",id);
-        const docSnap = await getDoc(docRef);
-        const docRef2 = doc(db2, "Users",recibidorId);
-        const docSnap2 = await getDoc(docRef2);
-        let resultado2;
-         let resultado3;
-        if (docSnap2.exists()) {
-          resultado2=docSnap2.data().monto;
-          resultado3=docSnap2.data().totalabonos;
-        }
-        
-       let resultado;
-       
-        if (docSnap.exists()) {
-       console.log("entre al 1 mas importantes")
-           resultado=docSnap.data().abono;
-          
-           await deleteDoc(doc(db2, "Payments", id));
-          dispatch({type:"ELIMINAR_PAGO",payload:id});
-    
-        } else {
-        
-          console.log("No such document!");
-        }
-        setOpen(false)
-        await updateDoc(doc(db2, "Users",recibidorId),{ monto:resultado2+resultado })
-        const consultaxd=query(collection(db2, "Payments"),where("clienteid","==",recibidorId));
-        const querySnapshotxd = await getDocs(consultaxd);
-        
-        let contador=querySnapshotxd.docs.length;
-        await updateDoc(doc(db2, "Users",recibidorId),{ totalabonos:contador}) 
-      }
-       setOpen(false)
-    }
-   
+    const StyledTableCell = styled(TableCell)(({ theme }) => ({
+        [`&.${tableCellClasses.head}`]: {
+          backgroundColor: theme.palette.common.black,
+          color: theme.palette.common.white,
+        },
+        [`&.${tableCellClasses.body}`]: {
+          fontSize: 14,
+        },
+      }));
 
+      const StyledTableRow = styled(TableRow)(({ theme }) => ({
+        "&:nth-of-type(odd)": {
+          backgroundColor: theme.palette.action.hover,
+        },
+        // hide last border
+        "&:last-child td, &:last-child th": {
+          border: 0,
+        },
+      }));
+      console.log("entre a los pagos ")
     return (
       <>
      
@@ -158,12 +85,12 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
                  <StyledTableCell align="left">abono</StyledTableCell>
                  <StyledTableCell align="left">Hora</StyledTableCell>
                  <StyledTableCell align="left">Monto</StyledTableCell>
-                 <StyledTableCell align="center" >Acciones</StyledTableCell>
+
                </TableRow>
             </TableHead>
          
             <TableBody>
-             {busquedaPagos &&
+            {busquedaPagos &&
              
              dbpayments.filter((row:any) => (row.fecha.includes(busquedaPagos)) ).map(((row:any) => (
             
@@ -216,55 +143,19 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
                    {row.monto}
                    </StyledTableCell>
  
-                   <StyledTableCell align="center">
-                   <DeleteIcon
-                   sx={{m:1}}
-                   onClick={() =>handleClickOpen(row.id)}
-                   />
-                    </StyledTableCell>
+      
  
                    </StyledTableRow>
              ))}  
   
-     
+         
               
             </TableBody>
           </Table>
         </TableContainer>
 
-        <Dialog open={open} onClose={handleClose}>
-        <DialogTitle>¿Deseas eliminar este abono?</DialogTitle>
     
-        <Box
-        sx={{
-       
-          textAlign:"center",
-         height:40,
-       
-         
-      }}
-    >
-        <input
-            //autoFocus={true}
-            name='cantidad'
-            id="name"
-            type='number'
-            ref={clave}
-           
-          />
-          </Box>
-        
-          <Box sx={{textAlign:"Center"}}>
-         
-          <Button onClick={handleClose}>Cancelar</Button>
-          <Button onClick={deletePayment}>Aceptar</Button>
-          
-          
-        
-          </Box>
-       
-      </Dialog>
       </>
     );
   }
-  export default  UserPaymentTable;
+  export default  CustomersPaymentTable;

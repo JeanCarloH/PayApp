@@ -20,6 +20,7 @@ import {
 import UserStatisticsTable from './UserStatisticsTable';
 import { useOutletContext } from "react-router-dom";
 import { useEffect } from 'react';
+import { useAuth } from '../context/authContext';
 
 import Stack from '@mui/material/Stack';
 import TextField from '@mui/material/TextField';
@@ -35,7 +36,7 @@ const UserStatistics = () => {
  
 
   var now = today.toLocaleDateString('en-GB');
- 
+    const{user,logout,login}:any=useAuth()
     const {dbuserstatistics,getUserStatistics,getDataNote,db,getDataBase,getDataBaseDiarios}:any = useOutletContext();
     const [form, setForm] = useState<UserEstatistics>(initialForm);
     const value:any= useRef();
@@ -46,7 +47,11 @@ const UserStatistics = () => {
     const theme = useTheme();
   
    const validador = () => {
-    if(clave2.current.value==1565){
+    if(clave2.current.value==1565 && (user.email=="efren@gmail.com" || user.email=="jeancarlocj14@gmail.com")){
+      getDataBase();
+      setValidador2(true);
+    }
+    if(clave2.current.value==1234 && user.email=="alejandra@gmail.com" ){
       getDataBase();
       setValidador2(true);
     }

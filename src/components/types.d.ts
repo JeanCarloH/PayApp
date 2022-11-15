@@ -73,3 +73,11 @@ export interface xd{
     title:string;
     body:string;
 }
+export interface Props9{
+    
+    }
+    export interface Props10{
+        busquedaPagos:any;
+    
+    }
+

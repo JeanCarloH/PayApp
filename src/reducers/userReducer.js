@@ -2,6 +2,7 @@ import { TYPES } from "../actions/userActions";
 //import { ActionType } from "../components/types";
 export const userInitialState = {
   db: [],
+  dbUser:[],
   dbnote:[],
   dbpayments:[],
   dbpayments2:[],
@@ -17,6 +18,12 @@ export function userReducer(state , action) {
         return {
           ...state,
           db: action.payload.map((producto) =>  ({ id: producto.id, ...producto.data() })),
+        };
+      }
+      case TYPES.CONSULTAR_CUOTAUSUARIO: {
+        return {
+          ...state,
+          dbUser: action.payload.map((producto) =>  ({ id: producto.id, ...producto.data() })),
         };
       }
       case TYPES.CONSULTAR_NOTAS: {

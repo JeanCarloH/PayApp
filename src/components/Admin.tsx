@@ -74,6 +74,7 @@ const Admin: React.FC<Props2> = ({state,dispatch}) => {
   const clave:any= useRef();
   let fecha:any=[];
   const { db}:any = state;
+  const { dbUser}:any = state;
   const {dbnote}:any =state;
   const {dbpayments}:any =state;
   const {dbusersready}:any =state;
@@ -409,6 +410,24 @@ now=new Date().toLocaleDateString();
         
       return querySnapshot.docs
       }
+            //toda la informacion de un usuario
+            const getDataBaseUser = async (celular:any) => {
+        
+              const consulta=query(collection(db2, "Users"),where("celular","==",celular));
+              const querySnapshot = await getDocs(consulta);
+      
+              console.log("entre a filtrar")
+              if (querySnapshot.docs) {
+                  dispatch({ type: TYPES.CONSULTAR_PRODUCTO, payload:querySnapshot.docs });
+                  
+                
+                } else {
+                  dispatch({ type: TYPES.SIN_DATOS });
+                 
+                }
+              
+            return querySnapshot.docs
+            }
       const getDataBaseDiarios = async () => {
         let numero=1;
         let numero2=numero.toString();
@@ -594,7 +613,7 @@ now=new Date().toLocaleDateString();
          };
          //eliminar usuario 
       const deleteData = async(recibidorId:any) => {
-      if(clave.current.value==1565){
+      if(clave.current.value==1565 && (user.email=="efren@gmail.com" || user.email=="jeancarlocj14@gmail.com")){
         const eliminar= await deleteDoc(doc(db2, 'Users', recibidorId));
         dispatch({ type: TYPES.ELIMINAR_USUARIO, payload: recibidorId });
         setOpenDelete(false)
@@ -603,9 +622,10 @@ now=new Date().toLocaleDateString();
         
    
      };
+     //eliminar todos los pagos
      const deleteData2 = async(recibidorId:any) => {
      // console.log("entree dd")
-      if(clave.current.value==1565){
+      if(clave.current.value==1565 && (user.email=="efren@gmail.com" || user.email=="jeancarlocj14@gmail.com")){
         let consulta= query(collection(db2,'Payments'),where('clienteid','==',recibidorId));
         let querySnapshot = await getDocs(consulta);
         querySnapshot.forEach((doc) => {
@@ -616,6 +636,18 @@ now=new Date().toLocaleDateString();
         dispatch({ type: TYPES.ELIMINAR_USUARIO, payload: recibidorId }); 
         setOpenDelete(false)
       }
+      if(clave.current.value==1234 && user.email=="alejandra@gmail.com" ){
+        let consulta= query(collection(db2,'Payments'),where('clienteid','==',recibidorId));
+        let querySnapshot = await getDocs(consulta);
+        querySnapshot.forEach((doc) => {
+          deleteDoc(doc.ref);
+    
+        })
+        const eliminar= await deleteDoc(doc(db2, 'Users', recibidorId));
+        dispatch({ type: TYPES.ELIMINAR_USUARIO, payload: recibidorId }); 
+        setOpenDelete(false)
+      }
+
         setOpenDelete(false)
    
      };
@@ -701,7 +733,7 @@ now=new Date().toLocaleDateString();
     </Dialog>
     
   
-    <Outlet context={{db,dbnote,dbpayments,dbusersready,dbstatistics,dbmora,recibidorId,dbpayments2,getDataBase,getDataPaymentsReal,getDataBaseDiarios,getUserStatistics,getDataUserReady,addPayment,addData,updateData,deleteData,addPay,addDataNote,updateDataNote,getDataNote,handleClickOpenDelete,dispatch}} />
+    <Outlet context={{db,dbUser,dbnote,dbpayments,dbusersready,dbstatistics,dbmora,recibidorId,dbpayments2,getDataBaseUser,getDataBase,getDataPaymentsReal,getDataBaseDiarios,getUserStatistics,getDataUserReady,addPayment,addData,updateData,deleteData,addPay,addDataNote,updateDataNote,getDataNote,handleClickOpenDelete,dispatch}} />
     </>
   )
 }

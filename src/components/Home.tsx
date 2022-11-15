@@ -114,7 +114,11 @@ const Home =()=>{
     </Box>
   );
   const validador = () => {
-    if(clave.current.value==1565){
+    if(clave.current.value==1565 && (user.email=="efren@gmail.com" || user.email=="jeancarlocj14@gmail.com")){
+      getDataBaseDiarios();
+      setValidador2(true);
+    }
+    if(clave.current.value==1234 && user.email=="alejandra@gmail.com" ){
       getDataBaseDiarios();
       setValidador2(true);
     }

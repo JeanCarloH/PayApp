@@ -24,7 +24,10 @@ import { IconButton, Snackbar } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import { getMessaging } from "firebase/messaging";
 import { useAuth } from "./context/authContext";
+import CustomerPaymentAppBar from "./components/CustomerPaymentAppBar";
 
+import CustomerHelper from "./components/CustomerHelper";
+import CustomerPayment from "./components/CustomerPayment";
 function App() {
   const [show, setShow] = useState(false);
   const [isTokenFound, setTokenFound] = useState(false);
@@ -90,6 +93,8 @@ function App() {
               <Route path="/Admin/Payment" element={<UserPayment/>} />
               <Route path="/Admin/UserReady" element={<UserReady/>} />
               <Route path="/Admin/UserStatistics" element={<UserStatistics/>} />
+              <Route path="/Admin/CustomerHelper" element={<CustomerHelper/>} />
+              <Route path="/Admin/CustomerCuotas" element={<CustomerPayment/>} />
               <Route path="/Admin/AddUserNote" element={<AddUserNote edit={false} />} />
               <Route path="/Admin/Home" element={<Home />} />
               <Route
