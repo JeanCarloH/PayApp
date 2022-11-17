@@ -239,18 +239,17 @@ now=new Date().toLocaleDateString();
    let resultado;
    let resultado2;
    let resultado3;
-   let valorabonar=inputref.current.value;
+   let valorabonar=parseInt(inputref.current.value);
     if (docSnap.exists()) {
      
        resultado=docSnap.data().abono;
         resultado2=docSnap.data().monto;
         resultado3=docSnap.data().totalabonos;
-        console.log(resultado2,valorabonar)
-        console.log(typeof resultado2, typeof valorabonar)
+       
 
         await addDoc(collection(db2,"Payments"),{
-         abono:parseInt(valorabonar),
-         monto:parseInt(resultado2)-parseInt(valorabonar),
+         abono:valorabonar,
+         monto:parseInt(resultado2)-valorabonar,
          fecha:now,
          fecha2:fecha22, //fecha en epoch
          clienteid:recibidorId,
@@ -259,9 +258,31 @@ now=new Date().toLocaleDateString();
          propietario:docSnap.data().propietario,
          hora:hora,
         })
-       console.log(parseInt(resultado2)-parseInt(valorabonar))
+      let montoxd=parseInt(resultado2)-valorabonar
+      if(!isNaN(montoxd)){ //si no es Nan pongamelo relajado
+       await updateDoc(doc(db2, "Users",recibidorId),{ 
+        monto:montoxd,
+      }) 
+    }else{ //si si es nan vamos a pedirlo de la base de datos (el monto) y lo vamos a actualizar
+    
+      const consultaxd=query(collection(db2, "Payments"),where("clienteid","==",recibidorId));
+      const querySnapshotxd = await getDocs(consultaxd);
+  
+       let helperxd:any[]=querySnapshotxd.docs.map((doc:any) => doc.data());
+     
+        let helper2=helperxd.length
+        let list=[];
+        for (let i = 0; i < helper2; i++) {
         
-
+          list.push(helperxd[i].monto)
+        }
+        list.sort();
+     
+        await updateDoc(doc(db2, "Users",recibidorId),{ 
+          monto:list[0]
+        }) 
+      
+    }
     } else {
     
       console.log("No such document!");
@@ -269,24 +290,14 @@ now=new Date().toLocaleDateString();
 
     setOpen(false)
     
-    
-   
-    
-    await updateDoc(doc(db2, "Users",recibidorId),{ monto:parseInt(resultado2)-parseInt(valorabonar) })
-   
     const consultaxd=query(collection(db2, "Payments"),where("clienteid","==",recibidorId));
     const querySnapshotxd = await getDocs(consultaxd);
     
     let contador=querySnapshotxd.docs.length;
     await updateDoc(doc(db2, "Users",recibidorId),{ totalabonos:contador}) 
 
-    console.log(resultado2+"abono")
-    console.log(resultado3+"totalabonos")
-    console.log(recibidorId+"recibidorId")
-    console.log(valorabonar+"valorabonar guardado")
-    
+     
    
-
     const consulta=query(collection(db2, "Users"),where("propietario","==",user.email),orderBy("direccion","asc"));
     const querySnapshot = await getDocs(consulta);
               if (querySnapshot.docs) {
