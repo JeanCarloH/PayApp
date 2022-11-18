@@ -549,7 +549,9 @@ now=new Date().toLocaleDateString();
         return querySnapshot.docs
   }
       
+     const getInformation = async (id:any) => {
       
+     }
       const getDataNote = async () => {
         if(user){
          

@@ -22,6 +22,7 @@ import { FormControl, Grid, InputLabel, MenuItem, Select, SelectChangeEvent } fr
 import { doc, onSnapshot, collection, query, where,addDoc,updateDoc,setDoc,deleteDoc,getDocs,getDoc} from "firebase/firestore";
 import { db2 } from '../firebase';
 
+
 const UserSearch = () => {
   const {user}:any = useAuth();
   const [state, dispatch] = useReducer(userReducer, userInitialState);
@@ -255,7 +256,6 @@ const UserSearch = () => {
          {user&&
           <UsersTable busqueda={busqueda} filtro={filtro} filtro2={filtro2}/>
          }
-        
         
 
       

@@ -81,3 +81,8 @@ export interface Props9{
     
     }
 
+    export interface Props11{
+        busquedaPagos:any;
+    
+    }
+

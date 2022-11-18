@@ -28,6 +28,7 @@ import CustomerPaymentAppBar from "./components/CustomerPaymentAppBar";
 
 import CustomerHelper from "./components/CustomerHelper";
 import CustomerPayment from "./components/CustomerPayment";
+import UserInformationTable from "./components/UserInformationTable";
 function App() {
   const [show, setShow] = useState(false);
   const [isTokenFound, setTokenFound] = useState(false);
@@ -105,7 +106,12 @@ function App() {
                 path="/Admin/Edit/:id"
                 element={<UserRegister edit={true} />}
               />
+              <Route
+                path="/Admin/Information/:id"
+                element={<UserInformationTable busquedaPagos={undefined}  />}
+              />
             </Route>
+            
           </Routes>
         </HashRouter>
       </AuthProvider>
