@@ -259,11 +259,16 @@ now=new Date().toLocaleDateString();
          hora:hora,
         })
       let montoxd=parseInt(resultado2)-valorabonar
+      await addDoc(collection(db2,"Nans"),{ //me toco empezar a agregar pagos para ver donde está el error.
+        abono:valorabonar,
+        montoanterior:parseInt(resultado2),
+        montonuevo:montoxd,
+      })
       if(!isNaN(montoxd)){ //si no es Nan pongamelo relajado
        await updateDoc(doc(db2, "Users",recibidorId),{ 
         monto:montoxd,
       }) 
-    }else{ //si si es nan vamos a pedirlo de la base de datos (el monto) y lo vamos a actualizar
+    }if(isNaN(montoxd)){ //aca habia un else pero puse un if para ser mas especifico
     
       const consultaxd=query(collection(db2, "Payments"),where("clienteid","==",recibidorId));
       const querySnapshotxd = await getDocs(consultaxd);
@@ -277,9 +282,9 @@ now=new Date().toLocaleDateString();
           list.push(helperxd[i].monto)
         }
         list.sort();
-     
+     let montoxd=list[0];
         await updateDoc(doc(db2, "Users",recibidorId),{ 
-          monto:list[0]
+          monto:montoxd,
         }) 
       
     }
@@ -292,6 +297,18 @@ now=new Date().toLocaleDateString();
     
     const consultaxd=query(collection(db2, "Payments"),where("clienteid","==",recibidorId));
     const querySnapshotxd = await getDocs(consultaxd);
+    
+    let helperxd:any[]=querySnapshotxd.docs.map((doc:any) => doc.data());
+     
+    let helper2=helperxd.length
+    let list=[];
+    for (let i = 0; i < helper2; i++) {
+    
+      list.push(helperxd[i].monto)
+    }
+    list.sort();
+    let montoxd=list[0]
+    console.log(montoxd,"soy el monto xd");
     
     let contador=querySnapshotxd.docs.length;
     await updateDoc(doc(db2, "Users",recibidorId),{ totalabonos:contador}) 
