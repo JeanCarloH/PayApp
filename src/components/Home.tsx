@@ -99,11 +99,21 @@ const Home =()=>{
     
     getDataUserMora();
     getDataUserReady();
- 
-    getDataNote();
+      loghome();
+    
 
    
   },[])
+  let contador=0;
+  const loghome=async()=>{
+   
+    if(contador==0){
+      await addDoc(collection(db2,"Loghome"),{ //me toco empezar a agregar pagos para ver donde está el error.
+        contador:contador+1,
+      })
+    }
+  
+  }
   getToken2(setTokenFound,user.email)
   const bull = (
     <Box

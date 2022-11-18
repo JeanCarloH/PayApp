@@ -19,6 +19,8 @@ import { Outlet } from "react-router-dom";
 import { useOutletContext } from "react-router-dom";
 import { useAuth } from "../context/authContext";
 import { FormControl, Grid, InputLabel, MenuItem, Select, SelectChangeEvent } from '@mui/material';
+import { doc, onSnapshot, collection, query, where,addDoc,updateDoc,setDoc,deleteDoc,getDocs,getDoc} from "firebase/firestore";
+import { db2 } from '../firebase';
 
 const UserSearch = () => {
   const {user}:any = useAuth();
@@ -36,8 +38,19 @@ const UserSearch = () => {
       }
       useEffect(()=>{
       getDataBase()
-  
+        logsearch()
       } ,[])
+      let contador=0;
+      const logsearch=async()=>{
+       
+        if(contador==0){
+          await addDoc(collection(db2,"Logsearch"),{ //me toco empezar a agregar pagos para ver donde está el error.
+            contador:contador+1,
+            
+          })
+        }
+ 
+      }
     const Search = styled('div')(({ theme }) => ({
         position: 'relative',
         borderRadius: theme.shape.borderRadius,
