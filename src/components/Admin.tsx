@@ -226,7 +226,7 @@ now=new Date().toLocaleDateString();
     
     console.log(inputref.current.value,"soy el useref");
    
-    if(inputref.current.value>0){
+    if(parseInt(inputref.current.value)>0){
     const fecha2 = Date.now();
     const fecha22= fecha2.toString();
    
@@ -268,7 +268,7 @@ now=new Date().toLocaleDateString();
        await updateDoc(doc(db2, "Users",recibidorId),{ 
         monto:montoxd,
       }) 
-    }if(isNaN(montoxd)){ //aca habia un else pero puse un if para ser mas especifico
+    }else if(isNaN(montoxd)){ //aca habia un else pero puse un if para ser mas especifico
     
       const consultaxd=query(collection(db2, "Payments"),where("clienteid","==",recibidorId));
       const querySnapshotxd = await getDocs(consultaxd);
@@ -287,6 +287,13 @@ now=new Date().toLocaleDateString();
           monto:montoxd,
         }) 
       
+    }else{
+      await addDoc(collection(db2,"Nans"),{ //me toco empezar a agregar pagos para ver donde está el error.
+        abono:valorabonar,
+        montoanterior:parseInt(resultado2),
+        montonuevo:montoxd,
+        entroalelse:"si"
+      })
     }
     } else {
     
@@ -309,6 +316,7 @@ now=new Date().toLocaleDateString();
     list.sort();
     let montoxd=list[0]
     console.log(montoxd,"soy el monto xd");
+    console.log(typeof(montoxd),"soy el tipo de monto xd");
     
     let contador=querySnapshotxd.docs.length;
     await updateDoc(doc(db2, "Users",recibidorId),{ totalabonos:contador}) 
