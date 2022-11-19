@@ -21,6 +21,7 @@ export interface UserRegistered{
     propietario:string;
     fecha:string;
     totalabonos:number;
+    time:any;
 }
 export type ActionType=
 |{ type:'CONSULTAR_PRODUCTO', payload}

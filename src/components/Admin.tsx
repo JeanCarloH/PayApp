@@ -323,7 +323,7 @@ now=new Date().toLocaleDateString();
 
      
    
-    const consulta=query(collection(db2, "Users"),where("propietario","==",user.email),orderBy("direccion","asc"));
+    const consulta=query(collection(db2, "Users"),where("propietario","==",user.email));
     const querySnapshot = await getDocs(consulta);
               if (querySnapshot.docs) {
               dispatch({ type: TYPES.CONSULTAR_PRODUCTO, payload:querySnapshot.docs });
@@ -429,23 +429,44 @@ now=new Date().toLocaleDateString();
 
       };
       //toda la informacion de los usuarios
-      const getDataBase = async () => {
-        
-        const consulta=query(collection(db2, "Users"),where("propietario","==",user.email),orderBy("direccion","asc"));
-        const querySnapshot = await getDocs(consulta);
-
-        console.log("entre a filtrar")
-        if (querySnapshot.docs) {
-            dispatch({ type: TYPES.CONSULTAR_PRODUCTO, payload:querySnapshot.docs });
+      const getDataBase = async () => {//depende del usuario logueado asi mismo se filtra la informacion
+        if(user.email=="efren@gmail.com"){  //cualquiera que no sea alejandra
+          const consulta=query(collection(db2, "Users"),where("propietario","==",user.email));
+          const querySnapshot = await getDocs(consulta);
+          console.log("entre a filtrar")
+          if (querySnapshot.docs) {
+              dispatch({ type: TYPES.CONSULTAR_PRODUCTO, payload:querySnapshot.docs });
+              
             
-          
-          } else {
-            dispatch({ type: TYPES.SIN_DATOS });
-           
-          }
-        
+            } else {
+              dispatch({ type: TYPES.SIN_DATOS });
+             
+            }
+               
       return querySnapshot.docs
+        }
+        
+        if(user.email=="alejandra@gmail.com" || user.email=="jeancarlocj14@gmail.com"){
+          const consulta=query(collection(db2, "Users"),where("propietario","==",user.email),orderBy("time"));
+          const querySnapshot = await getDocs(consulta);
+          console.log("entre a filtrar")
+          if (querySnapshot.docs) {
+              dispatch({ type: TYPES.CONSULTAR_PRODUCTO, payload:querySnapshot.docs });
+              
+            
+            } else {
+              dispatch({ type: TYPES.SIN_DATOS });
+             
+            }
+   
+            return querySnapshot.docs
+        }
+       
+
+       
+     
       }
+      
             //toda la informacion de un usuario
             const getDataBaseUser = async (celular:any) => {
         
@@ -529,6 +550,9 @@ now=new Date().toLocaleDateString();
         return querySnapshot.docs
       }
     }
+
+ 
+  
   const getDataPaymentsReal  = async (id:any,busqueda:any) => {
     setRecibidorId(id);
     const ref=collection(db2, "Payments")

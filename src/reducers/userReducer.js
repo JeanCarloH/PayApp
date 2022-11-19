@@ -63,6 +63,12 @@ export function userReducer(state , action) {
           dbtokens: action.payload.map((producto) =>  ({ id: producto.id, ...producto.data() })),
         };
       }
+      case TYPES.ORGANIZAR: {
+        return {
+          ...state,
+          db: action.payload
+        };
+      }
 
       case TYPES.ELIMINAR_NOTA: {
         return {

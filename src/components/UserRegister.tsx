@@ -22,6 +22,8 @@ import { useAuth } from "../context/authContext";
 import UserRegisteredAppBar from "./UserRegisteredAppBar";
 import { Props3 } from './types';
 import { useEffect } from 'react';
+import { db2 } from '../firebase';
+import { updateDoc, serverTimestamp } from "firebase/firestore";
 
  
     
@@ -36,6 +38,7 @@ import { useEffect } from 'react';
     propietario:"",
     fecha:"",
     totalabonos:0,
+    time:0,
   };
 
 
@@ -45,8 +48,8 @@ const UserRegister: React.FC<Props3> = ({edit}) => {
  
 
    var now = today.toLocaleDateString('en-GB');
- 
-    const {db, addData, updateData,addPayment}:any = useOutletContext();
+    
+    const {db, addData, updateData,addPayment,getDataBase}:any = useOutletContext();
     const { user }: any = useAuth();
     const { id }:any = useParams();
     let ruta="";
@@ -61,6 +64,8 @@ const UserRegister: React.FC<Props3> = ({edit}) => {
       if (edit) {
         const product = db.find((item:any) => item.id == id);
         setForm(product);
+        getDataBase()
+
       }
     }, []);
     const temaNuevo = createTheme({
@@ -86,6 +91,7 @@ console.log(now)
           [e.target.name]: e.target.value,
           ['propietario']: user.email,
           ['fecha']: now,
+          ['time']:serverTimestamp(),
 
         });
         // setForm2({
@@ -238,6 +244,7 @@ console.log(now)
             value={now}
           />
         </Grid>
+       
         <ThemeProvider theme={temaNuevo} >
           <Grid item xs={12} md={6} sx={{marginTop:1}}>
             <Link to={ruta}>

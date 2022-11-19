@@ -27,7 +27,13 @@ import Collapse from '@mui/material/Collapse';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import HowToRegIcon from '@mui/icons-material/HowToReg';
-
+import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
+import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
+import { db2 } from "../firebase";
+import SearchIcon from '@mui/icons-material/Search';
+import {  serverTimestamp } from "firebase/firestore";
+import { useAuth } from '../context/authContext';
+import e from "express";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -63,11 +69,12 @@ const temaNuevo = createTheme({
 
 
 const UsersTable: React.FC<Props4> = ({busqueda,filtro,filtro2})=> {
+  const{user,logout,login}:any=useAuth() //aca traemos el estado de usecontext
   const { db,deleteData, addPay, getDataPayments,handleClickOpenDelete,getDataPaymentsReal}:any = useOutletContext();
   const [checked, setChecked] = useState(true);
   const [busquedaPagos, setBusquedaPagos] = React.useState<string|null>("");
   const [open, setOpen] = React.useState(false);
-
+  const {dispatch}:any = useOutletContext();
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setChecked(event.target.checked);
   };
@@ -79,11 +86,62 @@ const UsersTable: React.FC<Props4> = ({busqueda,filtro,filtro2})=> {
   if(filtro2==1){
     filtro2=now;
   }
- 
+  const up = async(id0:any)=>{
+    let fromIndex = db.map((object:any) => object.id).indexOf(id0); //guarda la posicion actual
+    let toIndex = fromIndex - 1; //guarda la posicion siguiente
+    console.log(toIndex,"toIndex")
+    
+    let element = db.splice(fromIndex, 1)[0]; //guarda el elemento
+    console.log(element,"element")
+    db.splice(toIndex, 0, element); //inserta el elemento en la posicion siguiente
+    dispatch({type:"ORGANIZAR",payload:db});
+    
+   }
+   const down = async(id0:any)=>{
+    
+    let fromIndex = db.map((object:any) => object.id).indexOf(id0);
+    console.log(fromIndex,"id y entre a down")
+    let toIndex = fromIndex + 1; //guarda la posicion anterior
+    console.log(toIndex,"toIndex")
+    
+    console.log(fromIndex,"fromIndex")
+    let element = db.splice(fromIndex, 1)[0]; //guarda el elemento
+    console.log(element,"element")
+    db.splice(toIndex, 0, element); //inserta el elemento en la posicion siguiente
+    dispatch({type:"ORGANIZAR",payload:db});
+   }
+
+   const usuarioEnfilados = async () => {
+    let consulta= query(collection(db2,'Users'),where("propietario","==",user.email));
+      let querySnapshot = await getDocs(consulta);
+      querySnapshot.forEach((doc) => {
+        deleteDoc(doc.ref);
+  
+      })
+    console.log(db,"soy la db ordenada dentro del metodo")
+    db.map(async (obj:any)=>{
+   
+        const hola = await addDoc(collection(db2, "Users"), {...obj,time:serverTimestamp()});
+    
+      
+  
+    })}
+    
 
   return (
     <>
-   
+        
+         <Box sx={{display:'flex', justifyContent:'center', marginBottom:3,marginTop:3, textAlign:'center'}}>
+    <Button
+                onClick={usuarioEnfilados}
+                variant="contained"
+                endIcon={< SearchIcon />}
+                color="success"
+               
+              >
+                Guardar
+              </Button>
+              </Box>
       <TableContainer sx={{ m: -0.1 }} component={Paper}>
         <Table sx={{ width:"100%" }} stickyHeader aria-label="sticky table">
           <TableHead>
@@ -93,6 +151,10 @@ const UsersTable: React.FC<Props4> = ({busqueda,filtro,filtro2})=> {
               <StyledTableCell align="right">Nombre</StyledTableCell>
               <StyledTableCell align="right">Apellido</StyledTableCell>
               <StyledTableCell align="right">Monto</StyledTableCell>
+              <StyledTableCell align="right"></StyledTableCell>
+              {user.email=="jeancarlocj14@gmail.com" &&
+              <StyledTableCell align="right"></StyledTableCell>
+  }
               <StyledTableCell align="right" >Acciones</StyledTableCell>
             </TableRow>
           </TableHead>
@@ -122,6 +184,17 @@ const UsersTable: React.FC<Props4> = ({busqueda,filtro,filtro2})=> {
               <StyledTableCell align="right">
                   {product.monto}
                 </StyledTableCell>
+                {user.email=="jeancarlocj14@gmail.com" &&
+                <StyledTableCell align="right">
+                <ArrowUpwardIcon
+                  onClick={()=> up(product.id)}
+                  />
+                  
+                  <ArrowDownwardIcon
+                   onClick={()=> down(product.id)}
+                  />
+                   </StyledTableCell>
+                    }
                  <StyledTableCell align="right">
                 <Link to="/Admin/Payment">
                   <PaidIcon
@@ -168,6 +241,20 @@ const UsersTable: React.FC<Props4> = ({busqueda,filtro,filtro2})=> {
                   </StyledTableCell>
                 <StyledTableCell align="right">
                     {product.monto}
+                  </StyledTableCell>
+                  {user.email=="jeancarlocj14@gmail.com"  &&
+                <StyledTableCell align="right">
+                <ArrowUpwardIcon
+                  onClick={()=> up(product.id)}
+                  />
+                  
+                  <ArrowDownwardIcon
+                   onClick={()=> down(product.id)}
+                  />
+                   </StyledTableCell>
+                    }
+                   <StyledTableCell align="right">
+                    {product.prioridad}
                   </StyledTableCell>
                    <StyledTableCell align="right">
                   <Link to="/Admin/Payment">
@@ -216,6 +303,20 @@ const UsersTable: React.FC<Props4> = ({busqueda,filtro,filtro2})=> {
               <StyledTableCell align="right">
                   {product.monto}
                 </StyledTableCell>
+                <StyledTableCell align="right">
+                  {product.prioridad}
+                </StyledTableCell>
+                {user.email=="jeancarlocj14@gmail.com"  &&
+                <StyledTableCell align="right">
+                <ArrowUpwardIcon
+                  onClick={()=> up(product.id)}
+                  />
+                  
+                  <ArrowDownwardIcon
+                   onClick={()=> down(product.id)}
+                  />
+                   </StyledTableCell>
+                    }
                  <StyledTableCell align="right">
                 <Link to="/Admin/Payment">
                   <PaidIcon
@@ -262,6 +363,15 @@ const UsersTable: React.FC<Props4> = ({busqueda,filtro,filtro2})=> {
               <StyledTableCell align="right">
                   {product.monto}
                 </StyledTableCell>
+                <StyledTableCell align="right">
+                <ArrowUpwardIcon
+                  onClick={()=> up(product.id)}
+                  />
+                  
+                  <ArrowDownwardIcon
+                   onClick={()=> down(product.id)}
+                  />
+                   </StyledTableCell>
                  <StyledTableCell align="right">
                 <Link to="/Admin/Payment">
                   <PaidIcon

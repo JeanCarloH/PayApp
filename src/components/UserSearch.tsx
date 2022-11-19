@@ -18,7 +18,7 @@ import { useReducer } from "react";
 import { Outlet } from "react-router-dom";
 import { useOutletContext } from "react-router-dom";
 import { useAuth } from "../context/authContext";
-import { FormControl, Grid, InputLabel, MenuItem, Select, SelectChangeEvent } from '@mui/material';
+import { Button, FormControl, Grid, InputLabel, MenuItem, Select, SelectChangeEvent } from '@mui/material';
 import { doc, onSnapshot, collection, query, where,addDoc,updateDoc,setDoc,deleteDoc,getDocs,getDoc} from "firebase/firestore";
 import { db2 } from '../firebase';
 
@@ -39,19 +39,20 @@ const UserSearch = () => {
       }
       useEffect(()=>{
       getDataBase()
-        logsearch()
+        // logsearch()
       } ,[])
-      let contador=0;
-      const logsearch=async()=>{
+      // let contador=0;
+      // const logsearch=async()=>{
        
-        if(contador==0){
-          await addDoc(collection(db2,"Logsearch"),{ //me toco empezar a agregar pagos para ver donde está el error.
-            contador:contador+1,
+      //   if(contador==0){
+      //     await addDoc(collection(db2,"Logsearch"),{ //me toco empezar a agregar pagos para ver donde está el error.
+      //       contador:contador+1,
             
-          })
-        }
+      //     })
+      //   }
  
-      }
+      // }
+   
     const Search = styled('div')(({ theme }) => ({
         position: 'relative',
         borderRadius: theme.shape.borderRadius,
@@ -126,6 +127,7 @@ const UserSearch = () => {
       setFiltro2(e.target.value);
  
 }
+
 
   return (
     <>
@@ -209,7 +211,7 @@ const UserSearch = () => {
         }
          </Search>
          <Grid container textAlign="center" sx={{ display: "inline-flex" }}>
-         <Grid item xs={12} md={6}>
+         <Grid item xs={12} md={4}>
           <FormControl sx={{ m: 1, minWidth: 210 }}>
             <InputLabel id="demo-simple-select-autowidth-label">
               filtro
@@ -252,6 +254,7 @@ const UserSearch = () => {
             </Select>
           </FormControl>
         </Grid>
+  
         </Grid>
          {user&&
           <UsersTable busqueda={busqueda} filtro={filtro} filtro2={filtro2}/>
