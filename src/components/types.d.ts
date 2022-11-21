@@ -1,7 +1,8 @@
-export interface usuario {
+export interface usuario {  //esta
    email: string;
    password: string;  
 }  
+
 export interface TodosContextState{
     login:(email:string,password:string)=>Promise<UserCredential>;
     user:{}|Null;
@@ -10,7 +11,7 @@ export interface TodosContextState{
 export interface props{
     children:React.ReactNode;
 }
-export interface UserRegistered{
+export interface UserRegistered{ //cliente
     nombre:string;
     apellido:string;
     celular:number;

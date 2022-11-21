@@ -112,17 +112,18 @@ const UsersTable: React.FC<Props4> = ({busqueda,filtro,filtro2})=> {
    }
 
    const usuarioEnfilados = async () => {
-    let consulta= query(collection(db2,'Users'),where("propietario","==",user.email));
-      let querySnapshot = await getDocs(consulta);
-      querySnapshot.forEach((doc) => {
-        deleteDoc(doc.ref);
+    // let consulta= query(collection(db2,'Users'),where("propietario","==",user.email));
+    //   let querySnapshot = await getDocs(consulta);
+    //   querySnapshot.forEach((doc) => {
+    //     deleteDoc(doc.ref);
   
-      })
+    //   })
     console.log(db,"soy la db ordenada dentro del metodo")
     db.map(async (obj:any)=>{
    
-        const hola = await addDoc(collection(db2, "Users"), {...obj,time:serverTimestamp()});
-    
+        await updateDoc(doc(db2, "Users",obj.id),{ 
+          time:serverTimestamp(),
+        }) 
       
   
     })}

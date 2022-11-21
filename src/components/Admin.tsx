@@ -216,7 +216,7 @@ now=new Date().toLocaleDateString();
   
   };
   const eliminar =()=>{
-   // deleteData(recibidorId);
+    //deleteData(recibidorId);
    deleteData2(recibidorId);
    
   }
@@ -249,7 +249,7 @@ now=new Date().toLocaleDateString();
 
         await addDoc(collection(db2,"Payments"),{
          abono:valorabonar,
-         monto:parseInt(resultado2)-valorabonar,
+         monto:resultado2-valorabonar,
          fecha:now,
          fecha2:fecha22, //fecha en epoch
          clienteid:recibidorId,
@@ -258,11 +258,12 @@ now=new Date().toLocaleDateString();
          propietario:docSnap.data().propietario,
          hora:hora,
         })
-      let montoxd=parseInt(resultado2)-valorabonar
+      let montoxd=resultado2-valorabonar
       await addDoc(collection(db2,"Nans"),{ //me toco empezar a agregar pagos para ver donde está el error.
         abono:valorabonar,
-        montoanterior:parseInt(resultado2),
+        montoanterior:resultado2,
         montonuevo:montoxd,
+        montoconparseint:parseInt(resultado2)-valorabonar,
       })
       if(!isNaN(montoxd)){ //si no es Nan pongamelo relajado
        await updateDoc(doc(db2, "Users",recibidorId),{ 
@@ -286,13 +287,20 @@ now=new Date().toLocaleDateString();
         await updateDoc(doc(db2, "Users",recibidorId),{ 
           monto:montoxd,
         }) 
+        await addDoc(collection(db2,"Nans"),{ //me toco empezar a agregar pagos para ver donde está el error.
+          abono:valorabonar,
+          montoanterior:resultado2,
+          montonuevo:montoxd,
+          montoconparseint:parseInt(resultado2)-valorabonar,
+          entrealelseif:"si",
+        })
       
     }else{
       await addDoc(collection(db2,"Nans"),{ //me toco empezar a agregar pagos para ver donde está el error.
         abono:valorabonar,
         montoanterior:parseInt(resultado2),
         montonuevo:montoxd,
-        entroalelse:"si"
+        entroalelse:"si",
       })
     }
     } else {
@@ -323,18 +331,37 @@ now=new Date().toLocaleDateString();
 
      
    
-    const consulta=query(collection(db2, "Users"),where("propietario","==",user.email));
-    const querySnapshot = await getDocs(consulta);
-              if (querySnapshot.docs) {
-              dispatch({ type: TYPES.CONSULTAR_PRODUCTO, payload:querySnapshot.docs });
-              
-           
-            } else {
-              dispatch({ type: TYPES.SIN_DATOS });
-            
-            }
+    if(user.email=="efren@gmail.com"){  //cualquiera que no sea alejandra
+      const consulta=query(collection(db2, "Users"),where("propietario","==",user.email));
+      const querySnapshot = await getDocs(consulta);
+      console.log("entre a filtrar")
+      if (querySnapshot.docs) {
+          dispatch({ type: TYPES.CONSULTAR_PRODUCTO, payload:querySnapshot.docs });
           
-            return querySnapshot.docs
+        
+        } else {
+          dispatch({ type: TYPES.SIN_DATOS });
+         
+        }
+           
+  return querySnapshot.docs
+    }
+    
+    if(user.email=="alejandra@gmail.com" || user.email=="jeancarlocj14@gmail.com"){
+      const consulta=query(collection(db2, "Users"),where("propietario","==",user.email),orderBy("time"));
+      const querySnapshot = await getDocs(consulta);
+      console.log("entre a filtrar")
+      if (querySnapshot.docs) {
+          dispatch({ type: TYPES.CONSULTAR_PRODUCTO, payload:querySnapshot.docs });
+          
+        
+        } else {
+          dispatch({ type: TYPES.SIN_DATOS });
+         
+        }
+
+        return querySnapshot.docs
+    }
   }
   
 }
@@ -354,7 +381,15 @@ now=new Date().toLocaleDateString();
     const getDataUserReady = async () => {
     
    console.log(now)
+
+   
       const consulta2=query(collection(db2, "Users"),where("propietario","==",user.email),where("tipo","==","1")) //me trae6 
+
+
+
+
+
+
       const consulta=query(collection(db2, "Payments"),where("fecha","==",now)); //me trae 5
 
       const querySnapshot = await getDocs(consulta);
@@ -673,7 +708,7 @@ now=new Date().toLocaleDateString();
             })
           
          };
-         //eliminar usuario 
+         //eliminar usuario  (METODO NO IMPLEMENTADO)
       const deleteData = async(recibidorId:any) => {
       if(clave.current.value==1565 && (user.email=="efren@gmail.com" || user.email=="jeancarlocj14@gmail.com")){
         const eliminar= await deleteDoc(doc(db2, 'Users', recibidorId));
@@ -682,9 +717,9 @@ now=new Date().toLocaleDateString();
       }
         setOpenDelete(false)
         
-   
+      console.log("eliminado",recibidorId)
      };
-     //eliminar todos los pagos
+     //eliminar todos los pagos y el usuario
      const deleteData2 = async(recibidorId:any) => {
      // console.log("entree dd")
       if(clave.current.value==1565 && (user.email=="efren@gmail.com" || user.email=="jeancarlocj14@gmail.com")){
@@ -694,18 +729,18 @@ now=new Date().toLocaleDateString();
           deleteDoc(doc.ref);
     
         })
-        const eliminar= await deleteDoc(doc(db2, 'Users', recibidorId));
+         await deleteDoc(doc(db2, 'Users', recibidorId));
         dispatch({ type: TYPES.ELIMINAR_USUARIO, payload: recibidorId }); 
         setOpenDelete(false)
       }
-      if(clave.current.value==1234 && user.email=="alejandra@gmail.com" ){
+     else if(clave.current.value==1234 && user.email=="alejandra@gmail.com" ){
         let consulta= query(collection(db2,'Payments'),where('clienteid','==',recibidorId));
         let querySnapshot = await getDocs(consulta);
         querySnapshot.forEach((doc) => {
           deleteDoc(doc.ref);
     
         })
-        const eliminar= await deleteDoc(doc(db2, 'Users', recibidorId));
+        await deleteDoc(doc(db2, 'Users', recibidorId));
         dispatch({ type: TYPES.ELIMINAR_USUARIO, payload: recibidorId }); 
         setOpenDelete(false)
       }
