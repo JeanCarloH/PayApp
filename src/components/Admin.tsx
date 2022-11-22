@@ -224,7 +224,7 @@ now=new Date().toLocaleDateString();
 
   const agregar =async()=>{
     
-    console.log(inputref.current.value,"soy el useref");
+   
    
     if(parseInt(inputref.current.value)>0){
     const fecha2 = Date.now();
@@ -242,8 +242,8 @@ now=new Date().toLocaleDateString();
    let valorabonar=parseInt(inputref.current.value);
     if (docSnap.exists()) {
      
-       resultado=docSnap.data().abono;
-        resultado2=docSnap.data().monto;
+       resultado=parseInt(docSnap.data().abono);
+        resultado2=parseInt(docSnap.data().monto);
         resultado3=docSnap.data().totalabonos;
        
 
@@ -261,9 +261,10 @@ now=new Date().toLocaleDateString();
       let montoxd=resultado2-valorabonar
       await addDoc(collection(db2,"Nans"),{ //me toco empezar a agregar pagos para ver donde está el error.
         abono:valorabonar,
+        abonopredeterminado:resultado,
         montoanterior:resultado2,
         montonuevo:montoxd,
-        montoconparseint:parseInt(resultado2)-valorabonar,
+        montoconparseint:resultado2-valorabonar,
       })
       if(!isNaN(montoxd)){ //si no es Nan pongamelo relajado
        await updateDoc(doc(db2, "Users",recibidorId),{ 
@@ -291,14 +292,14 @@ now=new Date().toLocaleDateString();
           abono:valorabonar,
           montoanterior:resultado2,
           montonuevo:montoxd,
-          montoconparseint:parseInt(resultado2)-valorabonar,
+          montoconparseint:resultado2-valorabonar,
           entrealelseif:"si",
         })
       
     }else{
       await addDoc(collection(db2,"Nans"),{ //me toco empezar a agregar pagos para ver donde está el error.
         abono:valorabonar,
-        montoanterior:parseInt(resultado2),
+        montoanterior:resultado2,
         montonuevo:montoxd,
         entroalelse:"si",
       })
@@ -451,6 +452,7 @@ now=new Date().toLocaleDateString();
         if (docSnap.exists()) {
          
           resultado=docSnap.data().abono;
+          console.log(typeof(resultado),"soy el tipo de abono")
           setCantidad(resultado)
         } else {
         
@@ -836,3 +838,4 @@ now=new Date().toLocaleDateString();
 }
 
 export default Admin
+

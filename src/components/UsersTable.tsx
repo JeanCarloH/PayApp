@@ -185,6 +185,9 @@ const UsersTable: React.FC<Props4> = ({busqueda,filtro,filtro2})=> {
               <StyledTableCell align="right">
                   {product.monto}
                 </StyledTableCell>
+                <StyledTableCell align="right">
+ 
+                </StyledTableCell>
                 {user.email=="jeancarlocj14@gmail.com" &&
                 <StyledTableCell align="right">
                 <ArrowUpwardIcon
@@ -364,6 +367,7 @@ const UsersTable: React.FC<Props4> = ({busqueda,filtro,filtro2})=> {
               <StyledTableCell align="right">
                   {product.monto}
                 </StyledTableCell>
+                {user.email=="jeancarlocj14@gmail.com"  &&
                 <StyledTableCell align="right">
                 <ArrowUpwardIcon
                   onClick={()=> up(product.id)}
@@ -373,6 +377,7 @@ const UsersTable: React.FC<Props4> = ({busqueda,filtro,filtro2})=> {
                    onClick={()=> down(product.id)}
                   />
                    </StyledTableCell>
+                    }
                  <StyledTableCell align="right">
                 <Link to="/Admin/Payment">
                   <PaidIcon
