@@ -264,7 +264,8 @@ now=new Date().toLocaleDateString();
         abonopredeterminado:resultado,
         montoanterior:resultado2,
         montonuevo:montoxd,
-        montoconparseint:resultado2-valorabonar,
+        montoseparado:resultado2-valorabonar,
+        hora:hora,
       })
       if(!isNaN(montoxd)){ //si no es Nan pongamelo relajado
        await updateDoc(doc(db2, "Users",recibidorId),{ 
@@ -314,18 +315,18 @@ now=new Date().toLocaleDateString();
     const consultaxd=query(collection(db2, "Payments"),where("clienteid","==",recibidorId));
     const querySnapshotxd = await getDocs(consultaxd);
     
-    let helperxd:any[]=querySnapshotxd.docs.map((doc:any) => doc.data());
+    // let helperxd:any[]=querySnapshotxd.docs.map((doc:any) => doc.data());
      
-    let helper2=helperxd.length
-    let list=[];
-    for (let i = 0; i < helper2; i++) {
+    // let helper2=helperxd.length
+    // let list=[];
+    // for (let i = 0; i < helper2; i++) {
     
-      list.push(helperxd[i].monto)
-    }
-    list.sort();
-    let montoxd=list[0]
-    console.log(montoxd,"soy el monto xd");
-    console.log(typeof(montoxd),"soy el tipo de monto xd");
+    //   list.push(helperxd[i].monto)
+    // }
+    // list.sort();
+    // let montoxd=list[0]
+    // console.log(montoxd,"soy el monto xd");
+    // console.log(typeof(montoxd),"soy el tipo de monto xd");
     
     let contador=querySnapshotxd.docs.length;
     await updateDoc(doc(db2, "Users",recibidorId),{ totalabonos:contador}) 
