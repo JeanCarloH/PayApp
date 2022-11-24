@@ -270,7 +270,7 @@ now=new Date().toLocaleDateString();
       })
       if(!isNaN(montoxd)){ //si no es Nan pongamelo relajado
        await updateDoc(doc(db2, "Users",recibidorId),{ 
-        monto:montoxd,
+        monto:montoxd.toString(), //ojo acabo de cambiar esto por un string
       }) 
     }else if(isNaN(montoxd)){ //aca habia un else pero puse un if para ser mas especifico
     
@@ -657,8 +657,8 @@ now=new Date().toLocaleDateString();
                   //setError();
                 }
                 return querySnapshot.docs
-              }if(value){
-             //   console.log("soy una sola fecha")
+              }else if(value){
+              //  console.log("soy una sola fecha")
                 let probando= fecha1+18000000+82800000;
                 let probando2=probando.toString();
               //  console.log(fechaReal1,"fecha colocada")
@@ -666,7 +666,7 @@ now=new Date().toLocaleDateString();
                 const consulta=query(collection(db2, "Payments"),where("propietario","==",user.email),where('fecha2','>=',fechaReal1),where('fecha2','<=',probando2));
                 const querySnapshot = await getDocs(consulta);
               
-           //     console.log(querySnapshot.docs.map((doc:any)=>(doc.data())),"soy la fecha")
+              // console.log(querySnapshot.docs.map((doc:any)=>(doc.data())),"soy la fecha")
                 if (querySnapshot.docs) {
                   
                     dispatch({ type: TYPES.CONSULTAR_ESTADISTICAS, payload:querySnapshot.docs});
