@@ -266,6 +266,7 @@ now=new Date().toLocaleDateString();
         montonuevo:montoxd,
         montoseparado:resultado2-valorabonar,
         hora:hora,
+        fecha:now,
       })
       if(!isNaN(montoxd)){ //si no es Nan pongamelo relajado
        await updateDoc(doc(db2, "Users",recibidorId),{ 
@@ -294,16 +295,9 @@ now=new Date().toLocaleDateString();
           montoanterior:resultado2,
           montonuevo:montoxd,
           montoconparseint:resultado2-valorabonar,
-          entrealelseif:"si",
+          entrealelseif:1,
         })
       
-    }else{
-      await addDoc(collection(db2,"Nans"),{ //me toco empezar a agregar pagos para ver donde está el error.
-        abono:valorabonar,
-        montoanterior:resultado2,
-        montonuevo:montoxd,
-        entroalelse:"si",
-      })
     }
     } else {
     
