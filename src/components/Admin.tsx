@@ -266,10 +266,11 @@ now=new Date().toLocaleDateString();
         montonuevo:montoxd,
         montoseparado:resultado2-valorabonar,
         hora:hora,
+        fecha:now,
       })
       if(!isNaN(montoxd)){ //si no es Nan pongamelo relajado
        await updateDoc(doc(db2, "Users",recibidorId),{ 
-        monto:montoxd,
+        monto:montoxd.toString(), //ojo acabo de cambiar esto por un string
       }) 
     }else if(isNaN(montoxd)){ //aca habia un else pero puse un if para ser mas especifico
     
@@ -294,16 +295,9 @@ now=new Date().toLocaleDateString();
           montoanterior:resultado2,
           montonuevo:montoxd,
           montoconparseint:resultado2-valorabonar,
-          entrealelseif:"si",
+          entrealelseif:1,
         })
       
-    }else{
-      await addDoc(collection(db2,"Nans"),{ //me toco empezar a agregar pagos para ver donde está el error.
-        abono:valorabonar,
-        montoanterior:resultado2,
-        montonuevo:montoxd,
-        entroalelse:"si",
-      })
     }
     } else {
     
@@ -664,8 +658,8 @@ now=new Date().toLocaleDateString();
                   //setError();
                 }
                 return querySnapshot.docs
-              }if(value){
-             //   console.log("soy una sola fecha")
+              }else if(value){
+              //  console.log("soy una sola fecha")
                 let probando= fecha1+18000000+82800000;
                 let probando2=probando.toString();
               //  console.log(fechaReal1,"fecha colocada")
@@ -673,7 +667,7 @@ now=new Date().toLocaleDateString();
                 const consulta=query(collection(db2, "Payments"),where("propietario","==",user.email),where('fecha2','>=',fechaReal1),where('fecha2','<=',probando2));
                 const querySnapshot = await getDocs(consulta);
               
-           //     console.log(querySnapshot.docs.map((doc:any)=>(doc.data())),"soy la fecha")
+              // console.log(querySnapshot.docs.map((doc:any)=>(doc.data())),"soy la fecha")
                 if (querySnapshot.docs) {
                   
                     dispatch({ type: TYPES.CONSULTAR_ESTADISTICAS, payload:querySnapshot.docs});

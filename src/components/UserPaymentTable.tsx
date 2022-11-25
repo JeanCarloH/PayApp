@@ -83,7 +83,7 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
         let resultado2;
          let resultado3;
         if (docSnap2.exists()) {
-          resultado2=docSnap2.data().monto;
+          resultado2=parseInt(docSnap2.data().monto);
           resultado3=docSnap2.data().totalabonos;
         }
         
@@ -101,7 +101,8 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
           console.log("No such document!");
         }
         setOpen(false)
-        await updateDoc(doc(db2, "Users",recibidorId),{ monto:resultado2+resultado })
+        let montoxd=resultado2+resultado;
+        await updateDoc(doc(db2, "Users",recibidorId),{ monto:montoxd.toString()})
         const consultaxd=query(collection(db2, "Payments"),where("clienteid","==",recibidorId));
         const querySnapshotxd = await getDocs(consultaxd);
         
