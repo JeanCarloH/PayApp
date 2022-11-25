@@ -94,6 +94,8 @@ console.log(now)
           ['time']:serverTimestamp(),
 
         });
+
+      
         // setForm2({
         //   ...form2,
         //   ['monto']: form.monto,

@@ -423,6 +423,7 @@ now=new Date().toLocaleDateString();
         const hola = await addDoc(collection(db2, "Users"), object);
  
       };
+
       const addPayment = async (id:any,object:any) => {
         const hola2:any =  await setDoc(doc(db2, "Payments",id),object);
       }
