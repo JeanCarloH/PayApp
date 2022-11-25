@@ -74,7 +74,30 @@ const UsersTable: React.FC<Props4> = ({busqueda,filtro,filtro2})=> {
   const [checked, setChecked] = useState(true);
   const [busquedaPagos, setBusquedaPagos] = React.useState<string|null>("");
   const [open, setOpen] = React.useState(false);
+  const [nan, setNan] = React.useState();
+
   const {dispatch}:any = useOutletContext();
+
+   React.useEffect(() => {
+    const methodNan = async () => {
+      console.log("entre una vezz a metodo nan")
+      const consultaxd=query(collection(db2, "Payments"),where("clienteid","==",nan));
+      const querySnapshotxd = await getDocs(consultaxd);
+    
+       let helperxd:any[]=querySnapshotxd.docs.map((doc:any) => doc.data());
+     
+        let helper2=helperxd.length
+        let list=[];
+        for (let i = 0; i < helper2; i++) {
+        
+          list.push(helperxd[i].monto)
+        }
+        list.sort();
+        let montoxd=list[0];
+    
+      }
+
+  }, []);
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setChecked(event.target.checked);
   };
@@ -112,12 +135,7 @@ const UsersTable: React.FC<Props4> = ({busqueda,filtro,filtro2})=> {
    }
 
    const usuarioEnfilados = async () => {
-    // let consulta= query(collection(db2,'Users'),where("propietario","==",user.email));
-    //   let querySnapshot = await getDocs(consulta);
-    //   querySnapshot.forEach((doc) => {
-    //     deleteDoc(doc.ref);
-  
-    //   })
+    
     console.log(db,"soy la db ordenada dentro del metodo")
     db.map(async (obj:any)=>{
    
@@ -127,8 +145,9 @@ const UsersTable: React.FC<Props4> = ({busqueda,filtro,filtro2})=> {
       
   
     })}
+  
     
-
+      
   return (
     <>
         
@@ -183,7 +202,9 @@ const UsersTable: React.FC<Props4> = ({busqueda,filtro,filtro2})=> {
                   {product.apellido}
                 </StyledTableCell>
               <StyledTableCell align="right">
-                  {product.monto}
+                  
+                  { product.monto }
+                 
                 </StyledTableCell>
                 <StyledTableCell align="right">
  

@@ -174,7 +174,7 @@ console.log(now)
             name="celular"
             onChange={handleChange}
             required
-            type='number'
+            type="number"
             label="Celular"
             value={form.celular}
           />

@@ -26,7 +26,7 @@ import { db2 } from '../firebase';
 const UserSearch = () => {
   const {user}:any = useAuth();
   const [state, dispatch] = useReducer(userReducer, userInitialState);
-  const {getData,getDataName,getDataNote,getDataBase}:any = useOutletContext();
+  const {getData,getDataName,getDataNote,getDataBase,db}:any = useOutletContext();
   const [filtro, setFiltro] = useState("1");
   const [filtro2, setFiltro2] = useState("0");
     const [busqueda, setBusqueda] = React.useState<string|null>("");
@@ -39,6 +39,7 @@ const UserSearch = () => {
       }
       useEffect(()=>{
       getDataBase()
+      
         // logsearch()
       } ,[])
       // let contador=0;
