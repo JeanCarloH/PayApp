@@ -642,10 +642,68 @@ now=new Date().toLocaleDateString();
       const restador=dia2-dia;
        validador=restador-resultado2; //la que necesito.
     }else if(mes1!=mes2){
-      const dia=parseInt(resultado.substring(0,2));
-      const dia2=parseInt(now.substring(0,2));
-      const sumador=dia2+dia;
-       validador=sumador-resultado2;
+      if(mes1=="01"){
+        const dia=uno-parseInt(resultado.substring(0,2));
+        const dia2=parseInt(now.substring(0,2));
+        const sumador=dia2+dia;
+         validador=sumador-resultado2;
+      }else if(mes1=="02"){
+        const dia=dos-parseInt(resultado.substring(0,2));
+        const dia2=parseInt(now.substring(0,2));
+        const sumador=dia2+dia;
+         validador=sumador-resultado2;
+      }else if(mes1=="03"){
+        const dia=tres-parseInt(resultado.substring(0,2));
+        const dia2=parseInt(now.substring(0,2));
+        const sumador=dia2+dia;
+         validador=sumador-resultado2;
+      }else if(mes1=="04"){
+        const dia=cuatro-parseInt(resultado.substring(0,2));
+        const dia2=parseInt(now.substring(0,2));
+        const sumador=dia2+dia;
+         validador=sumador-resultado2;
+      }else if(mes1=="05"){
+        const dia=cinco-parseInt(resultado.substring(0,2));
+        const dia2=parseInt(now.substring(0,2));
+        const sumador=dia2+dia;
+         validador=sumador-resultado2;
+      }else if(mes1=="06"){
+        const dia=seis-parseInt(resultado.substring(0,2));
+        const dia2=parseInt(now.substring(0,2));
+        const sumador=dia2+dia;
+         validador=sumador-resultado2;
+      }else if(mes1=="07"){
+        const dia=siete-parseInt(resultado.substring(0,2));
+        const dia2=parseInt(now.substring(0,2));
+        const sumador=dia2+dia;
+         validador=sumador-resultado2;
+      }else if(mes1=="08"){
+        const dia=ocho-parseInt(resultado.substring(0,2));
+        const dia2=parseInt(now.substring(0,2));
+        const sumador=dia2+dia;
+         validador=sumador-resultado2;
+      }else if(mes1=="09"){
+        const dia=nueve-parseInt(resultado.substring(0,2));
+        const dia2=parseInt(now.substring(0,2));
+        const sumador=dia2+dia;
+         validador=sumador-resultado2;
+      }else if(mes1=="10"){
+        const dia=diez-parseInt(resultado.substring(0,2));
+        const dia2=parseInt(now.substring(0,2));
+        const sumador=dia2+dia;
+         validador=sumador-resultado2;
+      }else if(mes1=="11"){
+        const dia=once-parseInt(resultado.substring(0,2));
+        const dia2=parseInt(now.substring(0,2));
+        const sumador=dia2+dia;
+         validador=sumador-resultado2;
+      }else if(mes1=="12"){
+        const dia=doce-parseInt(resultado.substring(0,2));
+        const dia2=parseInt(now.substring(0,2));
+        const sumador=dia2+dia;
+         validador=sumador-resultado2;
+      }
+      
       
     }
      setValidador(validador);
@@ -871,7 +929,7 @@ now=new Date().toLocaleDateString();
     </Dialog>
     
   
-    <Outlet context={{db,dbUser,dbnote,dbpayments,dbusersready,dbstatistics,dbmora,recibidorId,dbpayments2,validador,getDataBaseUser,getDataBase,getDataPaymentsReal,getDataBaseDiarios,getUserStatistics,getDataUserReady,addPayment,addData,updateData,deleteData,addPay,addDataNote,updateDataNote,getDataNote,handleClickOpenDelete,dispatch}} />
+    <Outlet context={{db,dbUser,dbnote,dbpayments,dbusersready,dbstatistics,dbmora,recibidorId,dbpayments2,validador,setValidador,getDataBaseUser,getDataBase,getDataPaymentsReal,getDataBaseDiarios,getUserStatistics,getDataUserReady,addPayment,addData,updateData,deleteData,addPay,addDataNote,updateDataNote,getDataNote,handleClickOpenDelete,dispatch}} />
     </>
   )
 }

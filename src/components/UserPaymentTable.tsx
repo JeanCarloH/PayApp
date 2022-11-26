@@ -60,7 +60,7 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
     const{user,logout,login}:any=useAuth()
     const {dispatch}:any = useOutletContext();
     const [id, setId] = React.useState("");
-    const {dbpayments, recibidorId}:any = useOutletContext();
+    const {dbpayments, recibidorId,getCuotas,setValidador,validador}:any = useOutletContext();
     const [open, setOpen] = React.useState(false);
  
     const handleClickOpen = (id:any) => {
@@ -73,9 +73,11 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
     };
   
     const deletePayment = async () => {
+      
       console.log(recibidorId, id,"somos el recibidor id y el id del pago a eliminar");
       if(clave.current.value==1565 && (user.email=="efren@gmail.com" || user.email=="jeancarlocj14@gmail.com")){
         console.log(id,"si entre y soy el id")
+        setValidador(validador+1);
         const docRef = doc(db2, "Payments",id);
         const docSnap = await getDoc(docRef);
         const docRef2 = doc(db2, "Users",recibidorId);
