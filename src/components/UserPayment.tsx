@@ -23,7 +23,7 @@ import SearchIcon from '@mui/icons-material/Search';
 
 
 const UserPayment = () => {
-  const { addPayment,dbpayments,recibidorId,getDataPaymentsReal}:any = useOutletContext();
+  const { addPayment,dbpayments,recibidorId,getDataPaymentsReal,validador}:any = useOutletContext();
   const [busquedaPagos, setBusquedaPagos] = React.useState<string|null>("");
   useEffect(()=>{
     //ACABE DE ELIMINAR UN METODO INUTIL
@@ -101,11 +101,20 @@ const UserPayment = () => {
 
 
   }));
+  const bull = (
+    <Box
+      component="span"
+      sx={{ display: 'inline-block', mx: '2px', transform: 'scale(0.8)' }}
+    >
+      •
+    </Box>
+  );
   return (
     <>
 
 
     <UserPaymentAppBar/>
+   
     <Search sx={{display: { xs: "none", md: "flex"  }}}>
        <SearchIconWrapper>
          <SearchIcon />
@@ -183,6 +192,14 @@ const UserPayment = () => {
 
         }
         </Search>
+
+        <Card sx={{  m:1 }}>
+      <CardContent>
+        <Typography variant="h5" component="div">
+          {bull} La cantidad de cuotas pendientes son: {validador}
+        </Typography>
+      </CardContent>
+   </Card>
     <UserPaymentTable busquedaPagos={busquedaPagos}/>
     </>
   )

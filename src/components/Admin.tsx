@@ -70,6 +70,7 @@ const Admin: React.FC<Props2> = ({state,dispatch}) => {
   const [openNotificacion, setOpenNotificacion] = React.useState(false);
   const [titulo, setTitulo] = React.useState("");
   const [recordatorio, setRecordatorio] = React.useState("");
+  const [validador, setValidador] = React.useState<number|undefined>(undefined);
   let inputref:any= useRef();
   const clave:any= useRef();
   let fecha:any=[];
@@ -86,12 +87,26 @@ const Admin: React.FC<Props2> = ({state,dispatch}) => {
   const{user,logout,login}:any=useAuth() //aca traemos el estado de usecontext
   let now:string;
   let hora:string;
+  const uno=31;
+  const dos=28;
+  const tres=31;
+  const cuatro=30;
+  const cinco=31;
+  const seis=30;
+  const siete=31;
+  const ocho=31;
+  const nueve=30;
+  const diez=31;
+  const once=30;
+  const doce=31;
+
  
 
 React.useEffect(() => {
     now=new Date().toLocaleDateString();
     hora= new Date().toLocaleTimeString();
     console.log(hora,"la hora")
+   
     
 }
 )
@@ -381,15 +396,7 @@ now=new Date().toLocaleDateString();
 
     const getDataUserReady = async () => {
     
-   console.log(now)
-
-   
       const consulta2=query(collection(db2, "Users"),where("propietario","==",user.email),where("tipo","==","1")) //me trae6 
-
-
-
-
-
 
       const consulta=query(collection(db2, "Payments"),where("fecha","==",now)); //me trae 5
 
@@ -593,6 +600,7 @@ now=new Date().toLocaleDateString();
   
   const getDataPaymentsReal  = async (id:any,busqueda:any) => {
     setRecibidorId(id);
+    getCuotas();
     const ref=collection(db2, "Payments")
           const consulta=query(ref,where("clienteid","==",id),orderBy("fecha2"))
           const querySnapshot = await getDocs(consulta);
@@ -611,9 +619,38 @@ now=new Date().toLocaleDateString();
         return querySnapshot.docs
   }
       
-     const getInformation = async (id:any) => {
+     const getCuotas = async () => {
       
+      
+    const docRef = doc(db2, "Users",recibidorId);
+    const docSnap = await getDoc(docRef);
+    let resultado;
+    let resultado2;
+    if (docSnap.exists()) {
+      resultado = docSnap.data().fecha;
+      resultado2 = docSnap.data().totalabonos;
      }
+     const mes1=resultado.substring(3,5);
+     
+     const mes2=now.substring(3,5);
+   // console.log(resultado,"soy el resultado")
+    // console.log(mes1,mes2,"soy los meses")
+    let validador;
+    if(mes1==mes2){
+      const dia=parseInt(resultado.substring(0,2));
+      const dia2=parseInt(now.substring(0,2));
+      const restador=dia2-dia;
+       validador=restador-resultado2; //la que necesito.
+    }else if(mes1!=mes2){
+      const dia=parseInt(resultado.substring(0,2));
+      const dia2=parseInt(now.substring(0,2));
+      const sumador=dia2+dia;
+       validador=sumador-resultado2;
+      
+    }
+     setValidador(validador);
+
+    }
       const getDataNote = async () => {
         if(user){
          
@@ -646,6 +683,7 @@ now=new Date().toLocaleDateString();
       
          let fechaReal1= fecha11.toString();
         let fechaReal2=fecha22.toString();
+        
          // console.log(fechaReal1,fechaReal2,"fechas a comprobar")
           if(value && value2){
           //  console.log("soy las dos fechas")
@@ -833,7 +871,7 @@ now=new Date().toLocaleDateString();
     </Dialog>
     
   
-    <Outlet context={{db,dbUser,dbnote,dbpayments,dbusersready,dbstatistics,dbmora,recibidorId,dbpayments2,getDataBaseUser,getDataBase,getDataPaymentsReal,getDataBaseDiarios,getUserStatistics,getDataUserReady,addPayment,addData,updateData,deleteData,addPay,addDataNote,updateDataNote,getDataNote,handleClickOpenDelete,dispatch}} />
+    <Outlet context={{db,dbUser,dbnote,dbpayments,dbusersready,dbstatistics,dbmora,recibidorId,dbpayments2,validador,getDataBaseUser,getDataBase,getDataPaymentsReal,getDataBaseDiarios,getUserStatistics,getDataUserReady,addPayment,addData,updateData,deleteData,addPay,addDataNote,updateDataNote,getDataNote,handleClickOpenDelete,dispatch}} />
     </>
   )
 }

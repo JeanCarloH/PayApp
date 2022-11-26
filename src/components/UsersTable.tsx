@@ -171,7 +171,7 @@ const UsersTable: React.FC<Props4> = ({busqueda,filtro,filtro2})=> {
               <StyledTableCell align="right">Nombre</StyledTableCell>
               <StyledTableCell align="right">Apellido</StyledTableCell>
               <StyledTableCell align="right">Monto</StyledTableCell>
-              <StyledTableCell align="right"></StyledTableCell>
+              
               {user.email=="jeancarlocj14@gmail.com" &&
               <StyledTableCell align="right"></StyledTableCell>
   }
@@ -206,9 +206,7 @@ const UsersTable: React.FC<Props4> = ({busqueda,filtro,filtro2})=> {
                   { product.monto }
                  
                 </StyledTableCell>
-                <StyledTableCell align="right">
- 
-                </StyledTableCell>
+             
                 {user.email=="jeancarlocj14@gmail.com" &&
                 <StyledTableCell align="right">
                 <ArrowUpwardIcon
@@ -278,9 +276,7 @@ const UsersTable: React.FC<Props4> = ({busqueda,filtro,filtro2})=> {
                   />
                    </StyledTableCell>
                     }
-                   <StyledTableCell align="right">
-                    {product.prioridad}
-                  </StyledTableCell>
+                  
                    <StyledTableCell align="right">
                   <Link to="/Admin/Payment">
                     <PaidIcon
@@ -308,7 +304,7 @@ const UsersTable: React.FC<Props4> = ({busqueda,filtro,filtro2})=> {
               
              )) )}
              
-             { !busqueda&& filtro2 && //busqueda y filtro2 puestos  (FILTRO 2)
+             { !busqueda&& filtro2 && // no busqueda y filtro2 1 puestos 
               db.filter((product:any) => (product.fecha==filtro2 )).map(((product:any) => (
                 <StyledTableRow key={product.id}>
                 <StyledTableCell align="right">
@@ -328,9 +324,7 @@ const UsersTable: React.FC<Props4> = ({busqueda,filtro,filtro2})=> {
               <StyledTableCell align="right">
                   {product.monto}
                 </StyledTableCell>
-                <StyledTableCell align="right">
-                  {product.prioridad}
-                </StyledTableCell>
+          
                 {user.email=="jeancarlocj14@gmail.com"  &&
                 <StyledTableCell align="right">
                 <ArrowUpwardIcon
@@ -388,17 +382,11 @@ const UsersTable: React.FC<Props4> = ({busqueda,filtro,filtro2})=> {
               <StyledTableCell align="right">
                   {product.monto}
                 </StyledTableCell>
-                {user.email=="jeancarlocj14@gmail.com"  &&
+                {user.email=="jeancarlocj14@gmail.com" &&
                 <StyledTableCell align="right">
-                <ArrowUpwardIcon
-                  onClick={()=> up(product.id)}
-                  />
-                  
-                  <ArrowDownwardIcon
-                   onClick={()=> down(product.id)}
-                  />
-                   </StyledTableCell>
-                    }
+                 
+                </StyledTableCell>
+}
                  <StyledTableCell align="right">
                 <Link to="/Admin/Payment">
                   <PaidIcon
