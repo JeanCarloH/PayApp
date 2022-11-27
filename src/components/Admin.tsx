@@ -261,10 +261,7 @@ now=new Date().toLocaleDateString();
         resultado2=parseInt(docSnap.data().monto);
         resultado3=docSnap.data().totalabonos;
        
-        let montoxd=resultado2-valorabonar
-        await updateDoc(doc(db2, "Users",recibidorId),{ 
-          monto:montoxd.toString(), //ojo acabo de cambiar esto por un string
-        }) 
+       
         await addDoc(collection(db2,"Payments"),{
          abono:valorabonar,
          monto:resultado2-valorabonar,
@@ -276,7 +273,7 @@ now=new Date().toLocaleDateString();
          propietario:docSnap.data().propietario,
          hora:hora,
         })
-      
+        let montoxd=resultado2-valorabonar
       await addDoc(collection(db2,"Nans"),{ //me toco empezar a agregar pagos para ver donde está el error.
         abono:valorabonar,
         abonopredeterminado:resultado,
@@ -286,37 +283,39 @@ now=new Date().toLocaleDateString();
         hora:hora,
         fecha:now,
       })
-    //   if(!isNaN(montoxd)){ //si no es Nan pongamelo relajado
-    //    await updateDoc(doc(db2, "Users",recibidorId),{ 
-    //     monto:montoxd.toString(), //ojo acabo de cambiar esto por un string
-    //   }) 
-    // }else if(isNaN(montoxd)){ //aca habia un else pero puse un if para ser mas especifico
-    
-    //   const consultaxd=query(collection(db2, "Payments"),where("clienteid","==",recibidorId));
-    //   const querySnapshotxd = await getDocs(consultaxd);
-  
-    //    let helperxd:any[]=querySnapshotxd.docs.map((doc:any) => doc.data());
-     
-    //     let helper2=helperxd.length
-    //     let list=[];
-    //     for (let i = 0; i < helper2; i++) {
-        
-    //       list.push(helperxd[i].monto)
-    //     }
-    //     list.sort();
-    //  let montoxd=list[0];
-    //     await updateDoc(doc(db2, "Users",recibidorId),{ 
-    //       monto:montoxd,
-    //     }) 
-    //     await addDoc(collection(db2,"Nans"),{ //me toco empezar a agregar pagos para ver donde está el error.
-    //       abono:valorabonar,
-    //       montoanterior:resultado2,
-    //       montonuevo:montoxd,
-    //       montoconparseint:resultado2-valorabonar,
-    //       entrealelseif:1,
-    //     })
       
-    // }
+     
+      if(!isNaN(montoxd)){ //si no es Nan pongamelo relajado
+       await updateDoc(doc(db2, "Users",recibidorId),{ 
+        monto:montoxd.toString(), //ojo acabo de cambiar esto por un string
+      }) 
+    }else if(isNaN(montoxd)){ //aca habia un else pero puse un if para ser mas especifico
+    
+      const consultaxd=query(collection(db2, "Payments"),where("clienteid","==",recibidorId));
+      const querySnapshotxd = await getDocs(consultaxd);
+  
+       let helperxd:any[]=querySnapshotxd.docs.map((doc:any) => doc.data());
+     
+        let helper2=helperxd.length
+        let list=[];
+        for (let i = 0; i < helper2; i++) {
+        
+          list.push(helperxd[i].monto)
+        }
+        list.sort();
+     let montoxd=list[0];
+        await updateDoc(doc(db2, "Users",recibidorId),{ 
+          monto:montoxd,
+        }) 
+        await addDoc(collection(db2,"Nans"),{ //me toco empezar a agregar pagos para ver donde está el error.
+          abono:valorabonar,
+          montoanterior:resultado2,
+          montonuevo:montoxd,
+          montoconparseint:resultado2-valorabonar,
+          entrealelseif:1,
+        })
+      
+    }
     } else {
     
       console.log("No such document!");
