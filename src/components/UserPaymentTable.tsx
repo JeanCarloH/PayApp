@@ -85,7 +85,7 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
         let resultado2;
          let resultado3;
         if (docSnap2.exists()) {
-          resultado2=parseInt(docSnap2.data().monto);
+          resultado2=docSnap2.data().monto;
           resultado3=docSnap2.data().totalabonos;
         }
         
