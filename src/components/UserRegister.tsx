@@ -80,7 +80,7 @@ const UserRegister: React.FC<Props3> = ({edit}) => {
       });
 
 
-    const [form, setForm] = useState<UserRegistered>(initialForm);
+    const [form, setForm] = useState<any>(initialForm);
   
   
 console.log(now)
@@ -128,15 +128,18 @@ console.log(now)
             alert("Datos incompletos.");
             return;
           } else {
+            form.monto=parseInt(form.monto);
+            form.abono=parseInt(form.abono);
             if(edit){
-              console.log(id,"soy el useparams")
+             
                 updateData(id, form);
                 
             } 
             else{
+              
                 addData(form);
                 //addPayment(form2)
-                console.log("entre a registrar")
+               
             }
           }
             handleReset();

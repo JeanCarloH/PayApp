@@ -104,7 +104,7 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
         }
         setOpen(false)
         let montoxd=resultado2+resultado;
-        await updateDoc(doc(db2, "Users",recibidorId),{ monto:montoxd.toString()})
+        await updateDoc(doc(db2, "Users",recibidorId),{ monto:montoxd})
         const consultaxd=query(collection(db2, "Payments"),where("clienteid","==",recibidorId));
         const querySnapshotxd = await getDocs(consultaxd);
         

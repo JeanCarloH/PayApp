@@ -104,8 +104,7 @@ const Admin: React.FC<Props2> = ({state,dispatch}) => {
 
 React.useEffect(() => {
     now=new Date().toLocaleDateString();
-    hora= new Date().toLocaleTimeString();
-    console.log(hora,"la hora")
+   
    
     
 }
@@ -236,9 +235,12 @@ now=new Date().toLocaleDateString();
    
   }
  
+  
+
 
   const agregar =async()=>{
-    
+    hora= new Date().toLocaleTimeString();
+ 
    
    
     if(parseInt(inputref.current.value)>0){
@@ -257,23 +259,23 @@ now=new Date().toLocaleDateString();
    let valorabonar=parseInt(inputref.current.value);
     if (docSnap.exists()) {
      
-       resultado=parseInt(docSnap.data().abono);
-        resultado2=parseInt(docSnap.data().monto);
+       resultado=docSnap.data().abono;
+        resultado2=docSnap.data().monto;
         resultado3=docSnap.data().totalabonos;
-       
-       
-        await addDoc(collection(db2,"Payments"),{
-         abono:valorabonar,
-         monto:resultado2-valorabonar,
-         fecha:now,
-         fecha2:fecha22, //fecha en epoch
-         clienteid:recibidorId,
-         nombre:docSnap.data().nombre,
-         apellido:docSnap.data().apellido,
-         propietario:docSnap.data().propietario,
-         hora:hora,
-        })
         let montoxd=resultado2-valorabonar
+       if(!isNaN(resultado2)){
+        await addDoc(collection(db2,"Payments"),{
+          abono:valorabonar,
+          monto:montoxd,
+          fecha:now,
+          fecha2:fecha22, //fecha en epoch
+          clienteid:recibidorId,
+          nombre:docSnap.data().nombre,
+          apellido:docSnap.data().apellido,
+          propietario:docSnap.data().propietario,
+          hora:hora,
+         })
+         
       await addDoc(collection(db2,"Nans"),{ //me toco empezar a agregar pagos para ver donde está el error.
         abono:valorabonar,
         abonopredeterminado:resultado,
@@ -283,13 +285,16 @@ now=new Date().toLocaleDateString();
         hora:hora,
         fecha:now,
       })
+       }
+        
+        
       
      
-      if(!isNaN(montoxd)){ //si no es Nan pongamelo relajado
+      if(!isNaN(resultado2)){ //si no es Nan pongamelo relajado
        await updateDoc(doc(db2, "Users",recibidorId),{ 
-        monto:montoxd.toString(), //ojo acabo de cambiar esto por un string
+        monto:montoxd, //ojo acabo de cambiar esto por un string
       }) 
-    }else if(isNaN(montoxd)){ //aca habia un else pero puse un if para ser mas especifico
+    }else if(isNaN(resultado2)){ //aca habia un else pero puse un if para ser mas especifico
     
       const consultaxd=query(collection(db2, "Payments"),where("clienteid","==",recibidorId));
       const querySnapshotxd = await getDocs(consultaxd);
@@ -883,6 +888,7 @@ now=new Date().toLocaleDateString();
           <Button onClick={handleClose}>Cancelar</Button>
        
           <Button onClick={agregar}>Aceptar</Button>
+        
         </Box>
         
       </Dialog>
