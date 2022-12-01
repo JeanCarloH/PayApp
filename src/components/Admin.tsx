@@ -285,16 +285,21 @@ now=new Date().toLocaleDateString();
         hora:hora,
         fecha:now,
       })
+
+      await updateDoc(doc(db2, "Users",recibidorId),{ 
+        monto:montoxd, 
+      }) 
        }
         
         
       
      
-      if(!isNaN(resultado2)){ //si no es Nan pongamelo relajado
-       await updateDoc(doc(db2, "Users",recibidorId),{ 
-        monto:montoxd, //ojo acabo de cambiar esto por un string
-      }) 
-    }else if(isNaN(resultado2)){ //aca habia un else pero puse un if para ser mas especifico
+    //   if(!isNaN(resultado2)){ //si no es Nan pongamelo relajado
+    //    await updateDoc(doc(db2, "Users",recibidorId),{ 
+    //     monto:montoxd, //ojo acabo de cambiar esto por un string
+    //   }) 
+    // }
+     if(isNaN(resultado2)){ //aca habia un else pero puse un if para ser mas especifico
     
       const consultaxd=query(collection(db2, "Payments"),where("clienteid","==",recibidorId));
       const querySnapshotxd = await getDocs(consultaxd);
