@@ -285,10 +285,15 @@ now=new Date().toLocaleDateString();
         hora:hora,
         fecha:now,
       })
+      const actualizar = async(recibidorId:string) => {
+        await updateDoc(doc(db2,'Users',recibidorId),{
+          monto:montoxd,
+      
 
-      await updateDoc(doc(db2, "Users",recibidorId),{ 
-        monto:montoxd, 
-      }) 
+
+        })
+     }
+      actualizar(recibidorId);
        }
         
         
