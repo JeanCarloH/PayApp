@@ -303,6 +303,7 @@ now=new Date().toLocaleDateString();
     //     monto:montoxd, //ojo acabo de cambiar esto por un string
     //   }) 
     // }
+   
      if(isNaN(resultado2)){ //aca habia un else pero puse un if para ser mas especifico
     
       const consultaxd=query(collection(db2, "Payments"),where("clienteid","==",recibidorId));
@@ -316,7 +317,7 @@ now=new Date().toLocaleDateString();
         
           list.push(helperxd[i].monto)
         }
-        list.sort();
+        list.sort(function(a, b){return a - b});
      let montoxd=list[0];
         await updateDoc(doc(db2, "Users",recibidorId),{ 
           monto:montoxd,
@@ -614,6 +615,41 @@ now=new Date().toLocaleDateString();
   const getDataPaymentsReal  = async (id:any,busqueda:any) => {
     setRecibidorId(id);
     getCuotas();
+    const consultaxd=query(collection(db2, "Payments"),where("clienteid","==",recibidorId));
+    const querySnapshotxd = await getDocs(consultaxd);
+    let contador=querySnapshotxd.docs.length;
+
+    const docRef = doc(db2, "Users",recibidorId);
+    const docSnap = await getDoc(docRef);
+
+   let resultado2;
+ 
+  
+    if (docSnap.exists()) {
+        resultado2=docSnap.data().monto;
+    }
+    if(contador>0 && isNaN(resultado2)){
+    console.log("entre?")
+       let helperxd:any[]=querySnapshotxd.docs.map((doc:any) => doc.data());
+     
+        let helper2=helperxd.length
+        let list=[];
+        for (let i = 0; i < helper2; i++) {
+        
+          list.push(helperxd[i].monto)
+        }
+        list.sort(function(a, b){return a - b});
+     let montoxd=list[0];
+        await updateDoc(doc(db2, "Users",recibidorId),{ 
+          monto:montoxd,
+        }) 
+        await addDoc(collection(db2,"Nans"),{ //me toco empezar a agregar pagos para ver donde está el error.
+          monto:montoxd,
+          hora:hora,
+          fecha:now,
+          entre:1,
+        })
+      }
     const ref=collection(db2, "Payments")
           const consulta=query(ref,where("clienteid","==",id),orderBy("fecha2"))
           const querySnapshot = await getDocs(consulta);
@@ -630,6 +666,8 @@ now=new Date().toLocaleDateString();
           
         
         return querySnapshot.docs
+
+        
   }
       
      const getCuotas = async () => {
