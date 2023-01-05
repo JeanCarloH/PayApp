@@ -11,7 +11,7 @@ import { Link, useOutletContext } from "react-router-dom";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import { Box } from "@mui/system";
 import { IconButton, Tooltip,Button } from "@mui/material";
-
+import { useAuth } from '../context/authContext';
 import { createTheme,ThemeProvider } from '@mui/material/styles';
 
 import { doc, onSnapshot, collection, query, where,addDoc,updateDoc,setDoc,deleteDoc,getDocs} from "firebase/firestore";
@@ -60,7 +60,7 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
   const UserStatisticsTable: React.FC<Props6> = ({tipo, tipoMes})=> {
     var today = new Date();
  
-
+    const{user,logout,login}:any=useAuth()
   var now = today.toLocaleDateString('en-GB');
     const { dbstatistics,dbpayments2}:any = useOutletContext();
 
@@ -89,9 +89,11 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
               <StyledTableRow >
                   <StyledTableCell align="left">
                    
-                   {dbstatistics.length>0&&
-
-                   totalcobro-total2}
+                   {dbstatistics.length>0 && user.email=="efren@gmail.com" ?
+                   totalcobro-total2:
+                   totalcobro
+                   }
+                     
 
                    
                  
