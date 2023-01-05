@@ -51,7 +51,7 @@ const UserStatistics = () => {
       getDataBase();
       setValidador2(true);
     }
-    if(clave2.current.value==1234 && user.email=="alejandra@gmail.com" ){
+    if(clave2.current.value==9604 && user.email=="estiven@gmail.com" ){
       getDataBase();
       setValidador2(true);
     }
@@ -70,6 +70,7 @@ const UserStatistics = () => {
         •
       </Box>
     );
+    
     const totalcobro= db.reduce((total:any,item:any)=>parseInt(item.monto)+total,0)
     const handleClose = () => {
       setOpen(false);

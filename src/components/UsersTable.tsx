@@ -152,7 +152,7 @@ const UsersTable: React.FC<Props4> = ({busqueda,filtro,filtro2})=> {
     <>
         
          <Box sx={{display:'flex', justifyContent:'center', marginBottom:3,marginTop:3, textAlign:'center'}}>
-    <Button
+    {/* <Button
                 onClick={usuarioEnfilados}
                 variant="contained"
                 endIcon={< SearchIcon />}
@@ -160,7 +160,7 @@ const UsersTable: React.FC<Props4> = ({busqueda,filtro,filtro2})=> {
                
               >
                 Guardar
-              </Button>
+              </Button> */}
               </Box>
       <TableContainer sx={{ m: -0.1 }} component={Paper}>
         <Table sx={{ width:"100%" }} stickyHeader aria-label="sticky table">

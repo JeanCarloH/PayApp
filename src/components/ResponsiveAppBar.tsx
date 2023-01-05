@@ -218,8 +218,8 @@ const ResponsiveAppBar = () => {
              </Box>
              <Box sx={{ display: { xs: "none", md: "flex" }, mr: 2}} >
            {user&&
-          user.email=="alejandra@gmail.com"&&
-           <h4> Hola Alejandra</h4>}
+          user.email=="estiven@gmail.com"&&
+           <h4> Hola Estiven</h4>}
              </Box>
              <Box sx={{ display: { xs: "flex", md: "none" }, mr: 0.1}} >
            {user&&
@@ -228,8 +228,8 @@ const ResponsiveAppBar = () => {
              </Box>
              <Box sx={{ display: { xs: "flex", md: "none" }, mr: 0.1}} >
            {user&&
-          user.email=="alejandra@gmail.com"&&
-           <h4> Hola Alejandra</h4>}
+          user.email=="estiven@gmail.com"&&
+           <h4> Hola Estiven</h4>}
              </Box>
 
              <Box sx={{ display: { xs: "none", md: "flex" }, mr: 2}} >

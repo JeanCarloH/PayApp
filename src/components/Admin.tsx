@@ -358,7 +358,7 @@ now=new Date().toLocaleDateString();
 
      
    
-    if(user.email=="efren@gmail.com"){  //cualquiera que no sea alejandra
+    if(user.email=="efren@gmail.com" || user.email=="estiven@gmail.com"){  //cualquiera que no sea alejandra
       const consulta=query(collection(db2, "Users"),where("propietario","==",user.email));
       const querySnapshot = await getDocs(consulta);
       console.log("entre a filtrar")
@@ -488,7 +488,7 @@ now=new Date().toLocaleDateString();
       };
       //toda la informacion de los usuarios
       const getDataBase = async () => {//depende del usuario logueado asi mismo se filtra la informacion
-        if(user.email=="efren@gmail.com"){  //cualquiera que no sea alejandra
+        if(user.email=="efren@gmail.com" || user.email=="estiven@gmail.com"){  //cualquiera que no sea alejandra
           const consulta=query(collection(db2, "Users"),where("propietario","==",user.email));
           const querySnapshot = await getDocs(consulta);
           console.log("entre a filtrar")
@@ -845,7 +845,7 @@ now=new Date().toLocaleDateString();
         dispatch({ type: TYPES.ELIMINAR_USUARIO, payload: recibidorId }); 
         setOpenDelete(false)
       }
-     else if(clave.current.value==1234 && user.email=="alejandra@gmail.com" ){
+     else if(clave.current.value==9604 && user.email=="estiven@gmail.com"){
         let consulta= query(collection(db2,'Payments'),where('clienteid','==',recibidorId));
         let querySnapshot = await getDocs(consulta);
         querySnapshot.forEach((doc) => {

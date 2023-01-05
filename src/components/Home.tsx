@@ -128,7 +128,7 @@ const Home =()=>{
       getDataBaseDiarios();
       setValidador2(true);
     }
-    if(clave.current.value==1234 && user.email=="alejandra@gmail.com" ){
+    if(clave.current.value==9604 && user.email=="estiven@gmail.com" ){
       getDataBaseDiarios();
       setValidador2(true);
     }

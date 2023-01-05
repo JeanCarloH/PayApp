@@ -111,7 +111,7 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
         let contador=querySnapshotxd.docs.length;
         await updateDoc(doc(db2, "Users",recibidorId),{ totalabonos:contador}) 
       }
-      else if(clave.current.value==1234 &&  user.email=="alejandra@gmail.com"){
+      else if(clave.current.value==9604 &&  user.email=="estiven@gmail.com"){
         console.log(id,"si entre y soy el id")
         const docRef = doc(db2, "Payments",id);
         const docSnap = await getDoc(docRef);
