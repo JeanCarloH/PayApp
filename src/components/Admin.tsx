@@ -303,31 +303,9 @@ now=new Date().toLocaleDateString();
     //     monto:montoxd, //ojo acabo de cambiar esto por un string
     //   }) 
     // }
+   
      if(isNaN(resultado2)){ //aca habia un else pero puse un if para ser mas especifico
-    
-      const consultaxd=query(collection(db2, "Payments"),where("clienteid","==",recibidorId));
-      const querySnapshotxd = await getDocs(consultaxd);
-  
-       let helperxd:any[]=querySnapshotxd.docs.map((doc:any) => doc.data());
-     
-        let helper2=helperxd.length
-        let list=[];
-        for (let i = 0; i < helper2; i++) {
-        
-          list.push(helperxd[i].monto)
-        }
-        list.sort();
-     let montoxd=list[0];
-        await updateDoc(doc(db2, "Users",recibidorId),{ 
-          monto:montoxd,
-        }) 
-        await addDoc(collection(db2,"Nans"),{ //me toco empezar a agregar pagos para ver donde está el error.
-          abono:valorabonar,
-          montoanterior:resultado2,
-          montonuevo:montoxd,
-          montoconparseint:resultado2-valorabonar,
-          entrealelseif:1,
-        })
+      arregladornans();
       
     }
     } else {
@@ -340,18 +318,6 @@ now=new Date().toLocaleDateString();
     const consultaxd=query(collection(db2, "Payments"),where("clienteid","==",recibidorId));
     const querySnapshotxd = await getDocs(consultaxd);
     
-    // let helperxd:any[]=querySnapshotxd.docs.map((doc:any) => doc.data());
-     
-    // let helper2=helperxd.length
-    // let list=[];
-    // for (let i = 0; i < helper2; i++) {
-    
-    //   list.push(helperxd[i].monto)
-    // }
-    // list.sort();
-    // let montoxd=list[0]
-    // console.log(montoxd,"soy el monto xd");
-    // console.log(typeof(montoxd),"soy el tipo de monto xd");
     
     let contador=querySnapshotxd.docs.length;
     await updateDoc(doc(db2, "Users",recibidorId),{ totalabonos:contador}) 
@@ -608,12 +574,51 @@ now=new Date().toLocaleDateString();
         return querySnapshot.docs
       }
     }
+    const arregladornans = async()=>{
+      const consultaxd=query(collection(db2, "Payments"),where("clienteid","==",recibidorId));
+      const querySnapshotxd = await getDocs(consultaxd);
+      let contador=querySnapshotxd.docs.length;
+  
+      const docRef = doc(db2, "Users",recibidorId);
+      const docSnap = await getDoc(docRef);
+  
+     let resultado2;
+   
+    
+      if (docSnap.exists()) {
+          resultado2=docSnap.data().monto;
+      }
+      if(contador>0 && isNaN(resultado2)){
+      console.log("entre?")
+         let helperxd:any[]=querySnapshotxd.docs.map((doc:any) => doc.data());
+       
+          let helper2=helperxd.length
+          let list=[];
+          for (let i = 0; i < helper2; i++) {
+          
+            list.push(helperxd[i].monto)
+          }
+          list.sort(function(a, b){return a - b});
+       let montoxd=list[0];
+          await updateDoc(doc(db2, "Users",recibidorId),{ 
+            monto:montoxd,
+          }) 
+          await addDoc(collection(db2,"Nans"),{ //me toco empezar a agregar pagos para ver donde está el error.
+            monto:montoxd,
+            hora:hora,
+            fecha:now,
+            entre:1,
+          })
+        }
+    }
 
  
   
   const getDataPaymentsReal  = async (id:any,busqueda:any) => {
     setRecibidorId(id);
     getCuotas();
+    arregladornans();
+   
     const ref=collection(db2, "Payments")
           const consulta=query(ref,where("clienteid","==",id),orderBy("fecha2"))
           const querySnapshot = await getDocs(consulta);
@@ -630,6 +635,8 @@ now=new Date().toLocaleDateString();
           
         
         return querySnapshot.docs
+
+        
   }
       
      const getCuotas = async () => {
