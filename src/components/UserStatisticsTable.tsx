@@ -65,7 +65,7 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
     const { dbstatistics,dbpayments2}:any = useOutletContext();
 
    
-    const total2=20000;
+    const total2=50000;
   const totalcobro= dbstatistics.reduce((total:any,item:any)=>parseInt(item.abono)+total,0)
   
     return ( 
@@ -89,12 +89,8 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
               <StyledTableRow >
                   <StyledTableCell align="left">
                    
-                   {dbstatistics.length>0 && user.email=="efren@gmail.com" ?
-                   totalcobro-total2:
-                   totalcobro
-                   }
-                     
-
+                  
+                  { totalcobro }
                    
                  
                   </StyledTableCell>

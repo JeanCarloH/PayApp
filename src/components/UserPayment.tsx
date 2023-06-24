@@ -19,17 +19,28 @@ import InputBase from '@mui/material/InputBase';
 import CloseIcon from '@mui/icons-material/Close';
 import IconButton from '@mui/material/IconButton';
 import SearchIcon from '@mui/icons-material/Search';
-
+import { db2 } from '../firebase';
+import { doc, onSnapshot, collection, query, where,addDoc,updateDoc,setDoc,deleteDoc,getDocs,getDoc,documentId,orderBy} from "firebase/firestore";
 
 
 const UserPayment = () => {
   const { addPayment,dbpayments,recibidorId,getDataPaymentsReal,validador}:any = useOutletContext();
   const [busquedaPagos, setBusquedaPagos] = React.useState<string|null>("");
+  const [totalCuotas, setTotalCuotas] = React.useState<number|null>(0);
   useEffect(()=>{
     //ACABE DE ELIMINAR UN METODO INUTIL
     getDataPaymentsReal(recibidorId,busquedaPagos);
+    totalabonos();
   } ,[])
   
+  const totalabonos = async () => {
+  const docRef = doc(db2, "Users",recibidorId);
+  const docSnap = await getDoc(docRef);
+  let totalcuotas
+  if (docSnap.exists()) {
+    setTotalCuotas(docSnap.data().totalabonos);
+   }
+  }
   
   const handlechange=(e: React.ChangeEvent<HTMLInputElement>)=>{
     setBusquedaPagos(e.target.value)
@@ -197,6 +208,13 @@ const UserPayment = () => {
       <CardContent>
         <Typography variant="h5" component="div">
           {bull} La cantidad de cuotas pendientes son: {validador}
+        </Typography>
+      </CardContent>
+   </Card>
+   <Card sx={{  m:1 }}>
+      <CardContent>
+        <Typography variant="h5" component="div">
+          {bull} La cantidad de cuotas Pagadas son: {totalCuotas}
         </Typography>
       </CardContent>
    </Card>

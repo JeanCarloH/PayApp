@@ -652,9 +652,13 @@ now=new Date().toLocaleDateString();
      }
      const mes1=resultado.substring(3,5);
      
-     const mes2=now.substring(3,5);
-   // console.log(resultado,"soy el resultado")
-    // console.log(mes1,mes2,"soy los meses")
+     let mes2=now.substring(3,4);
+    console.log(resultado,"soy el resultado")
+     console.log(mes1,mes2,"soy los meses")
+ while(mes2.length<2){
+    mes2="0"+mes2;
+  }
+      console.log(mes1,mes2,"soy los meses despues de modificados")
     let validador;
     if(mes1==mes2){
       const dia=parseInt(resultado.substring(0,2));

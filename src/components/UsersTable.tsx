@@ -171,10 +171,12 @@ const UsersTable: React.FC<Props4> = ({busqueda,filtro,filtro2})=> {
               <StyledTableCell align="right">Nombre</StyledTableCell>
               <StyledTableCell align="right">Apellido</StyledTableCell>
               <StyledTableCell align="right">Monto</StyledTableCell>
+         
               
               {user.email=="jeancarlocj14@gmail.com" &&
               <StyledTableCell align="right"></StyledTableCell>
   }
+          <StyledTableCell align="right">Abono</StyledTableCell>
               <StyledTableCell align="right" >Acciones</StyledTableCell>
             </TableRow>
           </TableHead>
@@ -206,6 +208,7 @@ const UsersTable: React.FC<Props4> = ({busqueda,filtro,filtro2})=> {
                   { product.monto }
                  
                 </StyledTableCell>
+                
              
                 {user.email=="jeancarlocj14@gmail.com" &&
                 <StyledTableCell align="right">
@@ -218,6 +221,11 @@ const UsersTable: React.FC<Props4> = ({busqueda,filtro,filtro2})=> {
                   />
                    </StyledTableCell>
                     }
+                <StyledTableCell align="right">
+                  
+                  { product.abono }
+                 
+                </StyledTableCell>
                  <StyledTableCell align="right">
                 <Link to="/Admin/Payment">
                   <PaidIcon
@@ -275,8 +283,12 @@ const UsersTable: React.FC<Props4> = ({busqueda,filtro,filtro2})=> {
                    onClick={()=> down(product.id)}
                   />
                    </StyledTableCell>
-                    }
+                    } 
+                    <StyledTableCell align="right">
                   
+                  { product.abono }
+                 
+                </StyledTableCell>
                    <StyledTableCell align="right">
                   <Link to="/Admin/Payment">
                     <PaidIcon
@@ -336,6 +348,11 @@ const UsersTable: React.FC<Props4> = ({busqueda,filtro,filtro2})=> {
                   />
                    </StyledTableCell>
                     }
+                      <StyledTableCell align="right">
+                  
+                  { product.abono }
+                 
+                </StyledTableCell>
                  <StyledTableCell align="right">
                 <Link to="/Admin/Payment">
                   <PaidIcon
@@ -362,7 +379,7 @@ const UsersTable: React.FC<Props4> = ({busqueda,filtro,filtro2})=> {
               </StyledTableRow>
               
              )) )}
-             { !busqueda&& filtro2==2 && //busqueda y filtro2 puestos  (FILTRO 2)
+             { !busqueda&& filtro2==2 && //  no busqueda y filtro2 puestos  (FILTRO 2)
               db.filter((product:any) => (product.monto==0 )).map(((product:any) => (
                 <StyledTableRow key={product.id}>
                 <StyledTableCell align="right">
@@ -387,6 +404,14 @@ const UsersTable: React.FC<Props4> = ({busqueda,filtro,filtro2})=> {
                  
                 </StyledTableCell>
 }
+              <StyledTableCell align="right">
+                  {product.monto}
+                </StyledTableCell>  
+            <StyledTableCell align="right">
+                  
+                  { product.abono }
+                 
+                </StyledTableCell>
                  <StyledTableCell align="right">
                 <Link to="/Admin/Payment">
                   <PaidIcon
