@@ -65,7 +65,7 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
     const { dbstatistics,dbpayments2}:any = useOutletContext();
 
    
-    const total2=50000;
+    const total2=80000;
   const totalcobro= dbstatistics.reduce((total:any,item:any)=>parseInt(item.abono)+total,0)
   
     return ( 
@@ -90,7 +90,11 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
                   <StyledTableCell align="left">
                    
                   
-                  { totalcobro }
+                  {
+                   totalcobro> 0 &&
+                   totalcobro - total2
+
+                   }
                    
                  
                   </StyledTableCell>
